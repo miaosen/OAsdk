@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+
+    <com.osui.view.HeaderView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="表单"
+    />
+
+    <EditText
+        android:id="@+id/holderBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="data.yesterday.date"
+        android:text="输入框"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:tag="data.ganmao"
+        android:text="文字"/>
+
+    <Button
+        android:id="@+id/analysisBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="desc"
+        android:text="按钮"/>
+
+    <RadioGroup android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:tag="data.status">
+        <RadioButton
+            android:id="@+id/a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按钮1"
+
+
+        />
+        <RadioButton
+            android:id="@+id/b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="1000"
+            android:text="按钮2"
+
+        />
+        <RadioButton
+            android:id="@+id/c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按钮3"
+        />
+
+    </RadioGroup>
+
+    <com.osui.view.CustomRadioGroup
+        android:tag="data.city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+        >
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按钮1"
+
+
+            />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按钮2"
+                android:tag="北京"
+
+            />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按钮3"
+            />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+        >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1000"
+                android:text="按钮5"
+
+            />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按钮6"
+            />
+        </LinearLayout>
+    </com.osui.view.CustomRadioGroup>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <Button
+            android:id="@+id/fillForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tag="data.city"
+            android:text="填充"/>
+
+        <Button
+            android:id="@+id/getForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="收集"/>
+
+    </LinearLayout>
+    <TextView
+    android:id="@+id/textView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:text="文字"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:tag="tvTag"
+        android:text="文字"/>
+</LinearLayout>

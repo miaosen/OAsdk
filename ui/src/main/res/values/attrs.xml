@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 流布局-->
+    <declare-styleable name="FlowLayout">
+        <!-- 行距离 -->
+        <attr name="lineMargin" format="dimension" />
+        <!-- 列距离 -->
+        <attr name="columnMargin" format="dimension" />
+    </declare-styleable>
+
+
+    <!-- 数据创建器 -->
+    <declare-styleable name="DataListView">
+        <!-- 适配器item -->
+        <attr name="itemLayout" format="reference"/>
+        <!-- 地址 -->
+        <attr name="url" format="string"/>
+        <!-- 地址后缀 -->
+        <attr name="urlSuffix" format="string"/>
+        <!-- 地址后缀 -->
+        <attr name="tempUrlSuffix" format="string"/>
+        <!-- Sql语句 -->
+        <attr name="sql" format="string"/>
+        <!-- action类名 -->
+        <attr name="actionClass" format="string"/>
+        <!-- 方法名 -->
+        <attr name="actionName" format="string"/>
+        <!-- 数据源表达式 -->
+        <attr name="dataExpression" format="string"/>
+         <!-- 数据来源是否为本地sqlite，false为从网络获取 -->
+        <attr name="isDataFromSql" format="boolean"/>
+        <!-- 参数 格式：{key=value,key=value,key=value} -->
+        <attr name="param" format="string"/>
+        <!-- 是否View加载完后自动获取数据 -->
+        <attr name="autoInvoke" format="boolean"/>
+        <!-- 是否启用分页 -->
+        <attr name="isEnablePage" format="boolean"/>
+    </declare-styleable>
+
+
+    <!-- 头部布局 -->
+    <declare-styleable name="HeaderView">
+        <!-- 标题 -->
+        <attr name="title" format="string" />
+        <!-- 左边文字 -->
+        <attr name="leftText" format="string" />
+        <!-- 右边文字 -->
+        <attr name="rightText" format="string" />
+        <!-- 点击左边关闭当前页面-->
+        <attr name="clickLeftFinish" format="boolean" />
+        <!-- 点击左边关闭当前页面-->
+        <attr name="clickRightFinish" format="boolean" />
+        <!-- 点击左边关闭当前页面-->
+        <attr name="isHideLeft" format="boolean" />
+        <!-- 点击左边关闭当前页面-->
+        <attr name="isHideRight" format="boolean" />
+        <!-- 左边图片 -->
+        <attr name="leftDrawable" format="reference" />
+        <!-- 右边图片 -->
+        <attr name="rightDrawable" format="reference" />
+    </declare-styleable>
+
+
+    <!-- 公共属性 -->
+    <declare-styleable name="Commom">
+        <attr name="valueText" format="string"/>
+        <!-- 以逗号隔开的数据源 -->
+        <attr name="argsData" format="string"/>
+        <!-- 数据源 -->
+        <attr name="provider" format="string"/>
+    </declare-styleable>
+
+
+    <!-- 颜色选择器-->
+    <declare-styleable name="ColorPickerView" parent="ColorPanelView">
+        <attr name="cpv_alphaChannelVisible" format="boolean|reference"/>
+        <attr name="cpv_alphaChannelText" format="string|reference"/>
+        <attr name="cpv_sliderColor" format="color|reference"/>
+        <attr name="cpv_borderColor" format="color|reference"/>
+    </declare-styleable>
+
+
+
+    <!-- 公共属性 -->
+    <declare-styleable name="TailView">
+        <attr name="valueText" />
+        <!-- 以逗号隔开的数据源 -->
+        <attr name="argsData" />
+        <!-- 数据源 -->
+        <attr name="provider" />
+    </declare-styleable>
+</resources>

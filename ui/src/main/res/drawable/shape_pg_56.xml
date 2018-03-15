@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" 
+    >
+
+    <corners android:radius="100dp" />
+
+    <gradient
+        android:centerColor="#eeeeee"
+        android:centerY="0.30"
+        android:endColor="#eeeeee"
+        android:startColor="@color/orange"
+        android:angle="90"
+        />
+    
+    <!-- 矩形的圆角半径 -->
+   <corners android:radius="56dp" />
+
+</shape>

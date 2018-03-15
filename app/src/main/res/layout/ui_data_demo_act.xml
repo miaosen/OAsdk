@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:fillViewport="true"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+    >
+        <com.osui.view.HeaderView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:title="数据处理"
+        />
+        <com.osui.view.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_hold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取资源缓存"
+            />
+
+        </com.osui.view.FlowLayout>
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.osui.data.DataProvider
+            android:layout_width="match_parent"
+            android:background="@color/blue_lt"
+            android:layout_height="wrap_content"
+            app:url="http://120.24.64.145/hcsmstest/a/MobileService/bs/olderInfo/id"
+            app:param="id=a12412f7cb5849b7a0f11e79e3ce94f9"
+        />
+
+        <com.osui.view.listview.DataListView
+            android:id="@+id/autoListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemLayout="@layout/ui_view_listview_item">
+
+        </com.osui.view.listview.DataListView>
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- 横线 -->
+    <style name="lineHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.1dp</item>
+		<item name="android:background">#CBCBCB</item>
+    </style>
+    
+    <!-- 竖线 -->
+    <style name="lineVerticalLine">
+         <item name="android:layout_width">0.1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#CBCBCB</item>
+    </style>
+    
+       <!-- 浅灰色横线 -->
+    <style name="line_hz_grey_lt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.1dp</item>
+		<item name="android:background">#CBCBCB</item>
+    </style>
+    
+     <!-- 浅灰色竖线 -->
+    <style name="line_vt_grey_lt">
+         <item name="android:layout_width">0.1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#CBCBCB</item>
+    </style>
+    
+    
+    
+    
+</resources>

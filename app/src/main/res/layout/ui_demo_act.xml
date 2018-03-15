@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <com.osui.view.HeaderView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="UI界面"
+    />
+
+    <com.osui.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/analysisBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="数据处理"/>
+
+        <Button
+            android:id="@+id/holderBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="获取缓存的文件"/>
+        <Button
+            android:id="@+id/dialogBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="弹窗"/>
+
+        <Button
+            android:id="@+id/formBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="表单"/>
+
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="刷新"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"/>
+    </com.osui.view.FlowLayout>
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.osui.view.tiplayout.TipLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tipLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"/>
+
+        <com.osui.view.listview.LinearLayoutForListView
+            android:id="@+id/linearLayoutForListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+</com.osui.view.tiplayout.TipLayout>

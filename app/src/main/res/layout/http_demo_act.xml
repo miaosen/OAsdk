@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:fillViewport="true"
+>
+<LinearLayout android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.osui.view.HeaderView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="网络请求"
+    />
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:padding="20dp">
+            <Button
+                android:id="@+id/keepcookies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+                android:text="保持cookies登录"/>
+
+            <Button
+                android:id="@+id/post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="post访问"/>
+            <Button
+                android:id="@+id/get"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="get访问"/>
+            <Button
+                android:id="@+id/uploadfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="文件上传"/>
+            <Button
+                android:id="@+id/downloadfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="文件下载"/>
+
+            <Button
+                android:id="@+id/loadImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="请求图片"/>
+
+
+            <Button
+                android:id="@+id/cancleCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="取消请求"/>
+        </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"/>
+
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:minWidth="100dp"/>
+</LinearLayout>
+    </ScrollView>

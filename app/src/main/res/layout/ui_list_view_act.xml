@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.osui.view.HeaderView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              app:title="列表">
+
+    </com.osui.view.HeaderView>
+    <!-- <com.osui.view.listview.DataListView
+         android:id="@+id/dataListView"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         app:url="http://172.17.7.51:8089/rcms/EagleActions/mpMpNormalRecordAction?action=getNormalRecordList"
+         app:param="user_name=admin,groups=840010"
+         app:itemLayout="@layout/ui_view_listview_item">
+
+     </com.osui.view.listview.DataListView>-->
+    <!-- app:url="http://gank.io/api/data/Android/15"-->
+    <!-- app:url="http://gank.io/api/day/2015/08/07"-->
+
+    <com.osui.view.listview.DataListView
+        android:id="@+id/dataListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dataExpression="results"
+        app:itemLayout="@layout/ui_view_listview_item_2"
+        app:url="http://gank.io/api/data/Android/7">
+
+    </com.osui.view.listview.DataListView>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="111"
+        app:title="列表"/>
+
+
+</LinearLayout>

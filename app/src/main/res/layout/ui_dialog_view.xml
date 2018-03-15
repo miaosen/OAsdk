@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeff"
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="100dp"
+            android:minWidth="100dp"
+            android:textColor="@color/text_color"
+            android:text="我是一个弹窗,按后退键取消弹出！"
+        />
+    </LinearLayout>
+</ScrollView>

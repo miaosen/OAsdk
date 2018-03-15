@@ -1,0 +1,33 @@
+<resources>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="appTheme" parent="AppBaseTheme">
+        <item name="android:buttonStyle">@style/baseBtnStyle</item>
+        <item name="android:textColor">@color/text_color</item>
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <!--为控件的选中颜色，即checked或selected状态的颜色。-->
+        <item name="colorAccent">@color/colorPrimary</item>
+        <!--实际上为Actionbar中的文本颜色-->
+        <item name="android:textColorPrimary">@color/white</item>
+        <!--
+        colorControlNormal：为控件预设的颜色，相当与之前定义xml Drawable中Selector的Normal状态的颜色。
+        colorControlActivated：即激活状态，按照源代码仅有即几行解释应该是属于accent的一部分如checked状态(需要实际测试一下)。
+        colorControlHighlight：为选择高亮，如ripples，列表的selector。
+        coloSwitchThumbNormal：是指switch控件的色彩了。
+        -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="baseBtnStyle" parent="Base.Widget.AppCompat.Button">
+       <!-- --> <item name="android:textColor">#ffffff</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:background">@drawable/sel_btn_blue</item>
+        <item name="android:padding">5dp</item>
+    </style>
+</resources>
