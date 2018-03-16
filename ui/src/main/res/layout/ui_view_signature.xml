@@ -5,7 +5,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="@color/white"
               android:orientation="vertical">
-    <com.osui.view.HeaderView
+    <com.oaui.view.HeaderView
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         app:leftText="返回"
     />
 
-    <com.osui.view.signature.HuaBanView
+    <com.oaui.view.signature.HuaBanView
         android:id="@+id/huaBan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

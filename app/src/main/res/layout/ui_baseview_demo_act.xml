@@ -19,13 +19,13 @@
     >
 
 
-        <com.osui.view.attachment.AttachmentView
+        <com.oaui.view.attachment.AttachmentView
             android:id="@+id/attachmentView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <com.osui.view.TailView
+    <com.oaui.view.TailView
         android:id="@+id/tailView"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -33,6 +33,6 @@
     >
 
 
-    </com.osui.view.TailView>
+    </com.oaui.view.TailView>
 </LinearLayout>
     <!--</ScrollView>-->

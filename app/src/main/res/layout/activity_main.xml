@@ -15,10 +15,10 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context="com.ossdk.MainActivity">
+    tools:context="com.oasdk.MainActivity">
 
 
-    <com.osui.view.HeaderView
+    <com.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:isHideLeft="true"
@@ -38,7 +38,7 @@
         />
 
     </LinearLayout>
-    <com.osui.view.FlowLayout
+    <com.oaui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="综合检查表"/>
-    </com.osui.view.FlowLayout>
+    </com.oaui.view.FlowLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:background="@color/grey_lt"
@@ -109,7 +109,7 @@
         />
 
     </LinearLayout>
-    <com.osui.view.FlowLayout
+    <com.oaui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -176,6 +176,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="热修复"/>
-    </com.osui.view.FlowLayout>
+    </com.oaui.view.FlowLayout>
 </LinearLayout>
 </ScrollView>

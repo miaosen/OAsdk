@@ -85,7 +85,7 @@
         android:background="#FFFFFF"
         android:orientation="vertical">
 
-        <com.osui.view.FlowLayout
+        <com.oaui.view.FlowLayout
             android:id="@+id/flowLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:numColumns="6"
             app:columnMargin="1dp"
             app:lineMargin="1dp">
-        </com.osui.view.FlowLayout>
+        </com.oaui.view.FlowLayout>
     </LinearLayout>
 
     <View

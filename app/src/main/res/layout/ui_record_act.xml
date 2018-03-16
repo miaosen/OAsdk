@@ -5,13 +5,13 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.osui.view.HeaderView
+    <com.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="检查表"
     >
 
-    </com.osui.view.HeaderView>
+    </com.oaui.view.HeaderView>
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_weight="1"
@@ -19,12 +19,12 @@
 
     </LinearLayout>
 
-    <com.osui.view.TailView
+    <com.oaui.view.TailView
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
         app:valueText="打印,本地保存,在线提交">
 
-    </com.osui.view.TailView>
+    </com.oaui.view.TailView>
 
 </LinearLayout>

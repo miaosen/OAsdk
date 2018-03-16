@@ -5,13 +5,13 @@
               android:layout_height="match_parent"
               android:background="#ffffff"
               android:orientation="vertical">
-    <com.osui.view.HeaderView
+    <com.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="弹窗"
     />
 
-    <com.osui.view.FlowLayout
+    <com.oaui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -33,8 +33,8 @@
             android:gravity="center"
             android:text="全局提示弹窗"
         />
-    </com.osui.view.FlowLayout>
-  <com.osui.view.FlowLayout
+    </com.oaui.view.FlowLayout>
+  <com.oaui.view.FlowLayout
         android:layout_width="wrap_content"
         app:lineMargin="10dp"
         app:columnMargin="10dp"
@@ -48,10 +48,10 @@
             android:textColor="@color/text_color"
             android:minWidth="100dp"
             android:tag="search"/>
-    </com.osui.view.FlowLayout>
+    </com.oaui.view.FlowLayout>
 
 
-    <com.osui.view.FlowLayout
+    <com.oaui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:columnMargin="10dp"
@@ -104,5 +104,5 @@
             android:tag="fullscreen"
             android:text="全屏显示"
         />
-    </com.osui.view.FlowLayout>
+    </com.oaui.view.FlowLayout>
 </LinearLayout>

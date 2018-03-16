@@ -14,12 +14,12 @@
         android:orientation="vertical"
 
     >
-        <com.osui.view.HeaderView
+        <com.oaui.view.HeaderView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:title="数据处理"
         />
-        <com.osui.view.FlowLayout
+        <com.oaui.view.FlowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
@@ -29,14 +29,14 @@
                 android:text="获取资源缓存"
             />
 
-        </com.osui.view.FlowLayout>
+        </com.oaui.view.FlowLayout>
 
         <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <com.osui.data.DataProvider
+        <com.oaui.data.DataProvider
             android:layout_width="match_parent"
             android:background="@color/blue_lt"
             android:layout_height="wrap_content"
@@ -44,13 +44,13 @@
             app:param="id=a12412f7cb5849b7a0f11e79e3ce94f9"
         />
 
-        <com.osui.view.listview.DataListView
+        <com.oaui.view.listview.DataListView
             android:id="@+id/autoListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:itemLayout="@layout/ui_view_listview_item">
 
-        </com.osui.view.listview.DataListView>
+        </com.oaui.view.listview.DataListView>
 
     </LinearLayout>
 

@@ -5,12 +5,12 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.osui.view.HeaderView
+    <com.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="提示布局"
     />
-    <com.osui.view.FlowLayout android:layout_width="match_parent"
+    <com.oaui.view.FlowLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content">
 
         <Button
@@ -44,8 +44,8 @@
         />
 
 
-    </com.osui.view.FlowLayout>
-    <com.osui.view.tiplayout.TipLayout
+    </com.oaui.view.FlowLayout>
+    <com.oaui.view.tiplayout.TipLayout
         android:id="@+id/tipLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,6 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </com.osui.view.tiplayout.TipLayout>
+    </com.oaui.view.tiplayout.TipLayout>
 
 </LinearLayout>
