@@ -41,6 +41,12 @@ public class ImageFactory {
         getCommentManager(imageView.getContext(), path).into(imageView);
     }
 
+
+    /**
+     * 缩放图片并且圆角
+     * @param imageView
+     * @param path
+     */
     public static void loadImageByCornerAndZoomSize(ImageView imageView, String path) {
         getCommentManager(imageView.getContext(), path).transform(new BitmapTransformation(imageView.getContext()) {
             @Override

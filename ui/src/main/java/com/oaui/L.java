@@ -143,6 +143,7 @@ public class L {
      */
     private static StringBuilder logLocation(int index) {
         StackTraceElement logStackTrace = getLogStackTrace(index);
+        //Log.i("logtag","=========logLocation=============="+logStackTrace);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(jumpKeyWord).append(" (").append(logStackTrace.getFileName())
                 .append(":").append(logStackTrace.getLineNumber() + ")");

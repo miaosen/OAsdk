@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+    <View
+        style="@style/line_hz_grey_lt"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+                  android:orientation="horizontal"
+    >
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginTop="10dp"
+                      android:orientation="vertical"
+        >
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="名称 :"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:tag="materialName"
+
+                />
+            </LinearLayout>
+
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:paddingLeft="1dp"
+                          android:visibility="gone"
+                          android:paddingTop="1dp"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="条码 :"
+                    android:textSize="12dp"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="barcode"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="12dp"
+                />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:paddingLeft="1dp"
+                          android:paddingTop="1dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生产批号 :"
+                    android:textSize="12dp"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:tag="batchNo"
+                    android:textSize="12dp"
+                />
+            </LinearLayout>
+            <com.oaui.view.FlowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:columnMargin="1dp"
+                app:lineMargin="1dp"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="单位 :"
+                    android:textSize="12dp"
+                />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="unitName"
+                    android:textSize="12dp"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="需求数量 :"
+                    android:textSize="12dp"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="displayWorkOrderQty"
+                    android:textSize="12dp"
+                />
+
+            </com.oaui.view.FlowLayout>
+
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center_horizontal"
+                      android:orientation="vertical"
+                      android:layout_marginTop="10dp"  >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+            >
+
+
+                <TextView
+                    android:id="@+id/tv_validate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未验证"
+                    android:paddingTop="10dp"
+                    android:visibility="gone"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="3dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_sector_grey"
+                    android:textColor="@color/white"/>
+
+
+
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:orientation="horizontal"
+            android:gravity="center"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投料数量 : "
+                    android:textColor="@color/red"
+                    android:textSize="12dp"
+                />
+                <EditText
+                    style="@style/ed_line"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="number|numberDecimal"
+                    android:minWidth="80dp"
+                    android:padding="1dp"
+                    android:tag="displayQty"
+                    android:textColor="@color/red"
+                    android:textSize="14dp"
+                />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

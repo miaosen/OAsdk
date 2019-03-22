@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.oahttp.NetRequest;
+import com.oahttp.HttpRequest;
 import com.oahttp.callback.StringCallBack;
 import com.oasdk.R;
 import com.oaui.annotation.InjectReader;
@@ -19,7 +19,6 @@ import com.oaui.utils.JsonUtils;
 /**
  * @author zengmiaosen
  * @email 1510809124@qq.com
- * @git http://git.oschina.net/miaosen/MyUtils
  * @CreateDate 2017-08-14  14:45
  * @Descrition
  */
@@ -45,7 +44,7 @@ public class FormDemoAct extends Activity implements View.OnClickListener {
 
     private void getData() {
         String url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101010100";
-        NetRequest request = new NetRequest(url);
+        HttpRequest request = new HttpRequest(url);
         request.setCallback(new StringCallBack() {
             @Override
             public void onSuccess(String text) {
@@ -69,6 +68,7 @@ public class FormDemoAct extends Activity implements View.OnClickListener {
         });
         request.sendByGet();
     }
+
 
     @Override
     public void onClick(View v) {

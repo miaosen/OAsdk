@@ -19,7 +19,7 @@ import com.oaui.utils.ViewUtils;
 
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016-3-18
  * @Descrition 录音模块，录完像后返回录像文件地址和缩略图地址

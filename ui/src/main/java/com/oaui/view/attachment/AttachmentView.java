@@ -148,12 +148,19 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
         this.attachmentList = attachmentList;
     }
 
+    public AttachmentAdp getAttachmentAdp() {
+        return attachmentAdp;
+    }
+
+    public void setAttachmentAdp(AttachmentAdp attachmentAdp) {
+        this.attachmentAdp = attachmentAdp;
+    }
 
     public List<RowObject> getData() {
         return attachmentAdp.getRows();
     }
 
     public void  setData(List<RowObject> rows) {
-        attachmentAdp.addListData(rows);
+        attachmentAdp.addRows(rows);
     }
 }

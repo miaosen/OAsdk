@@ -26,6 +26,8 @@ public class TipHeadLayout extends CustomLayout {
     @ViewInject
     public LinearLayout error_in_head,header;
 
+    private String refreshText="获取中...";
+
     public TipHeadLayout(Context context) {
         super(context);
     }
@@ -58,7 +60,7 @@ public class TipHeadLayout extends CustomLayout {
     public void refreshing(){
         error_in_head.setVisibility(View.GONE);
         header.setVisibility(View.VISIBLE);
-        tv_head.setText("获取中...");
+        tv_head.setText(refreshText);
     }
 
     public void start(){
@@ -78,4 +80,14 @@ public class TipHeadLayout extends CustomLayout {
         tv_error.setText(text);
     }
 
+    public String getRefreshText() {
+        return refreshText;
+    }
+
+    public void setRefreshText(String refreshText) {
+        this.refreshText = refreshText;
+        if(tv_head!=null){
+            tv_head.setText(refreshText);
+        }
+    }
 }

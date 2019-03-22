@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016-3-8
  * @Descrition 资源缓存处理模块，通过反射获取R文件的资源文件(gen文件夹下可以看到),并静态化处理

@@ -126,7 +126,7 @@ public class LogInterceptor implements Interceptor {
                 if (mediaType != null) {
                     if (isText(mediaType)) {
                         String string = body.string();
-                        Log.i(tag, "返回的数据===" + string);
+                        Log.i(tag, "返回的数据===" + string+"  返回码："+response.code());
                         body = ResponseBody.create(mediaType, string);
                         return response.newBuilder().body(body).build();
                     } else {

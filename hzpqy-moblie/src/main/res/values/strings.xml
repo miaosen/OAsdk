@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">生产投料</string>
+
+
+    <string name="exit">退出</string>
+    <string name="refresh">刷新</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hand_write">手工输入</string>
+    <string name="back_text">返回</string>
+    <string name="settings_text">设置</string>
+    <string name="scan_dbar_code_title">扫描二维码</string>
+    <string name="scan_dbar_code_tips">请将二维码或条形码置于扫描框的红线内</string>
+    <string name="scan_drugadmincode_title">扫描药品电子监管码</string>
+    <string name="user_settings_title">用户设置</string>
+    <string name="user_settings_host">服务器</string>
+    <string name="user_settings_port">端口号</string>
+    <string name="save">保存</string>
+    <string name="location">定位</string>
+    <string name="scanning">扫描电子监管码</string>
+    <string name="hands_input">手输电子监管码</string>
+</resources>

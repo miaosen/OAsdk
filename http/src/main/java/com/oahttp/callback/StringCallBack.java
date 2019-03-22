@@ -62,6 +62,7 @@ public abstract class StringCallBack implements Callback {
     public abstract void onSuccess(String text);
 
     protected void onFail(Exception e) {
+
     }
 
 

@@ -4,7 +4,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.oahttp.NetRequest;
+import com.oahttp.HttpRequest;
 import com.oahttp.callback.StringCallBack;
 import com.oaui.L;
 import com.oaui.R;
@@ -119,11 +119,11 @@ public class DataProvider  {
     //}
 
     private void getData() {
-        NetRequest request;
+        HttpRequest request;
         if(urlSuffix!=null){
-             request=new NetRequest(url+urlSuffix);
+             request=new HttpRequest(url+urlSuffix);
         }else{
-             request=new NetRequest(url);
+             request=new HttpRequest(url);
         }
         request.addParam(mapParam);
         request.setCallback(new StringCallBack() {

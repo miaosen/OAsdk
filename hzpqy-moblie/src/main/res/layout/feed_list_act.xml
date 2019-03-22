@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.oaui.view.HeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        app:leftText="返回"
+        app:title="代办任务"
+        android:layout_height="wrap_content">
+
+    </com.oaui.view.HeaderView>
+    <gzpykj.hzpqy.base.HzDataListView
+        android:id="@+id/dataListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:dataExpression="data"
+        app:itemLayout="@layout/feed_list_item"
+        app:urlSuffix="/jsp/produce/feed/pickers/work_order_list.jsp"
+        app:param="__RENDER_MODE__=json,__RETURN_TYPE__=data"
+    >
+
+    </gzpykj.hzpqy.base.HzDataListView>
+
+</LinearLayout>

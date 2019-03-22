@@ -91,7 +91,7 @@ public class TipLayoutDemoAct extends Activity {
         btn_load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tipLayout.load();
+                tipLayout.showLoad();
             }
         });
         btn_error.setOnClickListener(new View.OnClickListener() {

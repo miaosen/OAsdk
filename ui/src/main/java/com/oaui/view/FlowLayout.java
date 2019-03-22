@@ -4,11 +4,17 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.oaui.L;
 import com.oaui.R;
+import com.oaui.data.RowObject;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -20,18 +26,29 @@ import com.oaui.R;
  */
 public class FlowLayout extends ViewGroup {
 
+    //TODO 间距不正常
+    //TODO 居中属性,子view隐藏时不计算空间
 
+    ////行距离
+    //int lineMargin =MetricsUtils.dip2px( 10);
+    ////控件之间的距离
+    //int columnMargin =MetricsUtils.dip2px( 10);
     //行距离
     int lineMargin = 10;
-    //列距离
+    //控件之间的距离
     int columnMargin = 10;
-
     //int viewHeight=0;
     //int viewWidth=0;
+
+    int paddingLeft, paddingTop, paddingRight, paddingBottom;
 
     BaseAdapter adapter;
 
     OnItemClickListener onItemClickListener;
+
+    List<RowObject> rowsPosition = new LinkedList<>();
+
+    int gravity = Gravity.NO_GRAVITY;
 
 
     public FlowLayout(Context context, AttributeSet attrs) {
@@ -55,13 +72,14 @@ public class FlowLayout extends ViewGroup {
                 R.styleable.FlowLayout);
         lineMargin = typeArray.getDimensionPixelOffset(R.styleable.FlowLayout_lineMargin, lineMargin);
         columnMargin = typeArray.getDimensionPixelOffset(R.styleable.FlowLayout_columnMargin, columnMargin);
+        //columnMargin= MetricsUtils.dip2px(columnMargin);
+        //lineMargin= MetricsUtils.dip2px(lineMargin);
         typeArray.recycle();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //L.i("=========onMeasure==============");
         //调用子view测量方法
         measureChildren(widthMeasureSpec, heightMeasureSpec);
         // 获得它的父容器为它设置的测量模式和大小
@@ -69,96 +87,169 @@ public class FlowLayout extends ViewGroup {
         int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
         int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
         int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
-
         //TODO 作用还不是很清楚，如果不进行下面操作，scrollview中会显示异常
         //一行子view累加宽度
         int childsWith = 0;
         //一列子view累加高度
         int childsHeight = 0;
         //子View X坐标
-        int childX = lineMargin;
+        int childX = columnMargin + paddingLeft;
         //子View Y坐标
-        int childY = columnMargin;
+        int childY = lineMargin + paddingTop;
+
+        paddingLeft = getPaddingLeft();
+        paddingTop = getPaddingTop();
+        paddingRight = getPaddingRight();
+        paddingBottom = getPaddingBottom();
+
         int childCount = getChildCount();
+        int lastLineHeight = 0;
         for (int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
-            if(child.getVisibility()==VISIBLE){
-                //当前子View的宽度和高度
-                int childWith = child.getMeasuredWidth();
-                // L.i("=========onMeasure==============" + childWith + "  " + getMeasuredWidth());
-                //TODO 如果子view是RelativeLayout布局并且高度为wrap_content时，childHeight的高度异常
-                int childHeight = child.getMeasuredHeight();
-                // L.i("=========childHeight=============getMeasuredHeight===" + childHeight + child.getTag());
-                if (childsWith + childWith + lineMargin <= getMeasuredWidth()) {//累加宽度不超过ViewGroup的宽度，排在当前行后面
-                    childX = childsWith + lineMargin;
-                    childsWith = childX + childWith;
-                    childsHeight = childY + childHeight;
-                } else {//切换到下一行
-                    // L.i("=========onMeasure==============" + i);
-                    childX = lineMargin;
-                    childsWith = childX + childWith;
-                    childY = childY + childHeight + columnMargin;
-                    childsHeight = childY + childHeight;
+            //当前子View的宽度和高度
+            int childWith = child.getMeasuredWidth();
+            int childHeight = child.getMeasuredHeight();
+            if (i == 0) {
+                lastLineHeight = childHeight;
+                childsHeight = childY + childHeight + lineMargin;
+                childsWith = childX + childWith;
+            } else if (childsWith + childWith + (1.5 * lineMargin) <= getMeasuredWidth()) {//累加宽度不超过ViewGroup的宽度，排在当前行后面
+                if (childHeight > lastLineHeight) {
+                    childsHeight = childsHeight - lastLineHeight + childHeight;
+                    lastLineHeight = childHeight;
                 }
+                childX = childsWith + lineMargin;
+                childsWith = childX + childWith;
+            } else {//切换到下一行
+                childX = columnMargin + paddingLeft;
+                childsWith = childX + childWith;
+                childY = childY + lastLineHeight + lineMargin;
+                childsHeight = childHeight + childY + lineMargin;
+                lastLineHeight = childHeight;
+            }
+            if (i == childCount - 1) {
+                childsHeight = childsHeight + paddingBottom;
+                childsWith = childsWith + paddingRight;
             }
         }
-        //L.i("=========onMeasure==============" + childsHeight);
+
         setMeasuredDimension((modeWidth == MeasureSpec.EXACTLY) ? sizeWidth
                 : childsWith, (modeHeight == MeasureSpec.EXACTLY) ? sizeHeight
                 : childsHeight);
-
 
     }
 
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        //L.i("=========onLayout==============" + changed);
         //一行子view累加宽度
         int childsWith = 0;
         //一列子view累加高度
         int childsHeight = 0;
         //子View X坐标
-        int childX = lineMargin;
+        int childX = columnMargin + paddingLeft;
         //子View Y坐标
-        int childY = columnMargin;
+        int childY = lineMargin + paddingTop;
         int childCount = getChildCount();
+        int lastLineHeight = 0;
+        rowsPosition.clear();
+        int line = 0;
         for (int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
-            if(child.getVisibility()==VISIBLE){
-                //MarginLayoutParams layoutParams = (MarginLayoutParams) child.getLayoutParams();
-                //L.i("=========view=============="+t+" "+l+" "+r+" "+b+" "+layoutParams.rightMargin);
-                //当前子View的宽度和高度
-                int childWith = child.getMeasuredWidth();
-                int childHeight = child.getMeasuredHeight();
-                // L.i("=========childHeight==============" + childHeight);
-                if (childsWith + childWith + (1.5 * lineMargin) <= getWidth()) {//累加宽度不超过ViewGroup的宽度，排在当前行后面
-                    childX = childsWith + lineMargin;
-                    childsWith = childX + childWith;
-                    childsHeight = childY + childHeight;
-                } else {//切换到下一行
-
-                    childX = lineMargin;
-                    childsWith = childX + childWith;
-                    childY = childY + childHeight + columnMargin;
-                    childsHeight = childY + childHeight;
+            //当前子View的宽度和高度
+            int childWith = child.getMeasuredWidth();
+            int childHeight = child.getMeasuredHeight();
+            RowObject rowObject = new RowObject();
+            if (i == 0) {
+                lastLineHeight = childHeight;
+                childsHeight = childY + childHeight;
+                childsWith = childX + childWith;
+            } else if (childsWith + childWith + (1.5 * lineMargin) <= getMeasuredWidth()) {//累加宽度不超过ViewGroup的宽度，排在当前行后面
+                if (childHeight > lastLineHeight) {
+                    childsHeight = childsHeight - lastLineHeight + childHeight;
+                    lastLineHeight = childHeight;
                 }
-                child.layout(childX, childY, childsWith, childsHeight);
-                final int finalI = i;
-                if (onItemClickListener != null) {
-                    child.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onItemClickListener.onItemClick(finalI);
-                        }
-                    });
-                }
+                childX = childsWith + lineMargin;
+                childsWith = childX + childWith;
+            } else {//切换到下一行
+                line = line + 1;
+                childX = columnMargin + paddingLeft;
+                childsWith = childX + childWith;
+                childY = childY + lastLineHeight + lineMargin;
+                childsHeight = childHeight + childY;
+                lastLineHeight = childHeight;
+            }
+            rowObject.put("line", line);
+            rowObject.put("child", child);
+            rowObject.put("childX", childX);
+            rowObject.put("childY", childY);
+            rowObject.put("childsWith", childsWith);
+            rowObject.put("childsHeight", childsHeight);
+            rowsPosition.add(rowObject);
+        }
+        setGravity();
+        for (int i = 0; i < rowsPosition.size(); i++) {
+            RowObject rowObject = rowsPosition.get(i);
+            View child = (View) rowObject.get("child");
+            int x = (int) rowObject.get("childX");
+            int y = (int) rowObject.get("childY");
+            int w = (int) rowObject.get("childsWith");
+            int h = (int) rowObject.get("childsHeight");
+            int li = (int) rowObject.get("line");
+            //L.i("=========onLayout==============" + x);
+            child.layout(x, y, w, h);
+            final int finalI = i;
+            if (onItemClickListener != null) {
+                child.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.onItemClick(finalI);
+                    }
+                });
             }
         }
-        //viewWidth=getMeasuredWidth();
-        //viewHeight=childsHeight;
-
     }
+
+    private void setGravity() {
+        //按照第一行居中，主要是针对九宫格对齐的情况
+        if (gravity == Gravity.CENTER_HORIZONTAL) {
+            int width = getMeasuredWidth();
+            int lastLi=0;
+            int index=0;
+            Integer  space=0;
+            for (int i = 0; i < rowsPosition.size(); i++) {
+                RowObject rowObject = rowsPosition.get(i);
+                int w = (int) rowObject.get("childsWith");
+                int li = (int) rowObject.get("line");
+                if (li != lastLi) {
+                    //上一行的缩进长度
+                    //for (int j = i-index; j < i; j++) {
+                    //    RowObject row = rowsPosition.get(j);
+                    //    row.put("paddingSpace",space);
+                    //}
+                    //lastLi=li;
+                    //index=1;
+                    //rowObject.put("paddingSpace",space);
+                }else{
+                    //rowObject.put("paddingSpace",space);
+                    space=width-w;
+                    //index=index+1;
+                }
+                //L.i("=========setGravity=============="+li+"  "+index+"  "+i+"  "+space);
+            }
+            //width=width-lastW;
+            for (int i = 0; i < rowsPosition.size(); i++) {
+                RowObject rowObject = rowsPosition.get(i);
+                //L.i("=========setGravity=============="+i);
+                //int paddingSpace = (int) rowObject.get("paddingSpace");
+                int x = (int) rowObject.get("childX");
+                rowObject.put("childX", x + space/2);
+                int w = (int) rowObject.get("childsWith");
+                rowObject.put("childsWith", w + space/2);
+            }
+        }
+    }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -178,6 +269,7 @@ public class FlowLayout extends ViewGroup {
         }
         this.adapter = adapter;
         addAllView();
+        //adapter.notifyDataSetChanged();
     }
 
     private void addAllView() {
@@ -209,5 +301,13 @@ public class FlowLayout extends ViewGroup {
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
     }
 }

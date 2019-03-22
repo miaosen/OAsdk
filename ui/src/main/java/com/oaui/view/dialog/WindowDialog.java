@@ -14,7 +14,7 @@ import com.oaui.utils.ViewUtils;
 
 /**
  * @author zms
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @Date 2016-1-24
  * @Descrition 使用WindowManager 添加view建立弹窗，依赖于application,可跨activity使用
  */

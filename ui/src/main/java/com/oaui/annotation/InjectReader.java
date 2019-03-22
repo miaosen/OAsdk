@@ -66,7 +66,7 @@ public class InjectReader {
      * @param view
      */
     public static void injectAllFields(View view) {
-        injectAllFields(view, null, null);
+        injectAllFields(view, view);
     }
 
 
@@ -87,10 +87,11 @@ public class InjectReader {
                     ViewInject inject = field.getAnnotation(ViewInject.class);
                     int id = inject.value();
                     String tag = inject.tag();
+                    //L.i("=========injectAllFields=============="+field.getName());
                     if (object instanceof Activity) {
                         Activity activity = (Activity) object;
                         injectView = activity.getWindow().getDecorView();
-                    } else if (object instanceof View) {
+                    }  else if (object instanceof View) {
                         injectView = (View) object;
                     }
                     if (TextUtils.isEmpty(tag)) {

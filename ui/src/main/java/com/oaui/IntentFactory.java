@@ -68,6 +68,7 @@ public class IntentFactory {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         imagePath = FileUtils.getAppDirPath() + "/" + DateTimeUtils.getCurrentDay() + DateTimeUtils.getCurrentTime() + ".jpg";
         File tempFile = FileUtils.createFile(imagePath);
+        L.i("=========getTakePicIntent=============="+imagePath);
         Uri imageUri = Uri.fromFile(tempFile);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         return openCameraIntent;
@@ -79,7 +80,7 @@ public class IntentFactory {
      * @param activity
      */
     public static void movieRecord(Activity activity) {
-        if (isCameraPermission(activity, VideoRecordActivity.REQUEST_CAMERA_PERMISSION_CODE)){
+        if (checkCameraPermission(activity, VideoRecordActivity.REQUEST_CAMERA_PERMISSION_CODE)){
             Intent intent = new Intent(activity, VideoRecordActivity.class);
             String videoPath = FileUtils.getAppDirPath() + "/" + DateTimeUtils.getCurrentDay() + DateTimeUtils.getCurrentTime() + ".mp4";
             intent.putExtra(VideoRecordActivity.KEY_VIDEO_FILE_PATH,videoPath);
@@ -94,7 +95,7 @@ public class IntentFactory {
      */
     public static void movieRecord(Fragment fragment) {
         Activity activity=fragment.getActivity();
-        if (isCameraPermission(activity,VideoRecordActivity.REQUEST_CAMERA_PERMISSION_CODE)){
+        if (checkCameraPermission(activity,VideoRecordActivity.REQUEST_CAMERA_PERMISSION_CODE)){
             Intent intent = new Intent(activity, VideoRecordActivity.class);
             String videoPath = FileUtils.getAppDirPath() + "/" + DateTimeUtils.getCurrentDay() + DateTimeUtils.getCurrentTime() + ".mp4";
             intent.putExtra(VideoRecordActivity.KEY_VIDEO_FILE_PATH,videoPath);
@@ -103,7 +104,7 @@ public class IntentFactory {
     }
 
 
-    public static boolean isCameraPermission(Activity context, int requestCode){
+    public static boolean checkCameraPermission(Activity context, int requestCode){
         if (Build.VERSION.SDK_INT >= 23) {
             String[] PERMISSIONS_CAMERA_AND_STORAGE = {
                     Manifest.permission.RECORD_AUDIO,

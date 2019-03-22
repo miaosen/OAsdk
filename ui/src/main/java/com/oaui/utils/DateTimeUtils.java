@@ -17,7 +17,7 @@ import java.util.Locale;
  */
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2015-12-15
  * @Descrition 时间处理工具

@@ -9,7 +9,7 @@ import com.oaui.utils.ViewUtils;
 
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2017-5-10
  * @Descrition 自定义布局
@@ -53,16 +53,17 @@ public abstract class CustomLayout extends ViewGroup {
 	private void addLayout() {
 		int setXmlLayout = setXmlLayout();
 		if (setXmlLayout > 0) {
-			contentView = ViewUtils.inflatView(getContext(), setXmlLayout);
+			contentView = ViewUtils.inflatView(getContext(), setXmlLayout,this,false);
 			addView(contentView);
-			contentView.setLayoutParams(new ViewGroup.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT,
-					ViewGroup.LayoutParams.MATCH_PARENT));
+			//contentView.setLayoutParams(new ViewGroup.LayoutParams(
+			//		ViewGroup.LayoutParams.MATCH_PARENT,
+			//		LayoutParams.WRAP_CONTENT));
 			isAttached=true;
 			onCreateView();
 		} else {
 			// 抛异常
 		}
+		//setBackgroundColor(Color.BLUE);
 	}
 
 
@@ -80,10 +81,13 @@ public abstract class CustomLayout extends ViewGroup {
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 		int height = 0, width = 0;
-		View child = getChildAt(0);
+		ViewGroup child = (ViewGroup) getChildAt(0);
+		//for (int i = 0; i < child.getChildCount(); i++) {
+		//	View childAt = child.getChildAt(i);
+		//	childAt.measure(widthMeasureSpec,heightMeasureSpec);
+		//}
 		int childWidth = child.getMeasuredWidth();
 		int childHeight = child.getMeasuredHeight();
-
 		if (heightMode == MeasureSpec.EXACTLY) {// match_parent或者具体值
 			height = heightSize;
 		} else  {// wrap_content if (heightMode == MeasureSpec.AT_MOST)
@@ -97,6 +101,12 @@ public abstract class CustomLayout extends ViewGroup {
 		//当前容器大小
 		setMeasuredDimension(width, height);
 	}
+
+	//@Override
+	//protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+	//	super.onSizeChanged(w, h, oldw, oldh);
+	//	setMeasuredDimension(w, h);
+	//}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {

@@ -34,20 +34,29 @@
             android:text="全局提示弹窗"
         />
     </com.oaui.view.FlowLayout>
-  <com.oaui.view.FlowLayout
-        android:layout_width="wrap_content"
-        app:lineMargin="10dp"
+    <com.oaui.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:columnMargin="10dp"
-        android:layout_height="wrap_content">
+        app:lineMargin="10dp">
 
         <EditText
+            style="@style/ed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="搜索选择弹窗"
-            style="@style/ed"
-            android:textColor="@color/text_color"
             android:minWidth="100dp"
-            android:tag="search"/>
+            android:tag="search"
+            android:textColor="@color/text_color"/>
+
+        <com.oaui.view.dialog.extra.Combo
+            android:layout_width="wrap_content"
+            android:text="组合框"
+            android:hint="搜索选择弹窗"
+            android:minWidth="100dp"
+            android:layout_height="wrap_content"/>
+
+
     </com.oaui.view.FlowLayout>
 
 

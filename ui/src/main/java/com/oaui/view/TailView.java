@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.oaui.L;
 import com.oaui.R;
 import com.oaui.data.RowObject;
 import com.oaui.view.listview.BaseFillAdapter;
@@ -82,7 +81,6 @@ public class TailView extends LinearLayoutForListView{
 			@Override
 			public void onItemClick(View convertView, RowObject row, int position) {
 				String name=row.getString("name");
-				L.i("=========onItemClick=============="+name);
 				if(onTailItemListeners.containsKey(name)){
 					onTailItemListeners.get(name).onClickItem();
 				}

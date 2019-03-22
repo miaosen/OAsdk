@@ -8,9 +8,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/TvShow" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/http" />
+            <option value="$PROJECT_DIR$/hzpqy-moblie" />
+            <option value="$PROJECT_DIR$/rmew" />
             <option value="$PROJECT_DIR$/ui" />
+            <option value="$PROJECT_DIR$/zxinglib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

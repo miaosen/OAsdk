@@ -2,10 +2,13 @@ package com.oaui.utils;
 
 import android.content.ContentValues;
 
+import com.oaui.data.JSONSerializer;
 import com.oaui.data.RowObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @email 1510809124@qq.com
@@ -31,6 +34,12 @@ public class RowUtils {
 			rows.add(row);
 		}
 		return rows;
+	}
+
+
+	public static RowObject entityToRow(Object object){
+		String jsonString = JSONSerializer.toJSONString(object);
+		return JsonUtils.jsonToRow(jsonString);
 	}
 
 
@@ -71,6 +80,14 @@ public class RowUtils {
 		}
 	}
 
+
+	public static Map<String,Object> rowToMap(RowObject rowObject) {
+		Map<String,Object> map=new HashMap<>();
+		for (String key:rowObject.keySet()){
+			map.put(key,rowObject.getString(key));
+		}
+		return map;
+	}
 
 
 

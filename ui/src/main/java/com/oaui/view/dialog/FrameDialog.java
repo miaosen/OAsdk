@@ -2,16 +2,21 @@ package com.oaui.view.dialog;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.oaui.L;
 import com.oaui.utils.AppUtils;
 import com.oaui.utils.ViewUtils;
 
@@ -80,7 +85,7 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
 
     public FrameDialog(Context context, int dialogLayout) {
         super(context);
-        this.dialogView = ViewUtils.inflatView(context, dialogLayout);
+        this.dialogView = ViewUtils.inflatView(context, dialogLayout,this,false);
         init();
     }
 
@@ -95,12 +100,34 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         if(AppUtils.isFullScreen(getContext())){
             statusHeight=0;
         }
+        //dialogMargin
         setShadow(true);
         setBorder();
         addView(dialogView);
+        //dialogView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         onInitDialog(dialogView);
         setClickShadowToDismiss();
         coverOnClickListener();
+        //getScreenSizeOfDevice2();
+    }
+
+    private void getScreenSizeOfDevice2() {
+        Point point = new Point();
+        ( (Activity)getContext()).getWindowManager().getDefaultDisplay().getRealSize(point);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        double x = Math.pow(point.x/ dm.xdpi, 2);
+        double y = Math.pow(point.y / dm.ydpi, 2);
+        double screenInches = Math.sqrt(x + y);
+        Log.d("logtag", "Screen inches : " + screenInches+" 宽："+x+"  长："+y+"  "+(screenInches/(160* dm.density)));
+        DisplayMetrics metric = new DisplayMetrics();
+        ( (Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int width = metric.widthPixels;  // 屏幕宽度（像素） 
+        int height = metric.heightPixels;  // 屏幕高度（像素） 
+        float density = metric.density;  // 屏幕密度（0.75 / 1.0 / 1.5） 
+        int densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240） 
+        double diagonalPixels = Math.sqrt(Math.pow(width, 2)+Math.pow(height, 2)) ;
+        double screenSize = diagonalPixels/(densityDpi*density) ;
+        L.i("=========getScreenSizeOfDevice2=============="+screenSize);
     }
 
     @SuppressLint("NewApi")
@@ -133,21 +160,37 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
         modeWidth = MeasureSpec.getMode(widthMeasureSpec);
         modeHeight = MeasureSpec.getMode(heightMeasureSpec);
-        //TODO widthMeasureSpec和viewLocation单位不一致
-        // 上级容器大小
-        setMeasuredDimension(sizeWidth, sizeHeight);
         // 调用子view测量方法
         if (showType == SHOW_TYPE.CENTER) {
-            measureChildren(widthMeasureSpec - (dialogMargin * 2),
-                    heightMeasureSpec - (dialogMargin * 2));
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(sizeWidth- (dialogMargin * 2),modeWidth);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(sizeHeight- (dialogMargin * 2),modeHeight);
+            //根据边距缩小绘制范围
+            dialogView.measure(widthMeasureSpec,heightMeasureSpec);
+            int height = dialogView.getMeasuredHeight();
+            int width = dialogView.getMeasuredWidth();
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.UNSPECIFIED);
+            measureChildren(widthMeasureSpec, heightMeasureSpec);
         } else if (showType == SHOW_TYPE.AS_UP) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(sizeHeight-(screenHeight - viewLocation[1]-statusHeight),modeHeight);
             if (isFillwidth) {
                 measureChildren(widthMeasureSpec,
-                        heightMeasureSpec - (screenHeight - viewLocation[1]-statusHeight));
+                        heightMeasureSpec );
             } else {
-                measureChildren(widthMeasureSpec - viewLocation[0],
-                        heightMeasureSpec - (screenHeight - viewLocation[1]-statusHeight));
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(sizeWidth - viewLocation[0],modeWidth);
+                measureChildren(widthMeasureSpec ,
+                        heightMeasureSpec);
             }
+            int w = MeasureSpec.getSize(widthMeasureSpec);
+            int h = MeasureSpec.getSize(heightMeasureSpec);
+            L.i("=========onMeasure=============="+w+"   "+h);
+            //if (isFillwidth) {
+            //    measureChildren(widthMeasureSpec,
+            //            heightMeasureSpec - (screenHeight - viewLocation[1]-statusHeight));
+            //} else {
+            //    measureChildren(widthMeasureSpec - viewLocation[0],
+            //            heightMeasureSpec - (screenHeight - viewLocation[1]-statusHeight));
+            //}
         } else if (showType == SHOW_TYPE.AS_DOWN) {
             if (isFillwidth) {
                 measureChildren(widthMeasureSpec,
@@ -159,6 +202,7 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         } else {
             measureChildren(widthMeasureSpec, heightMeasureSpec);
         }
+        setMeasuredDimension(sizeWidth, sizeHeight);
     }
 
     @Override
@@ -196,7 +240,7 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
                 widthStart = viewLocation[0];
             }
         } else {// showType==SHOW_TYPE.FULL
-
+            L.i("=========onLayout=============="+heightStart+"   "+childHeight);
         }
         // if(modeWidth== MeasureSpec.EXACTLY){
         // childAt.layout(widthStart, heightStart, screenWidth, heightStart +
@@ -320,6 +364,19 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         // dismiss();
         // }
         // });
+    }
+
+
+    /**
+     * 取消点击阴影消失
+     */
+    public void setClickShadowToNoDismiss() {
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     public void addToContentViewOrInvalidate() {

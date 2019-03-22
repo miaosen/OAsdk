@@ -7,7 +7,7 @@ import com.oaui.utils.FileUtils;
 import java.io.File;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016-6-6
  * @Descrition 项目文件的输出模型，

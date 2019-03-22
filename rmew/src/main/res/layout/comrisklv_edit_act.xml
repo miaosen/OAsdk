@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <com.oaui.view.HeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText="返回"
+        app:title="企业风险等级">
+
+    </com.oaui.view.HeaderView>
+
+
+    <LinearLayout
+        android:id="@+id/ln_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="企业名称:"
+            />
+            <EditText
+                android:id="@+id/company_name"
+                style="@style/ed_edit"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="许可证号:"
+
+            />
+            <EditText
+                android:id="@+id/license_no"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="企业类型:"
+
+            />
+            <EditText
+                android:id="@+id/company_type"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="所属辖区:"
+
+            />
+            <EditText
+                android:id="@+id/district"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="所属街道:"
+                android:id="@+id/textView2"/>
+            <EditText
+                android:id="@+id/street"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="企业地址:"
+
+            />
+            <EditText
+                android:id="@+id/mana_address"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="检查次数:"
+
+            />
+            <EditText
+                android:id="@+id/Batch_number"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="责令改正次数:"
+
+            />
+            <EditText
+                android:id="@+id/pro_Date"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="行政处罚次数:"
+
+            />
+            <EditText
+                android:id="@+id/validate"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="收证次数:"
+
+            />
+            <EditText
+                android:id="@+id/city"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="风险等级:"
+
+            />
+           <com.oaui.view.CustomRadioGroup
+               android:id="@+id/risk_level"
+               android:layout_weight="1"
+               android:layout_width="match_parent"
+                                           android:layout_height="wrap_content">
+
+               <RadioButton
+                   android:text="A"
+                   android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+               <RadioButton
+                   android:text="B"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+               <RadioButton
+                    android:text="C"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+               <RadioButton
+                   android:text="D"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+
+
+           </com.oaui.view.CustomRadioGroup>
+        </LinearLayout>
+        </LinearLayout>
+    <com.oaui.view.TailView
+        android:id="@+id/tailView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueText="确定">
+
+
+    </com.oaui.view.TailView>
+</LinearLayout>

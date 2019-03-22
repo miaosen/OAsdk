@@ -40,7 +40,7 @@
 //import java.text.SimpleDateFormat;
 //
 ///**
-// * @Created by gzpykj.com
+// * @Created by com.gzpykj.com
 // * @author wyc
 // * @Date 2015-1-23
 // * @Descrition 图片操作工具包

@@ -5,177 +5,198 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
+    android:fillViewport="true"
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical">
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical"
-    tools:context="com.oasdk.MainActivity">
-
-
-    <com.oaui.view.HeaderView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:isHideLeft="true"
-        app:title="办公sdk"
-    />
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        tools:context="com.oasdk.MainActivity">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@color/grey_lt"
-                  android:padding="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.oaui.view.HeaderView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="UI"
-            android:textSize="20sp"
+            app:isHideLeft="true"
+            app:title="办公sdk"
         />
 
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@color/grey_lt"
+                      android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UI"
+                android:textSize="20sp"
+            />
+
+        </LinearLayout>
+        <com.oaui.view.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:columnMargin="10dp"
+            app:lineMargin="10dp">
+
+            <Button
+                android:id="@+id/btnBaseView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="基本控件和表单"/>
+
+            <Button
+                android:id="@+id/btnTipLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提示布局"/>
+
+            <Button
+                android:id="@+id/btnFlowLaout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="流布局（自动换行）"/>
+
+            <Button
+                android:id="@+id/btnDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="弹窗"/>
+            <Button
+                android:id="@+id/btnUI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UI示例"/>
+
+            <Button
+                android:id="@+id/btnList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="列表"/>
+
+            <Button
+                android:id="@+id/btnViewPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="页签"/>
+
+            <Button
+                android:id="@+id/btnRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="综合检查表"/>
+        </com.oaui.view.FlowLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@color/grey_lt"
+                      android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="组件"
+                android:textSize="20sp"
+            />
+
+        </LinearLayout>
+        <com.oaui.view.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:columnMargin="10dp"
+            app:lineMargin="10dp">
+            <Button
+                android:id="@+id/btnHttp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Http网络请求"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数据库操作"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="html分页打印"/>
+
+            <Button
+                android:id="@+id/btnSign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="签名"/>
+
+            <Button
+                android:id="@+id/btnVoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录音"/>
+
+            <Button
+                android:id="@+id/btnTakePic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="拍照"/>
+
+            <Button
+                android:id="@+id/btnVideoRcd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频"/>
+
+            <Button
+                android:id="@+id/btn_zxing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="二维码"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文件选择"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热修复"/>
+
+
+            <Button
+                android:id="@+id/btn_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="wifi通讯"/>
+
+
+            <Button
+                android:id="@+id/btn_bluetooth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="蓝牙"/>
+
+
+        </com.oaui.view.FlowLayout>
+
+
+
     </LinearLayout>
-    <com.oaui.view.FlowLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:columnMargin="10dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        app:lineMargin="10dp">
 
-        <Button
-            android:id="@+id/btnBaseView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="基本控件和表单"/>
-
-        <Button
-            android:id="@+id/btnTipLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="提示布局"/>
-
-        <Button
-            android:id="@+id/btnFlowLaout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="流布局（自动换行）"/>
-
-        <Button
-            android:id="@+id/btnDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="弹窗"/>
-        <Button
-            android:id="@+id/btnUI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UI示例"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/btnList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="列表"/>
-
-        <Button
-            android:id="@+id/btnViewPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="页签"/>
-
-        <Button
-            android:id="@+id/btnRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="综合检查表"/>
-    </com.oaui.view.FlowLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@color/grey_lt"
-                  android:padding="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="组件"
-            android:textSize="20sp"
-        />
-
-    </LinearLayout>
-    <com.oaui.view.FlowLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:columnMargin="10dp"
-        app:lineMargin="10dp">
-        <Button
-            android:id="@+id/btnHttp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Http网络请求"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="数据库操作"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="html分页打印"/>
-
-        <Button
-            android:id="@+id/btnSign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="签名"/>
-
-        <Button
-            android:id="@+id/btnVoice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="录音"/>
-
-        <Button
-            android:id="@+id/btnTakePic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="拍照"/>
-
-        <Button
-            android:id="@+id/btnVideoRcd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="视频"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="二维码"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="文件选择"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="支付"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="热修复"/>
-    </com.oaui.view.FlowLayout>
-</LinearLayout>
 </ScrollView>

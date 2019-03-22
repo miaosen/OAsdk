@@ -5,7 +5,6 @@
     <!-- 数据读写权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <!-- 网络连接 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -21,10 +20,22 @@
 
 
 
-    <!-- 硬件依赖 -->
+    <!-- 摄像头 -->
     <uses-feature android:name="android.hardware.camera"/>
+    <!-- 摄像头自动对焦 -->
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- 闪光灯 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!-- 震动 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>4
 
+    <!-- 蓝牙 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
+    <!-- 位置 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -42,9 +53,9 @@
         </activity>
         <activity android:name="com.oaui.view.attachment.VideoRecordActivity"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
+        <activity android:name="com.oasdk.data.HttpDemoActivity" />
 
-
-        <activity android:name="com.oasdk.http.HttpDemoActivity" />
+        <activity android:name="zxing.CaptureActivity" />
         <activity android:name="com.oasdk.ui.UIDemoAct" />
         <activity android:name="com.oasdk.ui.FormDemoAct" />
         <activity android:name="com.oasdk.ui.TipLayoutDemoAct" />
@@ -54,12 +65,14 @@
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
         <activity android:name="com.oasdk.ui.RecordDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-        <activity android:name="com.oasdk.ui.UIDatalistDemoAct"
+        <activity android:name="com.oasdk.ui.DatalistDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
         <activity android:name="com.oasdk.ui.BaseViewDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-
-
+        <activity android:name=".wifi.WifiAct" />
+        <!-- 蓝牙 -->
+        <activity android:name=".data.bluetooth.BluetoothDemoAct" />
+        <activity android:name=".data.bluetooth.BlueToothSocketAct" />
     </application>
 
 

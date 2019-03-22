@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016年4月8日
  * @Descrition 解决ScrollView嵌套ListView ListView重复刷新的问题,数据量较少时推荐使用
@@ -30,6 +30,7 @@ public class LinearLayoutForListView extends LinearLayout {
 	public LinearLayoutForListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.context = context;
+		setOrientation(VERTICAL);
 	}
 
 
@@ -51,6 +52,7 @@ public class LinearLayoutForListView extends LinearLayout {
 
 	private void addAllView() {
 		int count = adapter.getCount();
+
 		this.removeAllViews();
 		for (int i = 0; i < count; i++) {
 			View v = adapter.getView(i, null, null);

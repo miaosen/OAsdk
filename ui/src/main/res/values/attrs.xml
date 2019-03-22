@@ -22,10 +22,6 @@
         <attr name="tempUrlSuffix" format="string"/>
         <!-- Sql语句 -->
         <attr name="sql" format="string"/>
-        <!-- action类名 -->
-        <attr name="actionClass" format="string"/>
-        <!-- 方法名 -->
-        <attr name="actionName" format="string"/>
         <!-- 数据源表达式 -->
         <attr name="dataExpression" format="string"/>
          <!-- 数据来源是否为本地sqlite，false为从网络获取 -->

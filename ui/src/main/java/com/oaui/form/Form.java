@@ -2,11 +2,10 @@ package com.oaui.form;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.oaui.data.RowObject;
 import com.oaui.utils.JsonUtils;
+import com.oaui.utils.StringUtils;
 import com.oaui.utils.ViewUtils;
 
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class Form {
 
     private RowObject row = null;
 
-    private OnFillMessageListener onFillMessageListener;
+    private OnFillLisener onFillLisener;
 
     /**
      * View的信息最终转成mapView
@@ -49,6 +48,7 @@ public class Form {
         this.context = context;
         this.contentView = ViewUtils.getContentView(context);
         mapView.putAll(FormUtils.getMapView(contentView));
+        //L.i("=========Form=============="+mapView);
     }
 
 
@@ -82,19 +82,26 @@ public class Form {
      * 开始填充
      */
     public void fill() {
-        if (row != null && row.size() > 0) {
-            for (String key : mapView.keySet()) {
-                View view = mapView.get(key);
-                //Log.i("logtag","key==========="+key+"  view==="+view);
-                if (view != null) {
-                    Object value = row.getLayerData(key);
-                    //Log.i("logtag","value==========="+value);
-                    if (value != null) {
-                        fillMessage(view, key, value);
-                    }
+        if (onFillLisener != null) {
+            onFillLisener.onBefore(mapView, row);
+        }
+        for (String idName : mapView.keySet()) {
+            String value = row.getString(idName);
+            if (StringUtils.isNotEmpty(value)) {
+                View view = mapView.get(idName);
+                boolean needToContinue = true;
+                if (onFillLisener != null) {
+                    needToContinue = onFillLisener.onFill(view, idName, value);
+                }
+                if (needToContinue) {
+                    FormUtils.setContentValue(view, value);
                 }
             }
         }
+        if (onFillLisener != null) {
+            onFillLisener.onBefore(mapView, row);
+        }
+
     }
 
 
@@ -108,42 +115,18 @@ public class Form {
     }
 
 
-    /**
-     * 数据填充到View
-     *
-     * @param view
-     * @param key
-     * @param value
-     */
-    protected void fillMessage(View view, String key, Object value) {
-        boolean success = false;
-        if (onFillMessageListener != null) {//填充监听
-            success = onFillMessageListener.fillMessage(view, key, value);
-        }
-        if (!success) {
-            //Log.i("logtag", "view===========" + view + "  tag:" + view.getTag());
-            //success = customFillMessage(view, key, value);
-            if (view instanceof FormAdpater) {//实现ViewValueAdpater接口的自定义View填充
-                ((FormAdpater) view).setValue(value);
-            } else if (view instanceof TextView) {// 填充TextView或者TextView的子类
-                ((TextView) view).setText(value.toString());
-            } else if (view instanceof RadioGroup) {// 填充RadioGroup
-                RadioGroup rg = (RadioGroup) view;
-                ViewUtils.fillRadioGroup(rg, value.toString());
-            }
-        }
+
+
+
+
+
+    public interface OnFillLisener {
+        void onBefore(Map<String, View> formViews, RowObject row);
+
+        boolean onFill(View view, String name, String value);
+
+        void onComplate(Map<String, View> formViews, RowObject row);
     }
-
-
-    /**
-     * 数据补充填充接口
-     */
-    public interface OnFillMessageListener {
-        boolean fillMessage(View view, String key, Object value);
-    }
-
-
-
 
 
     public RowObject getRow() {
@@ -154,12 +137,12 @@ public class Form {
         this.row = row;
     }
 
-    public OnFillMessageListener getOnFillMessageListener() {
-        return onFillMessageListener;
+    public OnFillLisener getOnFillLisener() {
+        return onFillLisener;
     }
 
-    public void setOnFillMessageListener(OnFillMessageListener onFillMessageListener) {
-        this.onFillMessageListener = onFillMessageListener;
+    public void setOnFillLisener(OnFillLisener onFillLisener) {
+        this.onFillLisener = onFillLisener;
     }
 
     public Context getContext() {

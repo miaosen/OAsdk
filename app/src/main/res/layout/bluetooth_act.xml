@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.oaui.view.HeaderView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              app:title="蓝牙通讯">
+
+    </com.oaui.view.HeaderView>
+
+    <View style="@style/line_hz_grey_lt"></View>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本机名称："
+                    android:textSize="18dp"
+                />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mac地址："
+                    android:textSize="18dp"
+                />
+                <TextView
+                    android:id="@+id/mac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/btn_socket_service"
+            style="@style/btn_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="开启Socket服务"
+            android:textSize="14dp"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:padding="8dp"
+            android:text="服务状态："
+            android:textSize="14dp"
+        />
+        <TextView
+            android:id="@+id/tv_service_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未启动"
+            android:textColor="@color/red"
+            android:textSize="14dp"
+        />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发现的蓝牙设备："
+            android:textSize="20dp"
+        />
+    </LinearLayout>
+    <!-- <com.osui.view.listview.DataListView
+         android:id="@+id/dataListView"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         app:url="http://172.17.7.51:8089/rcms/EagleActions/mpMpNormalRecordAction?action=getNormalRecordList"
+         app:param="user_name=admin,groups=840010"
+         app:itemLayout="@layout/ui_view_listview_item">
+
+     </com.osui.view.listview.DataListView>-->
+    <!-- app:url="http://gank.io/api/data/Android/15"-->
+    <!-- app:url="http://gank.io/api/day/2015/08/07"-->
+
+    <com.oaui.view.listview.DataListView
+        android:id="@+id/dataListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoInvoke="false"
+        app:itemLayout="@layout/bluetooth_list_item">
+
+    </com.oaui.view.listview.DataListView>
+
+
+
+</LinearLayout>

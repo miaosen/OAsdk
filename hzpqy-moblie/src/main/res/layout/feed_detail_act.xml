@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <EditText
+        android:id="@+id/workOrderId"
+        style="@style/ed"
+        android:visibility="gone"/>
+    <com.oaui.view.HeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText="返回"
+        app:title="投料单">
+
+    </com.oaui.view.HeaderView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+
+                              android:layout_weight="2"
+                              android:paddingRight="8dp">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:text="生产任务 :"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp">
+
+
+                    <EditText
+                        android:id="@+id/workOrderNo"
+                        style="@style/ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+
+                              android:layout_weight="2"
+                              android:paddingRight="8dp">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:text="投料人 :"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp">
+
+
+                    <EditText
+                        android:id="@+id/handler"
+                        style="@style/ed"
+                        android:layout_width="match_parent"
+                        android:drawableRight="@drawable/icon_jiantouxia"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+
+                              android:layout_weight="2"
+                              android:paddingRight="8dp">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:text="产品名称 :"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp">
+
+
+                    <EditText
+                        android:id="@+id/materialName"
+                        style="@style/ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+
+                              android:layout_weight="2"
+                              android:paddingRight="8dp">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:text="产品编码 :"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp">
+
+
+                    <EditText
+                        android:id="@+id/materialNo"
+                        style="@style/ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+
+                              android:layout_weight="2"
+                              android:paddingRight="8dp">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:text="规格 :"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp">
+
+
+                    <EditText
+                        android:id="@+id/spec"
+                        style="@style/ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+
+                              android:layout_weight="2"
+                              android:paddingRight="8dp">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:text="备注 :"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp">
+
+
+                    <EditText
+                        android:id="@+id/remark"
+                        style="@style/ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View style="@style/line_hz_grey_lt"
+            />
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="#ffffff"
+                          android:gravity="center_vertical"
+                          android:orientation="horizontal"
+                          android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="物料清单"
+                    android:textColor="@color/blue"
+                    android:textSize="16dp"
+
+                />
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="right"
+                              android:orientation="horizontal"
+                >
+
+                    <Button android:id="@+id/btn_blue"
+                            style="@style/btn_blue"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="10dp"
+                            android:text="投料复核"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+            <gzpykj.hzpqy.base.HzDataListView
+                android:id="@+id/dataListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:autoInvoke="false"
+                app:dataExpression="data"
+                app:isEnablePage="false"
+                app:itemLayout="@layout/feed_detail_item"
+                app:param="__RENDER_MODE__=json,__RETURN_TYPE__=data"
+                app:urlSuffix="/jsp/produce/feed/feed_action.jsp?getWorkOrderMaterial"
+            >
+                <!-- /jsp/produce/feed/pickers/req_detail_list.jsp -->
+            </gzpykj.hzpqy.base.HzDataListView>
+
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        style="@style/btn_blue"
+        android:background="@drawable/sel_btn_blue_noradius"
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textSize="18dp"
+        android:text="提交">
+
+    </Button>
+</LinearLayout>

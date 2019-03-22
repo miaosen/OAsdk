@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016-3-12
  * @Descrition 获取应用(Application)相关信息工具类
@@ -302,6 +302,6 @@ public class AppUtils {
 			{ ".wps", "application/vnd.ms-works" }, { ".xml", "text/plain" },
 			{ ".z", "application/x-compress" },
 			{ ".zip", "application/x-zip-compressed" },
-			{ ".amr", "audio/*" }, { "", "*/*" } };
+			{ ".amr", "audio/*" },{ ".flac", "audio/*" },{ ".ape", "audio/*" }, { "", "*/*" } };
 
 }

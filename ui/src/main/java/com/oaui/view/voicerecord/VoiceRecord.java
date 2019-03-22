@@ -10,7 +10,7 @@ import java.io.IOException;
 import static android.os.Build.VERSION_CODES.BASE;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016-6-6
  * @Descrition 使用MediaRecorder的录音器,必须传入录音文件的输出路径

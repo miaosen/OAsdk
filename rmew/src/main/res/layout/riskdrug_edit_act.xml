@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <com.oaui.view.HeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText="返回"
+        app:title="查看药品信息">
+
+    </com.oaui.view.HeaderView>
+
+
+    <LinearLayout
+        android:id="@+id/ln_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="药品通用名:"
+            />
+            <EditText
+                android:id="@+id/drug_name"
+                style="@style/ed_edit"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="药品商用名:"
+
+            />
+            <EditText
+                android:id="@+id/commercial_name"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="生产单位:"
+
+            />
+            <EditText
+                android:id="@+id/pro_name"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="生产单位地址:"
+
+            />
+            <EditText
+                android:id="@+id/address"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="制剂规格:"
+                android:id="@+id/textView2"/>
+            <EditText
+                android:id="@+id/spec"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="包装规格:"
+
+            />
+            <EditText
+                android:id="@+id/package_spec"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="批号:"
+
+            />
+            <EditText
+                android:id="@+id/Batch_number"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="生产日期:"
+
+            />
+            <EditText
+                android:id="@+id/pro_Date"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="有效日期:"
+
+            />
+            <EditText
+                android:id="@+id/validate"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="行政区划（市）:"
+
+            />
+            <EditText
+                android:id="@+id/city"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="行政区划（区县）:"
+
+            />
+            <EditText
+                android:id="@+id/district"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="行政区划（镇街）:"
+
+            />
+            <EditText
+                android:id="@+id/street"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="批准文号:"
+
+            />
+            <EditText
+                android:id="@+id/Approval_no"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                style="@style/tv_edit"
+                android:text="检验结果:"
+
+            />
+            <EditText
+                android:id="@+id/result"
+                style="@style/ed_edit"
+
+            />
+        </LinearLayout>
+        </LinearLayout>
+    <com.oaui.view.TailView
+        android:id="@+id/tailView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueText="确定">
+
+
+    </com.oaui.view.TailView>
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.oaui.view.tiplayout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.oaui.L;
 import com.oaui.R;
 import com.oaui.view.dialog.FrameDialog;
 
@@ -48,6 +50,10 @@ public class TipLayout extends ViewGroup {
 
 
     boolean isLoadMoreNow = false;
+    boolean isEanableLoadMore = true;
+
+
+    boolean isEanableRefresh = true;
 
 
     boolean noHasFooterView = true;
@@ -61,6 +67,7 @@ public class TipLayout extends ViewGroup {
 
     public TipLayout(Context context) {
         super(context);
+        initView();
 
     }
 
@@ -80,6 +87,7 @@ public class TipLayout extends ViewGroup {
         tipLayoutFooter.dialogView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         tipLayoutFooter.setShadow(false);
         tipLayoutFooter.setFocuse(false);
+        tipLayoutFooter.setBackgroundColor(Color.BLUE);
         tipLayoutFooter.setBackgroundColor(getResources().getColor(R.color.transparent));
         tipLayoutFooter.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -103,14 +111,17 @@ public class TipLayout extends ViewGroup {
         int childHeight = child.getMeasuredHeight();
         if (heightMode == MeasureSpec.EXACTLY) {// match_parent或者具体值
             height = heightSize;
-        } else if (heightMode == MeasureSpec.AT_MOST) {// wrap_content
+        } else {// wrap_content
             height = childHeight;
         }
         if (widthMode == MeasureSpec.EXACTLY) {
             width = widthSize;
-        } else if (widthMode == MeasureSpec.AT_MOST) {
+        } else {
             width = childWidth;
         }
+        //if (headView.getY() < 0) {
+        //    height = height + headView.getMeasuredHeight();
+        //}
         setMeasuredDimension(width, height);
     }
 
@@ -131,9 +142,6 @@ public class TipLayout extends ViewGroup {
         if ((juli >= 0 && juli > headHeight)) {
             juli = headHeight;
         }
-        //if (juli <= 0 && Math.abs(juli) > tailHeight) {
-        //    juli = -tailHeight;
-        //}
         headView.layout(l, -headHeight + juli, r, juli);
         contentView.layout(l, juli, r, measuredHeight + juli);
     }
@@ -141,55 +149,57 @@ public class TipLayout extends ViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                y = (int) event.getY();
-                //L.i("=========ACTION_DOWN==============" + y);
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                //L.i("=========ACTION_CANCEL==============");
-                sendCancelEvent(event);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                //必须要在MOVE中return有效果，在这里return后UP事件也会被拦截
-                int mJuli = (int) ((event.getY() - y) / speedRatio);
-                speedRatio = speedRatio - (mJuli / 100);
-                //L.i("=========ACTION_MOVE==============" + mJuli + " " + speedRatio);
-                y = (int) event.getY();
-                if ((!canChildScrollUp(canScrollView) && mJuli > 0) || isRefreshing) {//下拉
-                    juli = juli + mJuli;
-                    requestLayout();
-                    if (juli <= 0) {
-                        isRefreshing = false;
-                    } else {
-                        isRefreshing = true;
-                    }
-                    sendDownEvent(event);
-                } else if ((!canChildScrollDown(canScrollView) && mJuli < 0)) {
-                    if (!isLoadMoreNow && !isRefreshing) {
-                        if (onTipListener != null) {
-                            onTipListener.onLoadMore();
-                            load();
-                        }
-                        isLoadMoreNow = true;
-                    }
-                } else {
-                    if (juli > 0) {
+        if (isEanableRefresh) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    y = (int) event.getY();
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    sendCancelEvent(event);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    //必须要在MOVE中return有效果，在这里return后UP事件也会被拦截
+                    int mJuli = (int) ((event.getY() - y) / speedRatio);
+                    speedRatio = speedRatio - (mJuli / 100);
+
+                    y = (int) event.getY();
+                    if ((!canChildScrollUp(canScrollView) && juli >= 0) && !isLoadMoreNow &&!isRefreshing) {//下拉
+                        juli = juli + mJuli;
                         requestLayout();
+                        //if (juli <= 0) {
+                        //    isRefreshing = false;
+                        //} else {
+                        //    isRefreshing = true;
+                        //}
+                        sendDownEvent(event);
+                    } else if ((!canChildScrollDown(canScrollView) && mJuli < 0)) {
+                        L.i("=========dispatchTouchEvent isRefreshing=============="+isRefreshing+"   "+isLoadMoreNow);
+                        if (!isLoadMoreNow && !isRefreshing) {
+                            if (onTipListener != null) {
+                                onTipListener.onLoadMore();
+                            }
+                            showLoad();
+                        }
+                    } else {
+                        if (juli > 0) {
+                            requestLayout();
+                        }
+                        return super.dispatchTouchEvent(event);
                     }
                     return super.dispatchTouchEvent(event);
-                }
-                return super.dispatchTouchEvent(event);
-            case MotionEvent.ACTION_UP:
-                if (juli <= headView.getMeasuredHeight() / 4 * 3) {
-                    endRefresh();
-                } else {
-                    refresh();
-                    if (onTipListener != null) {
-                        onTipListener.onRefresh();
+                case MotionEvent.ACTION_UP:
+                    if (juli <= headView.getMeasuredHeight() / 4 * 3) {
+                        endRefresh();
+                    } else {
+                        if (!isRefreshing) {
+                            refresh();
+                            if (onTipListener != null) {
+                                onTipListener.onRefresh();
+                            }
+                        }
                     }
-                }
-                speedRatio = 3;
+                    speedRatio = 3;
+            }
         }
         return super.dispatchTouchEvent(event);
     }
@@ -200,22 +210,25 @@ public class TipLayout extends ViewGroup {
                 final ListView listview = (ListView) canScrollView;
                 listview.setOnScrollListener(new AbsListView.OnScrollListener() {
                     int scrollState;
+
                     @Override
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
-                        this.scrollState=scrollState;
+                        this.scrollState = scrollState;
                     }
+
                     @Override
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                         int lastVisiblePosition = view.getLastVisiblePosition();
                         if (totalItemCount != 0
                                 && totalItemCount > visibleItemCount
                                 && totalItemCount == lastVisiblePosition + 1) {
+                            L.i("=========onScroll=============="+isLoadMoreNow);
                             if (!isLoadMoreNow && !isRefreshing) {
+                                L.i("=========onScroll==============");
                                 if (onTipListener != null) {
                                     onTipListener.onLoadMore();
-                                    load();
                                 }
-                                isLoadMoreNow = true;
+                                showLoad();
                             }
                         }
                     }
@@ -225,8 +238,12 @@ public class TipLayout extends ViewGroup {
         }
     }
 
-    public void load() {
-        tipLayoutFooter.showAsCoverUp(this);
+    public void showLoad() {
+        if(isEanableLoadMore){
+            tipLayoutFooter.showAsCoverUp(this);
+            isLoadMoreNow=true;
+        }
+        //tipLayoutFooter.show();
     }
 
     public void error() {
@@ -281,11 +298,15 @@ public class TipLayout extends ViewGroup {
      */
     public void refresh() {
         isRefreshing = true;
-        showHead();
         if (headView.attached()) {
             headView.refreshing();
         }
+        showHead();
 
+    }
+
+    public void setRefreshText(String text) {
+        headView.setRefreshText(text);
     }
 
 
@@ -409,5 +430,37 @@ public class TipLayout extends ViewGroup {
 
     public void setOnErrorViewCilckListener(OnClickListener onClickListener) {
         headView.error_in_head.setOnClickListener(onClickListener);
+    }
+
+    public boolean isEanableLoadMore() {
+        return isEanableLoadMore;
+    }
+
+    public void setEanableLoadMore(boolean eanableLoadMore) {
+        isEanableLoadMore = eanableLoadMore;
+    }
+
+    public boolean isEanableRefresh() {
+        return isEanableRefresh;
+    }
+
+    public void setEanableRefresh(boolean eanableRefresh) {
+        isEanableRefresh = eanableRefresh;
+    }
+
+    public boolean isLoadMoreNow() {
+        return isLoadMoreNow;
+    }
+
+    public void setLoadMoreNow(boolean loadMoreNow) {
+        isLoadMoreNow = loadMoreNow;
+    }
+
+    public boolean isRefreshing() {
+        return isRefreshing;
+    }
+
+    public void setRefreshing(boolean refreshing) {
+        isRefreshing = refreshing;
     }
 }

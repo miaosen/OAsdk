@@ -47,6 +47,7 @@ public class CookieManager implements CookieJar {
         List<Cookie> cookies = allCookies.get(key);
         if(cookies==null){
             //从缓存取
+            //Log.i("logtag","loadForRequest======"+CookiePersistence.getFormCache(context,key));
             return CookiePersistence.getFormCache(context,key);
         }else{
             return cookies;

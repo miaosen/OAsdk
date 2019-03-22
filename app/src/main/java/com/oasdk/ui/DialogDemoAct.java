@@ -15,7 +15,7 @@ import com.oaui.annotation.ViewInject;
 import com.oaui.utils.ViewUtils;
 import com.oaui.view.dialog.FrameDialog;
 import com.oaui.view.dialog.WindowDialog;
-import com.oaui.view.dialog.WindowTipDialog;
+import com.oaui.view.dialog.extra.WindowTipDialog;
 
 /**
  * @author zengmiaosen
@@ -149,6 +149,7 @@ public class DialogDemoAct extends BaseActivity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 search.setFocusable(false);
+                ViewUtils.hideKeyboard(search);
             }
         });
         combo.setOnShowListener(new DialogInterface.OnShowListener() {

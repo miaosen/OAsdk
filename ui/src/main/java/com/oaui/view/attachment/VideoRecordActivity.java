@@ -76,7 +76,7 @@ public class VideoRecordActivity extends Activity implements
 
         @Override
         public void handleMessage(Message msg) {
-            L.i("=========handleMessage=============="+msg);
+            L.i("=========handleMessage==============" + msg);
             if (mActivity.get() == null) {
                 return;
             }
@@ -109,8 +109,8 @@ public class VideoRecordActivity extends Activity implements
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.ui_atm_movie_record_act);
         saveVideoPath = getIntent().getStringExtra(KEY_VIDEO_FILE_PATH);
-        if(StringUtils.isEmpty(saveVideoPath)){
-            saveVideoPath= getOrCreateVideoPath();
+        if (StringUtils.isEmpty(saveVideoPath)) {
+            saveVideoPath = getOrCreateVideoPath();
         }
         initView();
 
@@ -306,7 +306,7 @@ public class VideoRecordActivity extends Activity implements
             mediaRecorder = null;
 
             mRecordTime.stop();
-			/*
+            /*
 			 * //设置开始按钮可点击，停止按钮不可点击 mRecordControl.setEnabled(true);
 			 * mPauseRecord.setEnabled(false);
 			 */
@@ -504,12 +504,13 @@ public class VideoRecordActivity extends Activity implements
         CamcorderProfile mProfile = CamcorderProfile
                 .get(CamcorderProfile.QUALITY_480P);
         mediaRecorder.setAudioEncodingBitRate(44100);
-        if (mProfile.videoBitRate > 2 * 1024 * 1024)
-            mediaRecorder.setVideoEncodingBitRate(2 * 1024 * 1024);
-        else
-            mediaRecorder.setVideoEncodingBitRate(1024 * 1024);
-        mediaRecorder.setVideoFrameRate(mProfile.videoFrameRate);
-
+        if (mProfile != null) {
+            if (mProfile.videoBitRate > 2 * 1024 * 1024)
+                mediaRecorder.setVideoEncodingBitRate(2 * 1024 * 1024);
+            else
+                mediaRecorder.setVideoEncodingBitRate(1024 * 1024);
+            mediaRecorder.setVideoFrameRate(mProfile.videoFrameRate);
+        }
         // 设置选择角度，顺时针方向，因为默认是逆向90度的，这样图像就是正常显示了,这里设置的是观看保存后的视频的角度
         mediaRecorder.setOrientationHint(90);
         // 设置录像的分辨率
@@ -517,6 +518,7 @@ public class VideoRecordActivity extends Activity implements
 
         // 设置录像视频保存地址
         mediaRecorder.setOutputFile(saveVideoPath);
+
     }
 
 

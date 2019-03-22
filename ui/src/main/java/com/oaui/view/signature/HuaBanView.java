@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @Date 2016年4月18日
  * @Descrition 绘画板
  */

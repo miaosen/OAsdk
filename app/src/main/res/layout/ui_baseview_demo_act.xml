@@ -10,12 +10,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <com.oaui.view.HeaderView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="基础控件"
+    />
 
-
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:orientation="vertical"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
     >
 
 
@@ -23,6 +28,14 @@
             android:id="@+id/attachmentView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <com.oaui.view.calendar.DateButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="选择日期"/>
+
+
     </LinearLayout>
 
     <com.oaui.view.TailView

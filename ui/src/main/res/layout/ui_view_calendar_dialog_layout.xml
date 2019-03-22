@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:fillViewport="true"-->
+            <!--android:layout_height="wrap_content">-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <com.oaui.view.calendar.CalendarLayout
+        android:id="@+id/calendarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.oaui.view.calendar.CalendarLayout>
+
+<!--    <com.oaui.view.calendar.DateView android:layout_width="match_parent"
+                                     android:layout_height="wrap_content"/>-->
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="right"
+                  android:orientation="horizontal"
+                  android:padding="10dp"
+    >
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:textSize="16dp"
+            android:background="@null"
+            android:textColor="@color/blue"
+        />
+
+        <Button
+            android:id="@+id/btn_cancle"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textSize="16dp"
+            android:textColor="@color/blue"
+            android:text="取消"
+        />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+<!--</ScrollView>-->

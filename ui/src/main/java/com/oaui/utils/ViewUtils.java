@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +61,14 @@ public class ViewUtils {
             ViewGroup vp = (ViewGroup) view;
             for (int i = 0; i < vp.getChildCount(); i++) {
                 View viewchild = vp.getChildAt(i);
-                allchildren.add(viewchild);
-                allchildren.addAll(getAllChildViews(viewchild));
+                if(viewchild instanceof ViewGroup){
+                    allchildren.addAll(getAllChildViews(viewchild));
+                }else{
+                    allchildren.add(viewchild);
+                }
             }
-        } else {
-            allchildren.add(view);
         }
+        allchildren.add(view);
         return allchildren;
     }
 
@@ -112,6 +115,31 @@ public class ViewUtils {
 
 
     /**
+     * 通过资源文件id获取View
+     *
+     * @param context
+     * @param layout
+     * @return
+     */
+    public static View inflatView(Context context, int layout,ViewGroup root) {
+        return LayoutInflater.from(context).inflate(layout, root);
+
+    }
+
+    /**
+     * 通过资源文件id获取View
+     *
+     * @param context
+     * @param layout
+     * @return
+     */
+    public static View inflatView(Context context, int layout,ViewGroup root, boolean attachToRoot) {
+        return LayoutInflater.from(context).inflate(layout, root,attachToRoot);
+
+    }
+
+
+    /**
      * 以RadioGroup的id名称为key，并获取其选中的值为value，返回一个HashMap
      *
      * @param rg
@@ -142,6 +170,16 @@ public class ViewUtils {
      */
     public static void toast(String text) {
         Toast.makeText(UIGlobal.getApplication(), text, Toast.LENGTH_SHORT).show();
+    }
+
+
+    /**
+     * 弹出提示
+     */
+    public static void toastNOInUIThread(String text) {
+        Looper.prepare();
+        Toast.makeText(UIGlobal.getApplication(), text, Toast.LENGTH_SHORT).show();
+        Looper.loop();
     }
 
 
@@ -218,7 +256,7 @@ public class ViewUtils {
 
 
     /**
-     * 弹出键盘
+     * 弹出键盘并对焦
      * @param alertEd
      */
     public static void showKeyboard(EditText alertEd) {
@@ -234,4 +272,44 @@ public class ViewUtils {
             inputManager.showSoftInput(alertEd, 0);
         }
     }
+
+
+    /**
+     * 弹出键盘
+     * @param alertEd
+     */
+    public static void hideKeyboard(EditText alertEd) {
+        if(alertEd!=null){
+            //设置可获得焦点
+            alertEd.setFocusable(true);
+            alertEd.setFocusableInTouchMode(true);
+            //请求获得焦点
+            alertEd.requestFocus();
+            //调用系统输入法
+            InputMethodManager inputManager = (InputMethodManager) alertEd
+                    .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(alertEd.getWindowToken(), 0);
+        }
+    }
+
+
+
+    /**
+     * View或者ViewGroup内的所有子view能不能点击
+     *
+     * @param viewOrViewGroup
+     * @param b
+     */
+    public static void setClickable(View viewOrViewGroup, boolean b) {
+        List<View> allChildViews = getAllChildViews(viewOrViewGroup);
+        for (int i = 0; i < allChildViews.size(); i++) {
+            View view = allChildViews.get(i);
+            view.setClickable(b);
+            if (view instanceof EditText) {
+                EditText ed = (EditText) view;
+                ed.setEnabled(b);
+            }
+        }
+    }
+
 }

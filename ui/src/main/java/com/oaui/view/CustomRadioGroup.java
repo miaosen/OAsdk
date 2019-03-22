@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author zms
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @Date 2016-9-6
  * @Descrition 仿照RadioGroup, 解决RadioButton只能横向或者竖向布局, 并且支持多选和被表单模块识别
  */

@@ -9,7 +9,7 @@
 //import android.view.SurfaceView;
 //
 ///**
-// * @Created by gzpykj.com
+// * @Created by com.gzpykj.com
 // * @author wyc
 // * @Date 2015-8-22
 // * @Descrition 处理视频工具类

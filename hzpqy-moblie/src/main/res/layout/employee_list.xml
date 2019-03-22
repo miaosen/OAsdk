@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gzpykj.hzpqy.base.HzDataListView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dataListView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:dataExpression="data"
+    app:isEnablePage="false"
+    app:itemLayout="@layout/employee_list_item"
+    app:param="__RENDER_MODE__=json,__RETURN_TYPE__=data"
+    app:urlSuffix="/pub/prds/employee_provider.jsp?getItems"
+/>
+

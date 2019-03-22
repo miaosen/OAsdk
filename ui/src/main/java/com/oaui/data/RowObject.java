@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * @author zms
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @Date 2016-3-4
  * @Descrition 键值对(key-value)实体类, 注意 : RowObject在json序列化时重写了RowObject的序列化方法，
  * value的取值只有3种String,RowObject,LinkedList<RowObject>

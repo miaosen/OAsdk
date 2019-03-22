@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.oaui.view.HeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        app:leftText="返回"
+        app:title="风险点信息"
+        android:layout_height="wrap_content">
+
+    </com.oaui.view.HeaderView>
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险环节:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/link"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险详述:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/describes"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险可能导致的结果:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/possibleResult"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险发生的可能性	:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/possibility"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险发生的严重性:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/seriousness"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险综合指数:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/riskIndex"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="风险级别:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/riskLevel"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="控制措施和预防措施:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/measure"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tv_edit"
+            android:text="备注:"
+            android:tag="necessary"
+        />
+        <EditText
+            android:id="@+id/remarks"
+            style="@style/ed_edit"
+            android:tag="not_null"
+        />
+    </LinearLayout>
+    </LinearLayout>
+
+    <com.oaui.view.TailView
+        android:id="@+id/tailView"
+        app:valueText="确定"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </com.oaui.view.TailView>
+</LinearLayout>

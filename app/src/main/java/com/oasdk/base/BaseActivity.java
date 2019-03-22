@@ -2,7 +2,6 @@ package com.oasdk.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.oaui.annotation.InjectReader;
@@ -27,7 +26,7 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 横屏
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 横屏
         context=this;
         initConfig();
         setContentView(getContentView());
@@ -54,7 +53,7 @@ public abstract class BaseActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if(hasFocus&&isFirstLoading){
             initData();
             isFirstLoading=false;
         }

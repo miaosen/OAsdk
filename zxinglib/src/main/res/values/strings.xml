@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TableToPdf</string>
+
+    <!-- 二维码 -->
+    <string name="scan_dbar_code_title">扫描二维码</string>
+    <string name="scan_dbar_code_tips">请将二维码或条形码置于扫描框的红线内</string>
+
+</resources>

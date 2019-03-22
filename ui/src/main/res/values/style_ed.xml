@@ -32,7 +32,28 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/sel_ed_bg</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <!-- 编辑页文本框样式 -->
+    <style name="ed_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/sel_ed_bg</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="ed_line">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/shape_line</item>
+        <item name="android:padding">5dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_color</item>
     </style>

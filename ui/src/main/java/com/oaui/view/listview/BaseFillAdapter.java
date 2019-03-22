@@ -14,12 +14,11 @@ import com.oaui.form.FormUtils;
 import com.oaui.utils.JsonUtils;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2015-11-13
  * @Descrition BaseFillListViewAdapter封装,根据布局的id和json中key的字段来填充数据,绑定数据填充模块
@@ -28,11 +27,13 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 
 	private Context context;
 	// 数据集 List<Map<?,?>>类型
-	private List<RowObject> rows=new LinkedList<RowObject>();
+	private List<RowObject> rows;
 	// 布局文件
 	private int layout;
-	// item监听
+	// item点击监听
 	private OnItemClickListener onItemClickListener;
+	// setItem之前修改item
+	private OnItemModifylistenert onItemModifylistenert;
 
 	public BaseFillAdapter(Context context, List<RowObject> rows,
 						   int layout) {
@@ -96,6 +97,9 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		//数据填充
 		RowObject row = rows.get(position);
 		holder.fillUnit.fill(row);
+		if(onItemModifylistenert!=null){
+			onItemModifylistenert.onItemModify(convertView,row,position,holder);
+		}
 		setItem(convertView, row, position, holder);
 		convertView.setOnClickListener(new mClick(convertView, row, position));
 		return convertView;
@@ -119,9 +123,20 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * 添加数据
 	 * @param list
 	 */
-	public void addListData(List<RowObject> list) {
+	public void addRows(List<RowObject> list) {
 		if (list != null) {
 			rows.addAll(list);
+			notifyDataSetChanged();
+		}
+	}
+
+	/**
+	 * 添加数据
+	 * @param row
+	 */
+	public void addRow(RowObject row) {
+		if (row!= null) {
+			rows.add(row);
 			notifyDataSetChanged();
 		}
 	}
@@ -182,6 +197,10 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 */
 	public interface OnItemClickListener {
 		void onItemClick(View convertView, RowObject row, int position);
+	}
+
+	public interface OnItemModifylistenert {
+		void onItemModify(View convertView, RowObject row, int position,ViewHolder holder);
 	}
 
 	/**

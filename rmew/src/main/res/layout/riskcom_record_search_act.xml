@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_op"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:padding="10dp"
+        android:orientation="vertical" >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+        >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="企业名称 :"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp" />
+            <EditText
+                android:id="@+id/company_name"
+                style="@style/ed"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint=""
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风险类型 :"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp" />
+
+
+            <com.oaui.view.CustomRadioGroup
+                android:id="@+id/riskType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.oaui.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:checked="true"
+                        android:text="全部"
+
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="监督检查"
+                        android:tag="0"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="行政处罚"
+                        android:tag="1"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" android:id="@+id/radioButton2"/>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="抽样不合格"
+                        android:tag="2"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="投诉举报"
+                        android:tag="3"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                </com.oaui.view.FlowLayout>
+            </com.oaui.view.CustomRadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="抽样时间 :"
+                android:textSize="16sp" />
+
+            <com.oaui.view.calendar.DateButton
+                android:id="@+id/startDate"
+                android:layout_marginLeft="10dp"
+                style="@style/btn_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 至 " />
+
+            <com.oaui.view.calendar.DateButton
+                android:id="@+id/endDate"
+                style="@style/btn_date" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/tv_senior_search"
+                 android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:padding="5dp"
+                style="@style/btn_blue"
+                android:layout_margin="10dp"
+                android:text="查     询"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_print"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:text="打印标签"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+
+    />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shadow"/>
+
+</LinearLayout>

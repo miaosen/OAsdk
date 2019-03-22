@@ -21,7 +21,7 @@ import com.oaui.view.colorpick.ColorPickerLayout;
 import com.oaui.view.dialog.FrameDialog;
 
 /**
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @author zms
  * @Date 2016年4月18日
  * @Descrition 签名页面

@@ -1,1 +1,1 @@
-include ':app', ':http', ':ui'
+include ':app', ':http', ':ui', ':hzpqy-moblie', ':TvShow', ':zxinglib', ':rmew'

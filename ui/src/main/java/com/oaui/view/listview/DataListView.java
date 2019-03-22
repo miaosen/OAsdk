@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
-import com.oahttp.NetRequest;
+import com.oahttp.HttpRequest;
 import com.oahttp.callback.StringCallBack;
 import com.oaui.L;
 import com.oaui.R;
@@ -15,6 +15,7 @@ import com.oaui.annotation.ViewInject;
 import com.oaui.data.RowObject;
 import com.oaui.form.FormAdpater;
 import com.oaui.utils.JsonUtils;
+import com.oaui.utils.StringUtils;
 import com.oaui.utils.ViewUtils;
 import com.oaui.view.CustomLayout;
 import com.oaui.view.tiplayout.TipLayout;
@@ -31,9 +32,9 @@ import java.util.Map;
  * @Descrition
  */
 
-public class DataListView extends CustomLayout implements FormAdpater{
+public class DataListView extends CustomLayout implements FormAdpater {
 
-    List<RowObject> rows=new LinkedList<RowObject>();
+    List<RowObject> rows = new LinkedList<RowObject>();
 
     @ViewInject
     ListView listView;
@@ -45,19 +46,27 @@ public class DataListView extends CustomLayout implements FormAdpater{
 
     int itemLayoutId;
     @ViewInject
-    TipLayout tipLayout ;
+    TipLayout tipLayout;
 
     OnItemModifylistenert onItemModifylistenert;
 
     OnDataListChange onDataListChange;
 
-    NetRequest request;
-    String url,urlSuffix,actionClass,actionName,dataExpression,tempUrlSuffix;
-    boolean autoInvoke,isEnablePage;
-    Map<String, Object> mapParam=new LinkedHashMap<>();
+    HttpRequest request;
 
-    int pageIndex=1,pageNum=15;
-   public static int DEFAUT_PAGE_INDEX=1;
+    public static String GLOBAL_URL = "";
+
+    String url, urlSuffix, dataExpression, tempUrlSuffix;
+    boolean autoInvoke;
+    boolean isEnablePage;
+    boolean isCustomData = false;
+    Map<String, Object> mapParam = new LinkedHashMap<>();
+
+    int pageIndex = 1, pageNum = 15;
+    public static int DEFAUT_PAGE_INDEX = 1;
+
+
+    TipLayout.OnTipListener onTipListener;
 
 
     public DataListView(Context context, AttributeSet attrs) {
@@ -80,41 +89,47 @@ public class DataListView extends CustomLayout implements FormAdpater{
 
 
     private void init() {
-        fillApdater=new FillApdater(getContext(),rows, itemLayoutId);
+        fillApdater = new FillApdater(getContext(), rows, itemLayoutId);
         createHttpRequest();
     }
 
 
     private void readAttr(AttributeSet attrs) {
-        TypedArray typedarray=getContext().obtainStyledAttributes(attrs, R.styleable.DataListView);
+        TypedArray typedarray = getContext().obtainStyledAttributes(attrs, R.styleable.DataListView);
         itemLayoutId = typedarray.getResourceId(R.styleable.DataListView_itemLayout, -1);
-        url=typedarray.getString(R.styleable.DataListView_url);
-        urlSuffix=typedarray.getString(R.styleable.DataListView_urlSuffix);
-        tempUrlSuffix=typedarray.getString(R.styleable.DataListView_tempUrlSuffix);
-        actionClass=typedarray.getString(R.styleable.DataListView_actionClass);
-        actionName=typedarray.getString(R.styleable.DataListView_actionName);
-        dataExpression=typedarray.getString(R.styleable.DataListView_dataExpression);
-        autoInvoke= typedarray.getBoolean(R.styleable.DataListView_autoInvoke,true);
-        isEnablePage= typedarray.getBoolean(R.styleable.DataListView_isEnablePage,true);
-        String param= typedarray.getString(R.styleable.DataListView_param);
+        url = typedarray.getString(R.styleable.DataListView_url);
+        if (StringUtils.isEmpty(url)) {
+            url = GLOBAL_URL;
+        }
+        urlSuffix = typedarray.getString(R.styleable.DataListView_urlSuffix);
+        tempUrlSuffix = typedarray.getString(R.styleable.DataListView_tempUrlSuffix);
+        dataExpression = typedarray.getString(R.styleable.DataListView_dataExpression);
+        autoInvoke = typedarray.getBoolean(R.styleable.DataListView_autoInvoke, true);
+        isEnablePage = typedarray.getBoolean(R.styleable.DataListView_isEnablePage, true);
+        String param = typedarray.getString(R.styleable.DataListView_param);
         readParam(param);
         typedarray.recycle();
     }
 
+    /**
+     * 参数格式 key=value,key2=value2
+     *
+     * @param param
+     */
     private void readParam(String param) {
-        if(param!=null){
+        if (param != null) {
             //转成json
-            param= param.replaceAll(",","\",\"");
-            param= param.replaceAll("=","\":\"");
-            param="{\""+ param+"\"}";
-            int i=0;
-            if(JsonUtils.isValidateJson(param)){
+            param = param.replaceAll(",", "\",\"");
+            param = param.replaceAll("=", "\":\"");
+            param = "{\"" + param + "\"}";
+            int i = 0;
+            if (JsonUtils.isValidateJson(param)) {
                 RowObject rowObject = JsonUtils.jsonToRow(param);
-                for(String key: rowObject.keySet()){
-                    mapParam.put(key,rowObject.get(key));
+                for (String key : rowObject.keySet()) {
+                    mapParam.put(key, rowObject.get(key));
                 }
-            }else{
-                L.e("======参数格式错误======"+param);
+            } else {
+                L.e("======参数格式错误======" + param);
             }
         }
 
@@ -123,28 +138,37 @@ public class DataListView extends CustomLayout implements FormAdpater{
     @Override
     public void initData() {
         notifyDataSetChanged();
-        tipLayout.setOnTipListener(new TipLayout.OnTipListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
+        if (isEnablePage) {
+            if (onTipListener == null) {
+                tipLayout.setOnTipListener(new TipLayout.OnTipListener() {
+                    @Override
+                    public void onRefresh() {
+                        refresh();
+                    }
+                    @Override
+                    public void onLoadMore() {
+                        pageIndex = pageIndex + 1;
+                        if (onDataListChange != null) {
+                            onDataListChange.onLoadMore(pageIndex);
+                        }
+                        getData();
+                    }
+                });
+            } else {
+                tipLayout.setOnTipListener(onTipListener);
             }
-            @Override
-            public void onLoadMore() {
-                pageIndex=pageIndex+1;
-                if(onDataListChange!=null){
-                    onDataListChange.onLoadMore(pageIndex);
-                }
-                getData();
-            }
-        });
+
+        } else {
+            tipLayout.setEanableRefresh(false);
+        }
         tipLayout.setOnErrorViewCilckListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 refresh();
             }
         });
-        if(autoInvoke){
-            if(onDataListChange!=null){
+        if (autoInvoke) {
+            if (onDataListChange != null) {
                 onDataListChange.onRefresh();
             }
             tipLayout.refresh();
@@ -152,31 +176,33 @@ public class DataListView extends CustomLayout implements FormAdpater{
         }
     }
 
-    public void refresh(){
+    public void refresh() {
         rows.clear();
         notifyDataSetChanged();
-        pageIndex=DEFAUT_PAGE_INDEX;
-        if(onDataListChange!=null){
+        pageIndex = DEFAUT_PAGE_INDEX;
+        if (onDataListChange != null) {
             onDataListChange.onRefresh();
         }
         tipLayout.refresh();
+
         getData();
     }
 
 
-
     private void getData() {
-        if(tempUrlSuffix!=null){
-            request.setUrl(url+tempUrlSuffix);
-            tempUrlSuffix=null;
-        }else{
-            if(urlSuffix!=null){
-                url=url+urlSuffix;
-                urlSuffix=null;
+        if (!isCustomData) {
+            if (tempUrlSuffix != null) {
+                request.setUrl(url + tempUrlSuffix);
+                tempUrlSuffix = null;
+            } else {
+                if (urlSuffix != null) {
+                    url = url + urlSuffix;
+                    urlSuffix = null;
+                }
+                request.setUrl(url);
             }
-            request.setUrl(url);
+            request.send();
         }
-        request.send();
     }
 
     @Override
@@ -185,24 +211,25 @@ public class DataListView extends CustomLayout implements FormAdpater{
         tipLayout.setCanScrollView(listView);
     }
 
-    public void createHttpRequest(){
-        request = new NetRequest();
+    public void createHttpRequest() {
+        request = new HttpRequest();
         request.setCallback(new StringCallBack() {
             @Override
             public void onSuccess(String text) {
                 tipLayout.end();
-                if(dataExpression!=null){
-                    RowObject rowObject=JsonUtils.jsonToRow(text);
-                    if(rowObject.getLayerData(dataExpression) instanceof List){
-                        List<RowObject> results= (List<RowObject>) rowObject.getLayerData(dataExpression);
+                if (dataExpression != null) {
+                    RowObject rowObject = JsonUtils.jsonToRow(text);
+                    if (rowObject.getLayerData(dataExpression) instanceof List) {
+                        List<RowObject> results = (List<RowObject>) rowObject.getLayerData(dataExpression);
                         setValue(results);
                     }
-                }else if(JsonUtils.isCanToRows(text)){
+                } else if (JsonUtils.isCanToRows(text)) {
                     List<RowObject> results = JsonUtils.jsonToRows(text);
                     setValue(results);
                 }
 
             }
+
             @Override
             protected void onFail(Exception e) {
                 super.onFail(e);
@@ -211,38 +238,33 @@ public class DataListView extends CustomLayout implements FormAdpater{
                 tipLayout.error();
             }
         });
-        if(mapParam.size()>0){
+        if (mapParam.size() > 0) {
             request.addParam(mapParam);
         }
     }
 
 
-
     /**
      * 切换为不滚动不回收的listview
      */
-    public void noScroll(){
+    public void noScroll() {
         listView.setVisibility(View.GONE);
         linearLayoutForListView.setVisibility(View.VISIBLE);
     }
 
 
-
-
-
-    public void notifyDataSetChanged(){
-        if(listView.getVisibility()==View.VISIBLE){
-            if(listView.getAdapter()==null){
+    public void notifyDataSetChanged() {
+        if (listView.getVisibility() == View.VISIBLE) {
+            if (listView.getAdapter() == null) {
                 tipLayout.addFooterView();
                 listView.setAdapter(fillApdater);
-                L.i("=========notifyDataSetChanged==============");
-            }else{
+            } else {
                 fillApdater.notifyDataSetChanged();
             }
-        }else if(linearLayoutForListView.getVisibility()==View.VISIBLE){
-            if(linearLayoutForListView.getAdapter()==null){
+        } else if (linearLayoutForListView.getVisibility() == View.VISIBLE) {
+            if (linearLayoutForListView.getAdapter() == null) {
                 linearLayoutForListView.setAdapter(fillApdater);
-            }else{
+            } else {
                 fillApdater.notifyDataSetChanged();
             }
         }
@@ -251,28 +273,46 @@ public class DataListView extends CustomLayout implements FormAdpater{
 
     @Override
     public void setValue(Object object) {
+        L.i("=========setValue=============="+object);
         //object可以是List<RowObject>也可以是json数组
-        if(object!=null){
-            if(object instanceof List){
-                List<RowObject> list= (List<RowObject>) object;
-                rows.addAll(list);
-            }else  if(JsonUtils.isCanToRows(object.toString())){
-                List<RowObject> list = JsonUtils.jsonToRows(object.toString());
-                rows.addAll(list);
+        List<RowObject> list = null;
+        if (object != null) {
+            if (object instanceof List) {
+                L.i("=========setValue==============list");
+                list= (List<RowObject>) object;
+                if(list.size()>0){
+                    rows.addAll(list);
+                    notifyDataSetChanged();
+                }
+            } else if (JsonUtils.isCanToRows(object.toString())) {
+               list = JsonUtils.jsonToRows(object.toString());
+                if(list.size()>0){
+                    rows.addAll(list);
+                    notifyDataSetChanged();
+                }
             }
         }
-        if(isAttached){
-            notifyDataSetChanged();
+        //if (isAttached) {
+        //   notifyDataSetChanged();
+        //}
+        if(list!=null&&list.size()<pageNum){
+            ViewUtils.toast("没有更多数据了！");
+        }else if(list!=null&&list.size()==0&&rows.size()==0){
+            tipLayout.error("暂无数据！");
+        }
+        tipLayout.end();
+        if (onDataListChange != null) {
+            onDataListChange.onLoadCompalte();
         }
     }
 
-    public void addUrlSuffix(String suffix){
-        url=url+suffix;
+    public void addUrlSuffix(String suffix) {
+        url = url + suffix;
     }
 
 
-    public void addTempUrlSuffix(String suffix){
-        tempUrlSuffix=suffix;
+    public void addTempUrlSuffix(String suffix) {
+        tempUrlSuffix = suffix;
     }
 
     @Override
@@ -286,23 +326,63 @@ public class DataListView extends CustomLayout implements FormAdpater{
     }
 
 
-    class FillApdater extends BaseFillAdapter{
+    public class FillApdater extends BaseFillAdapter {
 
-        public FillApdater(Context context,List<RowObject> rows, int layout) {
-            super(context,rows, layout);
+        public FillApdater(Context context, List<RowObject> rows, int layout) {
+            super(context, rows, layout);
         }
+
         @Override
         public void setItem(View convertView, RowObject row, int position, ViewHolder holder) {
-            if(onItemModifylistenert!=null){
-                onItemModifylistenert.setItemView(convertView,row,position,holder);
+            if (onItemModifylistenert != null) {
+                onItemModifylistenert.setItemView(convertView, row, position, holder);
             }
         }
     }
 
     public interface OnDataListChange {
         void onRefresh();
+
         void onLoadMore(int pageIndex);
 
+        void onLoadCompalte();
+    }
+
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
+
+    public int getItemLayoutId() {
+        return itemLayoutId;
+    }
+
+    public void setItemLayoutId(int itemLayoutId) {
+        this.itemLayoutId = itemLayoutId;
+    }
+
+    public TipLayout.OnTipListener getOnTipListener() {
+        return onTipListener;
+    }
+
+    public void setOnTipListener(TipLayout.OnTipListener onTipListener) {
+        this.onTipListener = onTipListener;
+    }
+
+    public void endRefresh(){
+        tipLayout.endRefresh();
     }
 
     /**
@@ -314,6 +394,24 @@ public class DataListView extends CustomLayout implements FormAdpater{
     public void addParam(String key, Object value) {
         request.addParam(key, value);
     }
+
+    /**
+     * 移除参数
+     *
+     * @param key
+     */
+    public void removeParam(String key) {
+        request.removeParam(key);
+    }
+
+    /**
+     * 添加参数
+     * @param map
+     */
+    public void addParam(Map<String,Object> map) {
+        request.addParam(map);
+    }
+
     /**
      * 添加临时参数
      *
@@ -323,7 +421,6 @@ public class DataListView extends CustomLayout implements FormAdpater{
     public void addTempParam(String key, Object value) {
         request.addTempParam(key, value);
     }
-
 
 
     public interface OnItemModifylistenert {
@@ -358,11 +455,85 @@ public class DataListView extends CustomLayout implements FormAdpater{
         this.onDataListChange = onDataListChange;
     }
 
-    public NetRequest getRequest() {
+    public HttpRequest getRequest() {
         return request;
     }
 
-    public void setRequest(NetRequest request) {
+    public void setRequest(HttpRequest request) {
         this.request = request;
+    }
+
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrlSuffix() {
+        return urlSuffix;
+    }
+
+    public void setUrlSuffix(String urlSuffix) {
+        this.urlSuffix = urlSuffix;
+    }
+
+
+    public String getDataExpression() {
+        return dataExpression;
+    }
+
+    public void setDataExpression(String dataExpression) {
+        this.dataExpression = dataExpression;
+    }
+
+    public String getTempUrlSuffix() {
+        return tempUrlSuffix;
+    }
+
+    public void setTempUrlSuffix(String tempUrlSuffix) {
+        this.tempUrlSuffix = tempUrlSuffix;
+    }
+
+    public boolean isAutoInvoke() {
+        return autoInvoke;
+    }
+
+    public void setAutoInvoke(boolean autoInvoke) {
+        this.autoInvoke = autoInvoke;
+    }
+
+    public boolean isEnablePage() {
+        return isEnablePage;
+    }
+
+    public void setEnablePage(boolean enablePage) {
+        isEnablePage = enablePage;
+    }
+
+    public OnItemModifylistenert getOnItemModifylistenert() {
+        return onItemModifylistenert;
+    }
+
+    public void setOnItemModifylistenert(OnItemModifylistenert onItemModifylistenert) {
+        this.onItemModifylistenert = onItemModifylistenert;
+    }
+
+    public TipLayout getTipLayout() {
+        return tipLayout;
+    }
+
+    public void setTipLayout(TipLayout tipLayout) {
+        this.tipLayout = tipLayout;
+    }
+
+    public boolean isCustomData() {
+        return isCustomData;
+    }
+
+    public void setCustomData(boolean customData) {
+        isCustomData = customData;
     }
 }

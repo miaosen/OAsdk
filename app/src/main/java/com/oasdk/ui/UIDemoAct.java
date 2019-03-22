@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.oahttp.NetRequest;
+import com.oahttp.HttpRequest;
 import com.oahttp.callback.StringCallBack;
 import com.oasdk.R;
 import com.oasdk.base.BaseActivity;
@@ -91,7 +91,7 @@ public class UIDemoAct extends BaseActivity {
 
     private void sendByPost() {
         String url="http://wthrcdn.etouch.cn/weather_mini?citykey=101010100";
-        NetRequest request = new NetRequest(url);
+        HttpRequest request = new HttpRequest(url);
         request.setCallback(new StringCallBack() {
             @Override
             public void onSuccess(String text) {

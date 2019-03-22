@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.oaui.view.HeaderView android:layout_width="match_parent"
+                              app:leftText="返回"
+                              app:title="扫描物料二维码"
+                              android:layout_height="wrap_content">
+
+    </com.oaui.view.HeaderView>
+
+    <!--<com.journeyapps.barcodescanner.DecoratedBarcodeView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/zxing_barcode_scanner"-->
+        <!--app:zxing_preview_scaling_strategy="centerCrop"-->
+        <!--app:zxing_use_texture_view="false"/>-->
+
+
+</LinearLayout>

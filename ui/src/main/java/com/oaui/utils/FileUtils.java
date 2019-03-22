@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 /**
  * @author zms
- * @Created by gzpykj.com
+ * @Created by com.gzpykj.com
  * @Date 2016-3-21
  * @Descrition 文件操作工具类
  */
@@ -41,7 +41,7 @@ public class FileUtils {
      * @return 不存在则创建一个
      */
     public static boolean createDir(String path) {
-        if(!validate(path)){
+        if (!validate(path)) {
             return false;
         }
         File dirFile = new File(path);
@@ -82,18 +82,18 @@ public class FileUtils {
 
     public static File getOrCreateFile(String path) {
         String dirPath = path.substring(0, path.lastIndexOf("/"));
-        String name = path.substring( path.lastIndexOf("/"),path.length());
-        return getOrCreateFile(dirPath,name);
+        String name = path.substring(path.lastIndexOf("/"), path.length());
+        return getOrCreateFile(dirPath, name);
 
     }
 
-    public static File getOrCreateFile(String dir,String name) {
-        File dirFile=new File(dir);
-        if(!dirFile.exists()){
+    public static File getOrCreateFile(String dir, String name) {
+        File dirFile = new File(dir);
+        if (!dirFile.exists()) {
             dirFile.mkdirs();
         }
-        File file=new File(dir+"/"+name);
-        if(!file.exists()){
+        File file = new File(dir + "/" + name);
+        if (!file.exists()) {
             try {
                 boolean newFile = file.createNewFile();
             } catch (IOException e) {
@@ -191,9 +191,9 @@ public class FileUtils {
      * @return
      */
     public static String getAppDirPath() {
-        String dirPath=FileUtils.getSDCardPath() + AppUtils.getAppName();
-        File file= new File(dirPath);
-        if(!file.exists()){
+        String dirPath = FileUtils.getSDCardPath() + AppUtils.getAppName();
+        File file = new File(dirPath);
+        if (!file.exists()) {
             file.mkdirs();
         }
         return dirPath;
@@ -317,4 +317,16 @@ public class FileUtils {
     }
 
 
+    public static String toString(InputStream inputStream) {
+        try {
+            byte[] bytes = new byte[4096];
+            bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            String str = new String(bytes);
+            return str;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

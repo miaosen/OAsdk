@@ -5,6 +5,7 @@ import com.oaui.data.RowObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,13 +22,7 @@ public class JsonUtils {
      */
     public static boolean isValidateJson(String json) {
         try {
-            if (json.startsWith("{")) {
-                new JSONObject(json);
-            } else if (json.startsWith("[")) {
-                new JSONArray(json);
-            } else {
-                return false;
-            }
+            new JSONTokener(json);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +73,7 @@ public class JsonUtils {
     public static RowObject jsonToRow(String jsonStr) {
         RowObject row = new RowObject();
         if (isValidateJson(jsonStr)) {
-            if (jsonStr.startsWith("{")) {
+            if (isJsonObject(jsonStr)) {
                 try {
                     JSONObject jObject = new JSONObject(jsonStr);
                     jsonObjectToRow(row, jObject);
@@ -208,14 +203,21 @@ public class JsonUtils {
     }
 
     /**
-     * 判断字符串是否可以转Row
-     *
+     * 判断字符串是否为json格式
      * @param json
      * @return
      */
     public static boolean isCanToRow(String json) {
-        if (isValidateJson(json) && json.startsWith("{") && json.endsWith("}")) {
-            return true;
+        if(isValidateJson(json)){
+            try {
+                Object o = new JSONTokener(json).nextValue();
+                if(o instanceof JSONObject){
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
         return false;
     }

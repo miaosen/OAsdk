@@ -32,19 +32,14 @@
 
     </com.oaui.view.listview.DataListView>
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
     </android.support.v4.view.ViewPager>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="111"
-        app:title="列表"/>
 
 
 </LinearLayout>
