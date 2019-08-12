@@ -7,16 +7,16 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.EditText;
 
-import com.oahttp.HttpRequest;
-import com.oahttp.callback.StringCallBack;
-import com.oahttp.cookies.CookieManager;
-import com.oaui.IntentFactory;
-import com.oaui.L;
-import com.oaui.annotation.ViewInject;
-import com.oaui.utils.FileUtils;
-import com.oaui.utils.ViewUtils;
-import com.oaui.view.attachment.VideoRecordActivity;
-import com.oaui.view.tiplayout.TipLayout;
+import cn.oahttp.HttpRequest;
+import cn.oahttp.callback.StringCallBack;
+import cn.oahttp.cookies.CookieManager;
+import cn.oaui.IntentFactory;
+import cn.oaui.L;
+import cn.oaui.annotation.ViewInject;
+import cn.oaui.utils.FileUtils;
+import cn.oaui.utils.ViewUtils;
+import cn.oaui.view.attachment.VideoRecordActivity;
+import cn.oaui.view.tiplayout.TipLayout;
 
 import java.io.File;
 import java.io.IOException;

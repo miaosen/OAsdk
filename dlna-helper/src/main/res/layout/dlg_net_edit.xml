@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal"
+                  android:padding="10dp">
+
+
+        <TextView
+            style="@style/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="名称 :"
+        />
+
+        <EditText
+            style="@style/ed"
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:hint="名称"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="horizontal"
+              android:layout_weight="1"
+                  android:padding="10dp">
+
+
+        <TextView
+            style="@style/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:text="链接 :"
+        />
+
+        <EditText style="@style/ed"
+                  android:id="@+id/filePath"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:minHeight="300dp"/>
+
+    </LinearLayout>
+
+    <View style="@style/line_hz_grey_lt"/>
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <!---->
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/blue"
+            android:textSize="16sp"/>
+
+        <View
+            android:id="@+id/line_inbtn"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey_lt"/>
+
+        <Button
+            android:id="@+id/btn_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+        />
+    </LinearLayout>
+    <View style="@style/line_hz_grey_lt"/>
+</LinearLayout>

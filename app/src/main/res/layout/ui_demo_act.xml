@@ -4,13 +4,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-    <com.oaui.view.HeaderView
+    <cn.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="UI界面"
     />
 
-    <com.oaui.view.FlowLayout
+    <cn.oaui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"/>
-    </com.oaui.view.FlowLayout>
+    </cn.oaui.view.FlowLayout>
 
 
 </LinearLayout>

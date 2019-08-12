@@ -8,7 +8,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.oaui.view.HeaderView
+    <cn.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="网络请求"

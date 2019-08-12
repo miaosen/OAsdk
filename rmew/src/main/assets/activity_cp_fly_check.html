@@ -1,0 +1,515 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>模板</title>
+    <!--  <link href="default-ui-skin.css" rel="stylesheet" type="text/css">-->
+    <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+    <!--  <script type="text/javascript" src="myprint.js"></script>-->
+    <style>
+        table, tr, td {
+            padding: 0;
+            margin: 0;
+        }
+
+        #table {
+            border: 0px solid #000;
+            border-collapse: collapse;
+            cell-padding: 0;
+            cell-spacing: 0;
+            margin: 10px auto;
+            width: 100%;
+        }
+
+        .table tr td {
+            padding: 8px;
+
+        }
+
+        #table tr td {
+            border: 1px solid #000;
+            text-align: left;
+            text-valign: center;
+            padding: 8px;
+            word-break: break-all;
+        }
+
+        .tableNoBorder tr td {
+            text-valign: center;
+            padding: 3px;
+            word-break: break-all;
+        }
+
+    </style>
+</head>
+<body style="font-size:16px;background: white" id="body">
+<!-- <tbody>
+    <tr>
+        <td colspan="4"> -->
+<div align="center" style="margin-top: 80px;margin-bottom: 30px"><span
+        style="font-weight: bold; font-size: 18px;line-height: 20px;" id="title">广州市现场检查记录表
+            </span></div>
+<table id="table" cellpadding="5" cellspacing="0" border="1" bordercolor="black" width="780" align="center"
+       class="gridtable" style="border-color: black;">
+    <tbody>
+    <tr>
+        <td width="10%">被检查企业名称</td>
+        <td width="22%">
+            <span id="company_name"></span>
+        </td>
+        <td width="10%">许可证编号</td>
+        <td width="23%">
+            <span id="license_no"></span>
+        </td>
+    </tr>
+    <tr>
+        <td width="10%">企业地址</td>
+        <td colspan="3">
+            <span id="address"></span>
+        </td>
+    </tr>
+
+    <tr style="display: none" id="trCheckType">
+        <td>检查类别</td>
+        <td colspan="3">
+                    <input type="checkbox" name="check_method" id="check_method1" value="新开办"
+                               disabled="disabled"><label for="check_method1">新开办 </label>
+                    <input type="checkbox" name="check_method" id="check_method2" value="新建车间"
+                               disabled="disabled"><label for="check_method2">新建车间 </label>
+                    <input type="checkbox" name="check_method" id="check_method3" value="改建"
+                               disabled="disabled"><label for="check_method3">改建 </label>
+                    <input type="checkbox" name="check_method" id="check_method4" value="扩建"
+                               disabled="disabled"><label for="check_method4">扩建 </label>
+                <br>
+                    <input type="checkbox" name="check_method" id="check_method5" value="新增生产范围"
+                               disabled="disabled"><label for="check_method5">新增生产范围 </label>
+                    <input type="checkbox" name="check_method" id="check_method6" value="关键生产条件变更"
+                               disabled="disabled" ><label for="check_method6">关键生产条件变更 </label>
+                    <input type="checkbox" disabled="disabled"
+                               id="check_method7" value="remove:新开办,新建车间,改建,扩建,新增生产范围,关键生产条件变更">其他
+                      <span id="spanOther"></span>
+        </td>
+    </tr>
+    </tbody>
+
+    <tbody>
+    <tr>
+        <td width="10%">检查人员</td>
+        <td>
+            <span id="check_man"></span>
+            <img id="checker_sign" width="55px" height="55px" style="margin-left: 10px;display: none;" src=""/>
+        </td>
+        <td width="10%">检查时间</td>
+        <td>
+            <span id="begin_date"></span>
+        </td>
+    </tr>
+    <tbody>
+    <tr bgcolor="#D3EEFF" id="trItemTitle" style="display: none">
+        <td align="center" width="140px" style="text-align: center">检查内容</td>
+        <td align="center" style="text-align: center">检查项目</td>
+        <td align="center" width="70px" style="text-align: center">检查结果</td>
+        <td align="center" width="180px" style="text-align: center">备注</td>
+    </tr>
+    </tbody>
+    <tbody id="item">
+    </tbody>
+    <tr>
+        <td width="10%">基本情况</td>
+        <td colspan="3" style="text-align: left">
+            <span id="check_standard"></span></td>
+    </tr>
+    <tr>
+        <td width="10%">存在问题</td>
+        <td colspan="3" style="text-align: left">
+            <span id="illegal_facts"></span></td>
+    </tr>
+    <tr>
+        <td width="10%">检查结论</td>
+        <td colspan="3">
+            <span id="check_content"></span></td>
+    </tr>
+    <tr>
+        <td width="10%">企业负责人签名</td>
+        <td colspan="3">
+            <span id="company_sign"></span>
+            <img id="com_sign_pic" width="55px" height="55px" style="margin-left: 10px;display: none;" src=""/>
+        </td>
+    </tr>
+    <tr>
+        <td width="10%">审核人签名</td>
+        <td colspan="3">
+            <span id="self_check"></span>
+            <img id="auditor_sign" width="55px" height="55px" style="margin-left: 10px;display: none" src=""/>
+        </td>
+    </tr>
+    <tr>
+        <td>处理意见</td>
+        <td colspan="4">
+            <input type="radio" id="check_status5801" value="通过" disabled="disabled"
+                   name="check_status"><label for="check_status5801">通过 </label>
+            <input type="radio" id="check_status5802" value="限期整改" disabled="disabled"
+                   name="check_status"><label for="check_status5802">限期整改 </label>
+            <input type="radio" id="check_status5803" value="移送执法" disabled="disabled"
+                   name="check_status"><label for="check_status5803">移送执法 </label></td>
+    </tr>
+    <tbody id="rectify_span" class="">
+    <tr id="trHandleType" style="display: none">
+        <td>整改方式</td>
+        <td colspan="3">
+            <input type="radio" id="handle_type3241" value="形式审查" disabled="disabled"
+                   name="handle_type"><label for="handle_type3241">形式审查 </label>
+            <input type="radio" id="handle_type3242" value="现场检查" disabled="disabled"
+                   name="handle_type"><label for="handle_type3242">现场检查 </label></td>
+    </tr>
+    <tr id="trCheckStatic" style="display: none">
+        <td>整改期限</td>
+        <td>
+            <span id="rectify_enddate"></span>
+        </td>
+        <td>提醒天数</td>
+        <td>
+            <span id="rectify_day"></span>
+        </td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td width="10%">备注</td>
+        <td colspan="3">
+            <span id="remark"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+<script type="text/javascript">
+
+
+     /**
+     * 限期整改时显示整改时间和整改期限
+     */
+    function logicCheckStatic(checkDatil, trCheckStatic, trHandleType) {
+        if (checkDatil.check_status == '限期整改') {
+            trCheckStatic.show();
+            trHandleType.show();
+        }
+    }
+
+    /**
+     * 检查项大于0时显示标题栏
+     */
+    function logicItemTitle(item, trItemTitle) {
+        if (item.length > 0) {
+            trItemTitle.show();
+        }
+    }
+
+     /**
+      * 检查类型为省局委托时显示检查类别
+      * @param item
+      * @param trItemTitle
+      */
+     function showCheckType(checkDatil, trCheckType) {
+         if (checkDatil.record_type=="省局委托") {
+             trCheckType.show();
+         }
+     }
+
+    /**
+ * 通过元素id填充数据
+ * @param checkDatil
+ */
+function fillbyId(checkDatil) {
+    //遍历对象
+    for (var i in checkDatil) {
+        if (checkDatil.hasOwnProperty(i)) { //filter,只输出man的私有属性
+            var aa = i.trim();
+            //var name= $("[name='"+aa+"']");
+            //获取id以aa为开头的节点
+            var name = $("[id^=" + aa + "]");
+            console.log("aaa==", ":" + aa + "  value==" + checkDatil[i] + "   name===" + name.prop("tagName"));
+            if (name.prop("tagName") == "IMG") {
+                name.each(function (j) {
+                    console.log(j, ":" + name[0].type);
+                    console.log("prop===========", "prop===" + checkDatil[i]);
+                    var url;
+                    if (checkDatil[i].indexOf('/storage/emulated/0/') > -1) {
+                        url = checkDatil[i];
+                    } else {
+                        url = checkDatil.signHost + checkDatil[i];
+                    }
+                    $(this).attr('src', url);
+                    $(this).show();
+                });
+            } else if (name[0] != null) {
+                name.each(function (j) {
+                    if (name[j].type == 'checkbox'&&typeof(checkDatil[i]) != "undefined" ) {
+                        console.log(j, "===" + checkDatil[i]);
+                        var values = checkDatil[i].split(",");
+                        for (k = 0; k < values.length; k++) {
+                            var value = values[k];
+                            if ($(this).val() == value) {
+                                $(this).attr('checked', 'true');
+                            }
+                        }
+                    } else if (name[j].type == 'radio') {
+                        console.log(j, "===" + checkDatil[i]);
+                        if ($(this).val() == checkDatil[i]) {
+                            $(this).attr('checked', 'true');
+                        }
+                    } else if(name[j].id==aa){
+                        $(this).html(checkDatil[i]);
+                    }
+                });
+                //console.log(i, ":", checkDatil[i] + "====" + name[0].tagName + "  name==" + name[0].type);
+            }
+        }
+    }
+}
+/**
+ * 填充多选时，选中其他时显示其他的选项的文字描述
+ * @param checkbox
+ * @param span
+ * @param value 新开办,新建车间,改建,扩建,新增生产范围,关键生产条件变更     新开办,aaa,新建车间,
+ */
+function fillOtherCheckbox(checkbox, span, value) {
+    var valuesRemove= checkbox.val();
+    console.log("fillOtherCheckbox===========", ":", valuesRemove+ "====" +value );
+    if(valuesRemove.indexOf("remove:")>-1&&typeof(value)!="undefined"){
+        valuesRemove=valuesRemove.replace("remove:","");
+        var values = valuesRemove.split(",");
+        value=value+",";
+        //逐项移除，如果还有剩余则填充其他
+        console.log("valuesRemove====", ":", valuesRemove+ "====" +value );
+        for (k = 0; k < values.length; k++) {
+            value=value.replace(values[k]+",","");
+        }
+        if(value.length>0){
+            checkbox.attr('checked', 'true');
+            span.html(value.replace(",",""))
+        }
+    }
+
+}
+
+
+/**
+ * 打印列表
+ * @param element 位置节点
+ * @param tableItem 项的html布局
+ * @param listItem json数据，
+ */
+function printTable(element, tableItem, listItem) {
+    //遍历数组
+    var strAllitem = "";
+    for (var i = 0; i < listItem.length; i++) {
+        var oneRow = tableItem.toString().trim();
+        var dataItem = listItem[i];
+        for (var j in dataItem) {
+            if (dataItem.hasOwnProperty(j)) {
+                var key = "<div hidden>$" + j + "</div>";
+                if (oneRow.indexOf(key) > 0) {
+                    var aa = dataItem[j];
+                    oneRow = oneRow.replace(key, aa);
+                    ////console.log(j, ":", oneRow.indexOf(j));
+                }
+                //element.after(tableItem);
+                // //console.log(i, ":", checkDatil[i]);
+                // if ($("#" +aa) != null) {
+                //     $('#' + aa).html(dataItem[i]);
+                //     /*alert($('#' + aa));*/
+                //
+                //
+                // }
+            }
+            ;
+        }
+        strAllitem = strAllitem + oneRow;
+        // strAllitem = strAllitem + tableItem;
+    }
+    element.append(strAllitem);
+}
+
+
+function printTrNew(pageIndex) {
+    var a4Percent = 1.405;
+    var pageMargin = 33;//printshare设置页边距为normal时加这个这个长度
+    var scwidth = $("#body").parent()[0].offsetWidth + 16 + pageMargin;
+    console.log('scwidth========', scwidth);
+    var pageHeight = a4Percent * scwidth * pageIndex;
+    var errorRange = 70;//触发分页的距离的误差范围
+    var lastTr;
+    $('tr').each(function (i) {
+        //距离顶部高度
+        var trTop = $(this).offset().top;
+        console.log('i=====', i + "     trTop======" + trTop);
+
+        //当前行的高度
+        var trH = $(this)[0].offsetHeight;
+        var trW= $(this)[0].offsetWidth;
+//         if($(this).children('td').eq(2)!='undefined'){
+//                $(this).children('td').eq(2).html(trTop+"</br>"+trH+"</br>"+scwidth+"   "+trW)
+//           }
+
+        if ((trTop + trH + errorRange) >pageHeight&&trH+errorRange<pageHeight) {//开始分页
+            //打印分页的行的高度
+            var balnkTrHeight = 0;
+            // if(trH>(a4Percent * scwidth/3)||trTop>pageHeight){//TODO 拆成2行
+            //     balnkTrHeight= pageHeight - lastTr.offset().top+errorRange;
+            //     $(this).before("<tr> <td style='height: " +balnkTrHeight+ "px;border-left: none;border: 0px'></td></tr>");
+            // }else{
+            balnkTrHeight = pageHeight - trTop + errorRange;
+            $(this).before("<tr> <td style='height: " + balnkTrHeight + "px;border-left: none;border: 0px'></td></tr>");
+            // }
+            // if(pageIndex==1||pageIndex==2){
+            //     $("#company_name").html("1===   "+(trH>(a4Percent * scwidth/3))+"  2=="+(trTop>pageHeight)+"   balnkTrHeight===="+pageHeight);
+            // }
+            pageIndex = pageIndex + 1;
+            printTrNew(pageIndex);
+            return false;
+        }
+        lastTr = $(this);
+    });
+
+
+}
+
+
+function mergeTr() {
+    var lastText = "#@@#@@@";
+    var firstRowSpanTd;
+    var rowspanNum = 1;
+    $('tr').each(function (i) {
+        var $td = $(this).children('td');
+        var crText = $td.eq(0).text();
+        if (typeof(crText) != "undefined" && crText == lastText) {
+            rowspanNum = rowspanNum + 1;
+            firstRowSpanTd.attr("rowSpan", rowspanNum);
+            var offsetHeight1 = $td.eq(1)[0].offsetHeight;
+            $td.eq(0).hide();
+            var offsetHeight2 = $td.eq(1)[0].offsetHeight;
+            //保存原高度大小
+            if (offsetHeight1 > offsetHeight2) {
+                //  $td.eq(1).attr("height",offsetHeight2);
+            }
+        } else {
+            rowspanNum = 1;
+            firstRowSpanTd = $td.eq(0);
+        }
+        // console.log('lastText====', lastText + "   crText====" + crText + "   rowspanNum===" + rowspanNum);
+        lastText = crText;
+
+    });
+}
+
+//判断字符是否为空的方法
+function isEmpty(obj){
+    if(typeof obj == "undefined" || obj == null || obj == ""){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function setSubtitle(checkDatil, spanTitle, spanSubTitle) {
+    var subTitle;
+    var company_type = checkDatil.company_type;
+    if ('T01001' ==company_type ) {
+        subTitle = '（药品生产环节）';
+    } else  if ('T01003' ==company_type ) {
+    } else if ('T01002001' == company_type) {
+        subTitle = '（药品批发流通环节）';
+    } else if ('T01002002' == company_type) {
+        subTitle = '（药品零售连锁总部流通环节）';
+    }  else if ('T01002003' == company_type||'T01002004' == company_type) {
+        subTitle = '（药品零售环节）';
+    }  else if ('T05001' == company_type) {
+        subTitle = '（医疗器械生产环节）';
+    }  else if ('T05002' == company_type) {
+        subTitle = '（医疗器械经营流通环节）';
+    }  else if ('T02001' == company_type) {
+        subTitle = '（化妆品生产环节）';
+    }  else if ('T02002' == company_type) {
+        subTitle = '（化妆品经营环节）';
+    }   else if ('T03001' == company_type) {
+        subTitle = '（保健食品生产环节）';
+    }else if ('T03002' == company_type) {
+        subTitle = '（保健食品经营流通环节）'
+    }else if ('T04001' == company_type) {
+        subTitle = '（食品生产环节）';
+    } else if ('T04002' == company_type) {
+        subTitle = '（食品经营流通环节-食品流通）';
+    }else {
+        subTitle = '';
+    }
+    console.log('副标题========', subTitle + "   " + checkDatil.company_type);
+    if(!isEmpty(checkDatil.PRD_UNIT)){
+        spanTitle.html(checkDatil.PRD_UNIT);
+    }
+    if(spanSubTitle!=null){
+        spanSubTitle.html(subTitle);
+    }
+
+}
+/**
+ *  处理低版本浏览器没有startsWith方法问题
+ */
+if (typeof String.prototype.startsWith != 'function') {
+    String.prototype.startsWith = function (prefix){
+        return this.slice(0, prefix.length) === prefix;
+    };
+}
+
+
+    window.onload = function () {
+
+        var checkDatil={"main":{"company_name":"","license_no":"","address":"","check_man":"系统管理员","begin_date":"2019-06-28","check_num":"0","key_num":"0","common_num":"0","important_num":"0","pass_num":"0","unpass_num":"0","check_standard":"同意","illegal_facts":"","check_content":"","self_check":"系统管理员","check_status":"","self_check_date":"2019-06-28","remark":"","department_nolabel":"广州市食品药品监督管理局信息中心综合部","file_status":2,"company_type":"T04002","record_type":"飞行检查","check_method":"飞行检查","check_type":"T04002","attachment_key":"d8f6735568624ece942d77e23b02215f","check_man_ids":"admin","X":"23.139836","Y":"113.289055","EQ_IMEI":"863254033402289","APP_VERSION":110},"item":[]};
+        fillbyId(checkDatil.main);
+        logicCheckStatic(checkDatil.main, $("#trCheckStatic"), $("#trHandleType"));
+        var itemHtml = "<tr> <td align='center' width='80px'><div hidden>$ITEM_CLASS</div></td> <td style='text-align: left;vertical-align:center'><div hidden>$ITEM_NO</div> . <div hidden>$ITEM_NAME</div></td> <td align='center' width='70px'><div hidden>$RESULT</div></td> <td align='center' width='120px'><div style='min-height: 40px'><div hidden>$MEMO</div></div></td> </tr>";
+        printTable($("#item"), itemHtml, checkDatil.item);
+        logicItemTitle(checkDatil.item, $("#trItemTitle"));
+        showCheckType(checkDatil.main,$("#trCheckType"));
+        fillOtherCheckbox($("#check_method7"), $("#spanOther"), checkDatil.main.check_method);
+        // setTimeout(printPage(),1000);
+        setTimeout(function () {
+            printTrNew(1);
+            mergeTr();
+        }, 500);
+        var title='广州市';
+        var comapanyType='';
+        if(checkDatil.main.company_type.startsWith("T01001")){
+            comapanyType='药品生产企业';
+        }else  if(checkDatil.main.company_type.startsWith("T01002")){
+            comapanyType='药品经营企业';
+        }else  if(checkDatil.main.company_type.startsWith("T01003")||checkDatil.main.company_type.startsWith("T05003")){
+            comapanyType='医疗机构';
+        }else  if(checkDatil.main.company_type.startsWith("T05001")){
+            comapanyType='医疗器械生产';
+        }else  if(checkDatil.main.company_type.startsWith("T05002")){
+            comapanyType='医疗器械经营';
+        }else  if(checkDatil.main.company_type.startsWith("T04002")){
+            comapanyType='食品经营企业';
+        }else  if(checkDatil.main.company_type.startsWith("T04005")){
+            comapanyType='食用农产品';
+        }else  if(checkDatil.main.company_type.startsWith("T03001")){
+            comapanyType='保健食品生产企业';
+        }else  if(checkDatil.main.company_type.startsWith("T03002")){
+            comapanyType='保健食品经营企业';
+        }else  if(checkDatil.main.company_type.startsWith("T02001")){
+            comapanyType='化妆品生产企业';
+        }else  if(checkDatil.main.company_type.startsWith("T02002")){
+            comapanyType='化妆品经营企业';
+        }
+        $("#title").html(title+comapanyType+"现场检查记录表");
+        //printTable($("#item"),"<tr id=\"table_head\" > <td  width=\"10%\"style=\"text-align: center;\">检查内容</td> <td width=\"44%\"style=\"text-align: center;\">项目名称</td><td width=\"5%\"style=\"text-align: center;\">检查结果</td><td width=\"25%\"style=\"text-align: center;\">备注</td></tr>",itemdata)
+    }
+
+</script>
+</html>

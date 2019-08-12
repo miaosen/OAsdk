@@ -5,13 +5,13 @@ import android.widget.LinearLayout;
 
 import com.gzpykj.base.BaseActivity;
 import com.gzpykj.rmew.R;
-import com.oaui.L;
-import com.oaui.annotation.ViewInject;
-import com.oaui.data.RowObject;
-import com.oaui.form.Form;
-import com.oaui.utils.IntentUtils;
-import com.oaui.utils.ViewUtils;
-import com.oaui.view.TailView;
+
+import cn.oaui.annotation.ViewInject;
+import cn.oaui.data.RowObject;
+import cn.oaui.form.Form;
+import cn.oaui.utils.IntentUtils;
+import cn.oaui.utils.ViewUtils;
+import cn.oaui.view.TailView;
 
 /**
  * @author zengmiaosen
@@ -30,7 +30,8 @@ public class EditAct extends BaseActivity {
 
     @Override
     public void initConfig() {
-
+        //Object k,v;
+        //Node node = new Node(k, v);
     }
 
     @Override
@@ -40,13 +41,14 @@ public class EditAct extends BaseActivity {
 
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
-
     }
+
+
 
     @Override
     public void initData() {
         RowObject row = IntentUtils.getRow(getIntent(), ListAct.ROW_ITEM);
-        L.i("=========initData=============="+row);
+        //L.i("=========initData=============="+row);
         Form form=new Form(context);
         form.fill(row);
         ViewUtils.setClickable(ln_content,false);

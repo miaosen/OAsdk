@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.oaui.annotation.ViewInject;
-import com.oaui.view.HeaderView;
+import cn.oaui.annotation.ViewInject;
+import cn.oaui.view.HeaderView;
 
 import gzpykj.hzpqy.base.BaseActivity;
 import gzpykj.hzpqy.feed.FeedListActivity;

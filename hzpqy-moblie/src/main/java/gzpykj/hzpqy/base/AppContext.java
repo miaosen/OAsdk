@@ -3,10 +3,10 @@ package gzpykj.hzpqy.base;
 import android.app.Application;
 import android.os.StrictMode;
 
-import com.oahttp.ClientFactory;
-import com.oahttp.LogInterceptor;
-import com.oahttp.cookies.CookieManager;
-import com.oaui.UIGlobal;
+import cn.oahttp.ClientFactory;
+import cn.oahttp.LogInterceptor;
+import cn.oahttp.cookies.CookieManager;
+import cn.oaui.UIGlobal;
 
 import java.util.concurrent.TimeUnit;
 

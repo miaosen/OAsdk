@@ -9,15 +9,16 @@ import android.view.View;
 
 import com.gzpykj.base.BaseActivity;
 import com.gzpykj.rmew.R;
-import com.oaui.annotation.ViewInject;
-import com.oaui.data.RowObject;
-import com.oaui.form.FormUtils;
-import com.oaui.view.HeaderView;
-import com.oaui.view.dialog.FrameDialog;
-import com.oaui.view.listview.BaseFillAdapter;
-import com.oaui.view.listview.DataListView;
 
 import java.util.Map;
+
+import cn.oaui.annotation.ViewInject;
+import cn.oaui.data.RowObject;
+import cn.oaui.form.FormUtils;
+import cn.oaui.view.HeaderView;
+import cn.oaui.view.dialog.FrameDialog;
+import cn.oaui.view.listview.BaseFillAdapter;
+import cn.oaui.view.listview.DataListView;
 
 /**
  * @author zengmiaosen
@@ -85,7 +86,7 @@ public class ListAct extends BaseActivity {
         tv_senior_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> contentValue = FormUtils.getContentValues(dialogSearch);
+                Map<String, Object> contentValue = FormUtils.getContentMap(dialogSearch);
                 dataListView.addParam(contentValue);
                 dataListView.refresh();
                 dialogSearch.dismiss();

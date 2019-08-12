@@ -5,11 +5,11 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.oaui.view.HeaderView android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              app:title="列表">
+    <cn.oaui.view.HeaderView android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             app:title="列表">
 
-    </com.oaui.view.HeaderView>
+    </cn.oaui.view.HeaderView>
     <!-- <com.osui.view.listview.DataListView
          android:id="@+id/dataListView"
          android:layout_width="match_parent"
@@ -22,7 +22,7 @@
     <!-- app:url="http://gank.io/api/data/Android/15"-->
     <!-- app:url="http://gank.io/api/day/2015/08/07"-->
 
-    <com.oaui.view.listview.DataListView
+    <cn.oaui.view.listview.DataListView
         android:id="@+id/dataListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +30,9 @@
         app:itemLayout="@layout/ui_view_listview_item_2"
         app:url="http://gank.io/api/data/Android/7">
 
-    </com.oaui.view.listview.DataListView>
+    </cn.oaui.view.listview.DataListView>
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

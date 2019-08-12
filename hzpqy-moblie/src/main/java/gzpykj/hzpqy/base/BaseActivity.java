@@ -6,9 +6,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.oaui.annotation.InjectReader;
-import com.oaui.data.RowObject;
-import com.oaui.form.Form;
+import cn.oaui.annotation.InjectReader;
+import cn.oaui.data.RowObject;
+import cn.oaui.form.Form;
 
 /**
  * @author zengmiaosen

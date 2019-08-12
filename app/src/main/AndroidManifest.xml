@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.oasdk">
+          package="cn.oasdk">
 
     <!-- 数据读写权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -39,35 +39,35 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_mao"
         android:label="@string/app_name"
         android:theme="@style/appTheme"
-        android:name="com.oasdk.base.AppContext"
+        android:name=".base.AppContext"
        >
-        <activity android:name="com.oasdk.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.oaui.view.attachment.VideoRecordActivity"
+        <activity android:name="cn.oaui.view.attachment.VideoRecordActivity"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-        <activity android:name="com.oasdk.data.HttpDemoActivity" />
+        <activity android:name=".data.HttpDemoActivity" />
 
         <activity android:name="zxing.CaptureActivity" />
-        <activity android:name="com.oasdk.ui.UIDemoAct" />
-        <activity android:name="com.oasdk.ui.FormDemoAct" />
-        <activity android:name="com.oasdk.ui.TipLayoutDemoAct" />
-        <activity android:name="com.oasdk.ui.DialogDemoAct"
+        <activity android:name=".ui.UIDemoAct" />
+        <activity android:name=".ui.FormDemoAct" />
+        <activity android:name=".ui.TipLayoutDemoAct" />
+        <activity android:name=".ui.DialogDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-        <activity android:name="com.oasdk.ui.DataDemoAct"
+        <activity android:name=".ui.DataDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-        <activity android:name="com.oasdk.ui.RecordDemoAct"
+        <activity android:name=".ui.RecordDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-        <activity android:name="com.oasdk.ui.DatalistDemoAct"
+        <activity android:name=".ui.DatalistDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
-        <activity android:name="com.oasdk.ui.BaseViewDemoAct"
+        <activity android:name=".ui.BaseViewDemoAct"
                   android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan"/>
         <activity android:name=".wifi.WifiAct" />
         <!-- 蓝牙 -->

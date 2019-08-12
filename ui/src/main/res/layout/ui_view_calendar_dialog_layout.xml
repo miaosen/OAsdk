@@ -10,13 +10,13 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <com.oaui.view.calendar.CalendarLayout
+    <cn.oaui.view.calendar.CalendarLayout
         android:id="@+id/calendarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.oaui.view.calendar.CalendarLayout>
+    </cn.oaui.view.calendar.CalendarLayout>
 
-<!--    <com.oaui.view.calendar.DateView android:layout_width="match_parent"
+<!--    <DateView android:layout_width="match_parent"
                                      android:layout_height="wrap_content"/>-->
 
     <LinearLayout android:layout_width="match_parent"

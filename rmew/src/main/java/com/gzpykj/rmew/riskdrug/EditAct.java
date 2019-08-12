@@ -5,12 +5,13 @@ import android.widget.LinearLayout;
 
 import com.gzpykj.base.BaseActivity;
 import com.gzpykj.rmew.R;
-import com.oaui.annotation.ViewInject;
-import com.oaui.data.RowObject;
-import com.oaui.form.Form;
-import com.oaui.utils.IntentUtils;
-import com.oaui.utils.ViewUtils;
-import com.oaui.view.TailView;
+
+import cn.oaui.annotation.ViewInject;
+import cn.oaui.data.RowObject;
+import cn.oaui.form.Form;
+import cn.oaui.utils.IntentUtils;
+import cn.oaui.utils.ViewUtils;
+import cn.oaui.view.TailView;
 
 /**
  * @author zengmiaosen

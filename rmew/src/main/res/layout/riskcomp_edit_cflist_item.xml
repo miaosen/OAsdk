@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#bbbbbb"
+              android:id="@+id/item_record"
+              android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/VALID_DATE"
+        style="@style/ed_nobg" />
+
+    <TextView
+        android:id="@+id/FILE_NO"
+        style="@style/ed_nobg" />
+    <TextView
+        android:id="@+id/PUNISH_CONTENTS"
+        style="@style/ed_nobg" />
+    <TextView
+        android:id="@+id/PUNISH_REASON"
+        style="@style/ed_nobg" />
+
+</LinearLayout>

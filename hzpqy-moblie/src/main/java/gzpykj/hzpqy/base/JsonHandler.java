@@ -1,7 +1,7 @@
 package gzpykj.hzpqy.base;
 
-import com.oaui.data.RowObject;
-import com.oaui.utils.JsonUtils;
+import cn.oaui.data.RowObject;
+import cn.oaui.utils.JsonUtils;
 
 import java.io.Serializable;
 

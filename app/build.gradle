@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "com.oasdk"
+        applicationId "cn.oasdk"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -31,4 +31,5 @@ dependencies {
     compile project(':http')
     compile project(':ui')
     compile project(path: ':zxinglib')
+
 }

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+>
+
+
+    <RelativeLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:background="@color/blue">
+
+        <Button
+            android:id="@+id/leftBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:drawablePadding="0dp"
+            android:gravity="center"
+            android:minWidth="70dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/rightBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@null"
+            android:drawableRight="@mipmap/icon_menu"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+        />
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@id/rightBtn"
+            android:layout_toRightOf="@id/leftBtn"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="投屏助手"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+
+    </RelativeLayout>
+
+    <cn.oaui.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    >
+
+
+        <TextView
+            android:id="@+id/tv_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务端"
+            android:minWidth="100dp"
+            android:drawableRight="@mipmap/icon_jiantouxia01"
+            style="@style/btn_blue"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:text="投屏到→"
+            android:textStyle="bold"
+        />
+        <TextView
+            android:id="@+id/tv_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电视/盒子"
+            android:minWidth="100dp"
+            android:drawableRight="@mipmap/icon_jiantouxia01"
+            style="@style/btn_blue"
+        />
+
+        <TextView
+            android:id="@+id/tv_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"
+            android:visibility="gone"
+            android:minWidth="100dp"
+            android:drawableRight="@mipmap/icon_jiantouxia01"
+            style="@style/btn_blue"
+        />
+
+    </cn.oaui.view.FlowLayout>
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:layout_height="wrap_content">
+
+    <cn.oaui.view.CustomRadioGroup
+        android:id="@+id/crg_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:orientation="horizontal"
+
+    >
+
+        <RadioButton
+            android:id="@+id/rb_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="视频"
+            style="@style/rb_tab"
+        />
+        <View style="@style/line_vt_grey_lt"></View>
+
+        <RadioButton
+            android:id="@+id/rb_radio"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="音乐"
+            style="@style/rb_tab"
+        />
+        <View style="@style/line_vt_grey_lt"></View>
+
+        <RadioButton
+            android:id="@+id/rb_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="图片"
+            style="@style/rb_tab"
+        />
+        <View  style="@style/line_vt_grey_lt"></View>
+
+
+        <RadioButton
+            android:id="@+id/rb_net"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="网络"
+            style="@style/rb_tab"
+        />
+    </cn.oaui.view.CustomRadioGroup>
+    </LinearLayout>
+
+
+
+
+    <cn.oaui.view.ViewPagerForScrollView
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+
+    </cn.oaui.view.ViewPagerForScrollView>
+   <!-- <cn.oaui.view.listview.DataListView
+        android:id="@+id/dl_file"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoInvoke="false"
+        app:isEnablePage="false"
+        app:itemLayout="@layout/file_list_item"
+    >
+
+    </cn.oaui.view.listview.DataListView>-->
+
+
+</LinearLayout>

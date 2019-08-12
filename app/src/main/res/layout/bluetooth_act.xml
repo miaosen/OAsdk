@@ -5,11 +5,11 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.oaui.view.HeaderView android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              app:title="蓝牙通讯">
+    <cn.oaui.view.HeaderView android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             app:title="蓝牙通讯">
 
-    </com.oaui.view.HeaderView>
+    </cn.oaui.view.HeaderView>
 
     <View style="@style/line_hz_grey_lt"></View>
 
@@ -130,14 +130,14 @@
     <!-- app:url="http://gank.io/api/data/Android/15"-->
     <!-- app:url="http://gank.io/api/day/2015/08/07"-->
 
-    <com.oaui.view.listview.DataListView
+    <cn.oaui.view.listview.DataListView
         android:id="@+id/dataListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:autoInvoke="false"
         app:itemLayout="@layout/bluetooth_list_item">
 
-    </com.oaui.view.listview.DataListView>
+    </cn.oaui.view.listview.DataListView>
 
 
 

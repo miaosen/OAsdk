@@ -4,14 +4,14 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-    <com.oaui.view.HeaderView
+    <cn.oaui.view.HeaderView
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="返回"
         app:title="企业风险等级">
 
-    </com.oaui.view.HeaderView>
+    </cn.oaui.view.HeaderView>
 
 
     <LinearLayout
@@ -141,7 +141,7 @@
 
             />
             <EditText
-                android:id="@+id/Batch_number"
+                android:id="@+id/checkCount"
                 style="@style/ed_edit"
 
             />
@@ -159,7 +159,7 @@
 
             />
             <EditText
-                android:id="@+id/pro_Date"
+                android:id="@+id/rectificationCount"
                 style="@style/ed_edit"
 
             />
@@ -177,7 +177,7 @@
 
             />
             <EditText
-                android:id="@+id/validate"
+                android:id="@+id/penaltyCount"
                 style="@style/ed_edit"
 
             />
@@ -195,7 +195,7 @@
 
             />
             <EditText
-                android:id="@+id/city"
+                android:id="@+id/licenseCount"
                 style="@style/ed_edit"
 
             />
@@ -212,7 +212,7 @@
                 android:text="风险等级:"
 
             />
-           <com.oaui.view.CustomRadioGroup
+           <cn.oaui.view.CustomRadioGroup
                android:id="@+id/risk_level"
                android:layout_weight="1"
                android:layout_width="match_parent"
@@ -236,15 +236,15 @@
                    android:layout_height="wrap_content"/>
 
 
-           </com.oaui.view.CustomRadioGroup>
+           </cn.oaui.view.CustomRadioGroup>
         </LinearLayout>
         </LinearLayout>
-    <com.oaui.view.TailView
+    <cn.oaui.view.TailView
         android:id="@+id/tailView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:valueText="确定">
 
 
-    </com.oaui.view.TailView>
+    </cn.oaui.view.TailView>
 </LinearLayout>

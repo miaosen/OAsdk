@@ -1,20 +1,23 @@
 package com.gzpykj.rmew.riskcomp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gzpykj.base.BaseActivity;
 import com.gzpykj.base.Global;
 import com.gzpykj.base.JsonHandler;
 import com.gzpykj.rmew.R;
-import com.oahttp.HttpRequest;
-import com.oahttp.callback.StringCallBack;
-import com.oaui.annotation.ViewInject;
-import com.oaui.data.RowObject;
-import com.oaui.form.Form;
-import com.oaui.utils.IntentUtils;
-import com.oaui.utils.ViewUtils;
-import com.oaui.view.TailView;
+
+import cn.oahttp.HttpRequest;
+import cn.oahttp.callback.StringCallBack;
+import cn.oaui.annotation.ViewInject;
+import cn.oaui.data.RowObject;
+import cn.oaui.form.Form;
+import cn.oaui.utils.IntentUtils;
+import cn.oaui.utils.ViewUtils;
+import cn.oaui.view.FoldingLayout;
+import cn.oaui.view.TailView;
 
 /**
  * @author zengmiaosen
@@ -30,6 +33,11 @@ public class EditAct extends BaseActivity {
 
     @ViewInject
     TailView tailView;
+
+    @ViewInject
+    FoldingLayout fd_nclist,fd_cflist,fd_cylist,fd_tslist;
+
+
 
     @Override
     public void initConfig() {
@@ -55,10 +63,23 @@ public class EditAct extends BaseActivity {
         request.setCallback(new StringCallBack() {
             @Override
             public void onSuccess(String text) {
-                //L.i("=========onSuccess=============="+text);
                 JsonHandler jsonHandler=new JsonHandler(text);
                 Form form=new Form(context);
-                form.fill(jsonHandler.getAsRow().getRow("data").getRow("compay_info"));
+                RowObject data = jsonHandler.getAsRow().getRow("data");
+                form.fill(data.getRow("compay_info"));
+                form.fill(data);
+                if(data.getRows("nclist")!=null&&data.getRows("nclist").size()>0){
+                    fd_nclist.setVisibility(View.VISIBLE);
+                }
+                if(data.getRows("cflist")!=null&&data.getRows("cflist").size()>0){
+                    fd_cflist.setVisibility(View.VISIBLE);
+                }
+                if(data.getRows("cylist")!=null&&data.getRows("cylist").size()>0){
+                    fd_cylist.setVisibility(View.VISIBLE);
+                }
+                if(data.getRows("tslist")!=null&&data.getRows("tslist").size()>0){
+                    fd_tslist.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -69,7 +90,7 @@ public class EditAct extends BaseActivity {
         });
         request.send();
 
-        ViewUtils.setClickable(ln_content,false);
+        //ViewUtils.setClickable(ln_content,false);
         tailView.addTailItemListener("确定", new TailView.OnTailItemListener() {
             @Override
             public void onClickItem() {

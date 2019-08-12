@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="cn.oasdk.dlna">
+    <!-- 数据读写权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 网络连接 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!-- 系统弹窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- 调用摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 调用媒体播放器 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+
+
+    <!-- 摄像头 -->
+    <uses-feature android:name="android.hardware.camera"/>
+    <!-- 摄像头自动对焦 -->
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- 闪光灯 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!-- 震动 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>4
+
+    <!-- 蓝牙 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
+    <!-- 位置 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:name=".base.AppContext"
+        android:theme="@style/AppTheme">
+        <activity android:name=".main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+      <!--  <service android:name="cn.oasdk.dlna.upnp.service.UpnpDeviceService" >
+        </service>-->
+
+        <service android:name="org.fourthline.cling.android.AndroidUpnpServiceImpl"/>
+       <!-- <service android:name="cn.oasdk.dlna.test.BrowserUpnpService"/>-->
+    </application>
+
+
+</manifest>

@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.oaui.view.HeaderView
+    <cn.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="基础控件"
@@ -24,28 +24,62 @@
     >
 
 
-        <com.oaui.view.attachment.AttachmentView
+        <cn.oaui.view.attachment.AttachmentView
             android:id="@+id/attachmentView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <com.oaui.view.calendar.DateButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="选择日期"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+                      android:padding="8dp"
+                      android:orientation="horizontal"
+                      android:layout_height="wrap_content">
+            <TextView
+                style="@style/tv_edit"
+                android:text="名称:"
+            />
+            <EditText
+                style="@style/ed_edit"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/tv_edit"
+                android:text="时间:"
+            />
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cn.oaui.view.calendar.DateButton
+                    style="@style/btn_date"
+                    android:text="选择日期"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>
 
-    <com.oaui.view.TailView
+    <cn.oaui.view.TailView
         android:id="@+id/tailView"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         app:valueText="获取,填充"
     >
 
 
-    </com.oaui.view.TailView>
+    </cn.oaui.view.TailView>
 </LinearLayout>
     <!--</ScrollView>-->

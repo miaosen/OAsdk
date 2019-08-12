@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <cn.oaui.view.HeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        app:leftText="返回"
+        app:title="企业预警信息"
+        android:layout_height="wrap_content">
+
+    </cn.oaui.view.HeaderView>
+    <com.gzpykj.base.RecordWebView
+        android:id="@+id/recordWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+
+    </com.gzpykj.base.RecordWebView>
+
+
+
+</LinearLayout>

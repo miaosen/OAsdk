@@ -42,6 +42,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.gzpykj.rmew.riskmap.RiskCompanyMapAct"
+        />
+        <activity
             android:name="com.gzpykj.rmew.MainActivity"
         />
         <activity
@@ -80,6 +83,10 @@
         <activity
             android:name="com.gzpykj.rmew.comrisklv.EditAct"
         />
+<!--
+        <activity
+            android:name="RiskCompanyMapAct"
+        />-->
     </application>
 
 </manifest>

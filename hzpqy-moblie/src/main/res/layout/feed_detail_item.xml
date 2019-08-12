@@ -79,7 +79,7 @@
                     android:textSize="12dp"
                 />
             </LinearLayout>
-            <com.oaui.view.FlowLayout
+            <cn.oaui.view.FlowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -118,7 +118,7 @@
                     android:textSize="12dp"
                 />
 
-            </com.oaui.view.FlowLayout>
+            </cn.oaui.view.FlowLayout>
 
 
         </LinearLayout>

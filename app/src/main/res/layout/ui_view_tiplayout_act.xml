@@ -5,13 +5,13 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.oaui.view.HeaderView
+    <cn.oaui.view.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="提示布局"
     />
-    <com.oaui.view.FlowLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content">
+    <cn.oaui.view.FlowLayout android:layout_width="match_parent"
+                             android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/btn_refresh"
@@ -44,8 +44,8 @@
         />
 
 
-    </com.oaui.view.FlowLayout>
-    <com.oaui.view.tiplayout.TipLayout
+    </cn.oaui.view.FlowLayout>
+    <cn.oaui.view.tiplayout.TipLayout
         android:id="@+id/tipLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,6 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </com.oaui.view.tiplayout.TipLayout>
+    </cn.oaui.view.tiplayout.TipLayout>
 
 </LinearLayout>

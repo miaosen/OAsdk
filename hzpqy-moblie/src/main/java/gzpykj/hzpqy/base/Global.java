@@ -1,7 +1,7 @@
 package gzpykj.hzpqy.base;
 
-import com.oahttp.HttpRequest;
-import com.oaui.data.RowObject;
+import cn.oahttp.HttpRequest;
+import cn.oaui.data.RowObject;
 
 /**
  * @author zengmiaosen

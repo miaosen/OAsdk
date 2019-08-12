@@ -5,12 +5,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <com.oaui.view.HeaderView android:layout_width="match_parent"
-                              app:leftText="返回"
-                              app:title="扫描物料二维码"
-                              android:layout_height="wrap_content">
+    <cn.oaui.view.HeaderView android:layout_width="match_parent"
+                             app:leftText="返回"
+                             app:title="扫描物料二维码"
+                             android:layout_height="wrap_content">
 
-    </com.oaui.view.HeaderView>
+    </cn.oaui.view.HeaderView>
 
     <!--<com.journeyapps.barcodescanner.DecoratedBarcodeView-->
         <!--android:layout_width="match_parent"-->

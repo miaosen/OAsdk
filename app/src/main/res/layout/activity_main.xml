@@ -15,31 +15,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        android:orientation="vertical"
-        tools:context="com.oasdk.MainActivity">
+        android:orientation="vertical">
 
 
-        <com.oaui.view.HeaderView
+        <cn.oaui.view.HeaderView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:isHideLeft="true"
             app:title="办公sdk"
         />
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/grey_lt"
-                      android:padding="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UI"
-                android:textSize="20sp"
-            />
+        <cn.oaui.view.FoldingLayout
+            app:title="UI"
+            android:layout_width="match_parent"
+                                     android:layout_height="wrap_content">
 
-        </LinearLayout>
-        <com.oaui.view.FlowLayout
+
+
+        <cn.oaui.view.FlowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -95,21 +89,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="综合检查表"/>
-        </com.oaui.view.FlowLayout>
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/grey_lt"
-                      android:padding="8dp">
+        </cn.oaui.view.FlowLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="组件"
-                android:textSize="20sp"
-            />
+        </cn.oaui.view.FoldingLayout>
 
-        </LinearLayout>
-        <com.oaui.view.FlowLayout
+        <cn.oaui.view.FoldingLayout
+            app:title="组件"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <cn.oaui.view.FlowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -193,9 +183,15 @@
                 android:text="蓝牙"/>
 
 
-        </com.oaui.view.FlowLayout>
+            <Button
+                android:id="@+id/btn_dlna"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DLNA"/>
 
+        </cn.oaui.view.FlowLayout>
 
+</cn.oaui.view.FoldingLayout>
 
     </LinearLayout>
 

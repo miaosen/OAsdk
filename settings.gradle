@@ -1,1 +1,1 @@
-include ':app', ':http', ':ui', ':hzpqy-moblie', ':TvShow', ':zxinglib', ':rmew'
+include ':app', ':http', ':ui', ':hzpqy-moblie', ':zxinglib', ':rmew', ':dlna-helper'

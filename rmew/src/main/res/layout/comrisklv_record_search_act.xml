@@ -50,12 +50,12 @@
                 android:textSize="16sp" />
 
 
-                <com.oaui.view.CustomRadioGroup
+                <cn.oaui.view.CustomRadioGroup
                     android:id="@+id/riskLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.oaui.view.FlowLayout
+                    <cn.oaui.view.FlowLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -98,42 +98,13 @@
                             android:textColor="@color/text_color"
                             android:textSize="14sp" />
 
-                    </com.oaui.view.FlowLayout>
-                </com.oaui.view.CustomRadioGroup>
+                    </cn.oaui.view.FlowLayout>
+                </cn.oaui.view.CustomRadioGroup>
         </LinearLayout>
 
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:padding="8dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="抽样时间 :"
-                android:textSize="16sp" />
-
-            <com.oaui.view.calendar.DateButton
-                android:id="@+id/startDate"
-                android:layout_marginLeft="10dp"
-                style="@style/btn_date"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 至 " />
-
-            <com.oaui.view.calendar.DateButton
-                android:id="@+id/endDate"
-                style="@style/btn_date" />
-        </LinearLayout>
 
 
 

@@ -1,7 +1,7 @@
 package com.gzpykj.base;
 
-import com.oaui.data.RowObject;
-import com.oaui.utils.JsonUtils;
+import cn.oaui.data.RowObject;
+import cn.oaui.utils.JsonUtils;
 
 import java.io.Serializable;
 
@@ -17,6 +17,8 @@ public class JsonHandler implements Serializable {
     String context;
 
     RowObject rowObject;
+
+
 
     String message;
 

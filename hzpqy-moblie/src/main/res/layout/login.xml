@@ -77,7 +77,7 @@
             android:textSize="23dp"/>
 
 
-        <com.oaui.view.tiplayout.TipLayout
+        <cn.oaui.view.tiplayout.TipLayout
             android:id="@+id/tipLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text="登录"
                 android:textSize="20sp"/>
-        </com.oaui.view.tiplayout.TipLayout>
+        </cn.oaui.view.tiplayout.TipLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

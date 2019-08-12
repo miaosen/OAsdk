@@ -8,13 +8,13 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.oaui.view.HeaderView android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              app:title="药品流通监测系统">
+    <cn.oaui.view.HeaderView android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             app:title="药品流通监测系统">
 
-    </com.oaui.view.HeaderView>
+    </cn.oaui.view.HeaderView>
 
-    <com.oaui.view.FlowLayout
+    <cn.oaui.view.FlowLayout
         android:id="@+id/flowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +22,6 @@
     >
 
 
-    </com.oaui.view.FlowLayout>
+    </cn.oaui.view.FlowLayout>
 
 </LinearLayout>

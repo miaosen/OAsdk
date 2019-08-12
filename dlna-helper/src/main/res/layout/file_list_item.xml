@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingLeft="25dp"
+              android:paddingRight="25dp">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical"
+                  android:orientation="horizontal"
+                  android:paddingBottom="8dp"
+                  android:paddingTop="8dp"
+    >
+        <ImageView
+            android:id="@+id/img_file_type"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+        />
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:tag="name"
+                android:textSize="16dp"
+            />
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="大小："
+                    android:textSize="10dp"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="file_size"
+                    android:minWidth="60dp"
+                    android:textSize="10dp"
+                />
+
+                <LinearLayout
+                    android:id="@+id/ln_duration"
+                    android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="20dp"
+                              android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="长度："
+                        android:textSize="10dp"
+                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="duration"
+                        android:textSize="10dp"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        style="@style/line_hz_grey_lt"/>
+</LinearLayout>

@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.oaui.view.HeaderView
+    <cn.oaui.view.HeaderView
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         app:leftText="返回"
@@ -12,7 +12,7 @@
         app:title="问题药品流向"
         android:layout_height="wrap_content">
 
-    </com.oaui.view.HeaderView>
+    </cn.oaui.view.HeaderView>
     <com.gzpykj.base.RmewDataListView
         android:id="@+id/dataListView"
         android:layout_width="match_parent"

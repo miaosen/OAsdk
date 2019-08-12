@@ -116,12 +116,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.oaui.view.ViewPagerForScrollView
+    <cn.oaui.view.ViewPagerForScrollView
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
     >
 
-    </com.oaui.view.ViewPagerForScrollView>
+    </cn.oaui.view.ViewPagerForScrollView>
 
 </LinearLayout>

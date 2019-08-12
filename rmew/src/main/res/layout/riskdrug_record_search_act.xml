@@ -76,7 +76,7 @@
                 android:text="抽样时间 :"
                 android:textSize="16sp" />
 
-            <com.oaui.view.calendar.DateButton
+            <cn.oaui.view.calendar.DateButton
                 android:id="@+id/startDate"
                 android:layout_marginLeft="10dp"
                 style="@style/btn_date"/>
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:text=" 至 " />
 
-            <com.oaui.view.calendar.DateButton
+            <cn.oaui.view.calendar.DateButton
                 android:id="@+id/endDate"
                 style="@style/btn_date" />
         </LinearLayout>

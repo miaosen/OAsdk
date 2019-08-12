@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+  <TextView
+      android:id="@+id/tv_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="收回"
+        android:textColor="@color/blue"/>
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/icon_shouqi"/>
+
+   <!-- <View
+        style="@style/MyHorizontalLine"/>
+    <View
+        android:layout_marginTop="2dp"
+        style="@style/MyHorizontalLine"/>
+
+    <View
+        android:layout_marginTop="2dp"
+        style="@style/MyHorizontalLine"/>
+    <View
+        android:layout_marginTop="2dp"
+        style="@style/MyHorizontalLine"/>
+
+
+    <View
+        android:layout_marginTop="2dp"
+        style="@style/MyHorizontalLine"/>
+    <View
+        android:layout_marginTop="2dp"
+        style="@style/MyHorizontalLine"/>-->
+
+</LinearLayout>
