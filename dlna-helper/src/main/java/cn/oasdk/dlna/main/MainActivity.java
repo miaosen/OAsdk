@@ -345,7 +345,7 @@ public class MainActivity extends BaseActivity {
         //initFileDataListView();
 
     }
-    
+
 
 
     class MyPagerAdapter extends PagerAdapter {
