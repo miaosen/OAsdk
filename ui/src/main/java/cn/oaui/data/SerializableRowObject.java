@@ -1,6 +1,7 @@
 package cn.oaui.data;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  * @Created by com.gzpykj.com
@@ -15,10 +16,17 @@ public class SerializableRowObject implements Serializable {
 	
 	
 	private RowObject rowObject;
+
+	private LinkedList<RowObject> rows;
 	
 	public SerializableRowObject(RowObject rowObject){
 		setRowObject(rowObject);
 	}
+
+	public SerializableRowObject(LinkedList<RowObject> rows ){
+		setRows(rows);
+	}
+
 
 	public RowObject getRowObject() {
 		return rowObject;
@@ -28,4 +36,11 @@ public class SerializableRowObject implements Serializable {
 		this.rowObject = rowObject;
 	}
 
+	public LinkedList<RowObject> getRows() {
+		return rows;
+	}
+
+	public void setRows(LinkedList<RowObject> rows) {
+		this.rows = rows;
+	}
 }

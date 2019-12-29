@@ -7,22 +7,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.fourthline.cling.model.meta.Service;
-import org.fourthline.cling.model.types.UDAServiceType;
-import org.fourthline.cling.support.model.Res;
-import org.fourthline.cling.support.model.item.Item;
-
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.oahttp.HandlerQueue;
 import cn.oasdk.dlna.R;
-import cn.oasdk.dlna.dmc.DMCControl;
-import cn.oasdk.dlna.dmc.GenerateXml;
-import cn.oasdk.dlna.dmc.PlayerCallback;
-import cn.oasdk.dlna.dmc.SetAVTransportURIActionCallback;
-import cn.oasdk.dlna.dmc.StopCallback;
-import cn.oasdk.dlna.dms.DLNAService;
 import cn.oasdk.dlna.dms.MediaServer;
 import cn.oasdk.dlna.util.Utils;
 import cn.oaui.ImageFactory;
@@ -31,7 +19,6 @@ import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.RowObject;
 import cn.oaui.utils.FileUtils;
-import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
 import cn.oaui.view.listview.DataListView;
@@ -51,15 +38,18 @@ public class FileView extends CustomLayout {
     String curFilePath = FileUtils.getSDCardPath();
     List<String> listFilePath = new LinkedList<>();
 
-    static interface FILE_TYPE{
-        String VIDEO="video";
-        String RADIO="radio";
-        String IMAGE="image";
-        String NET="net";
+
+    OnFileClickListener onFileClickListener;
+
+    static interface FILE_TYPE {
+        String VIDEO = "video";
+        String RADIO = "radio";
+        String IMAGE = "image";
+        String NET = "net";
     }
 
 
-    String fileType="";
+    String fileType = "";
 
 
     public FileView(Context context) {
@@ -79,103 +69,65 @@ public class FileView extends CustomLayout {
                 String filePath = row.getString("filePath");
                 ImageView img_file_type = (ImageView) holder.views.get("img_file_type");
 
-                LinearLayout ln_duration= (LinearLayout) holder.views.get("ln_duration");
+                LinearLayout ln_duration = (LinearLayout) holder.views.get("ln_duration");
+                Long size;
+                TextView file_size = (TextView) holder.views.get("file_size");
                 if (row.getBoolean("isDir")) {//文件夹
                     img_file_type.setImageDrawable(getResources().getDrawable(R.mipmap.icon_folder));
                     ln_duration.setVisibility(GONE);
+                    size = row.getLong("file_size");
+
                 } else {//文件
                     img_file_type.setImageDrawable(getResources().getDrawable(R.mipmap.icon_file));
                     ImageFactory.loadImageCorner(img_file_type, filePath);
-                    TextView duration= (TextView) holder.views.get("duration");
+                    TextView duration = (TextView) holder.views.get("duration");
                     Long d = row.getLong("duration");
-                    if(d!=null){
-                        String s = Utils.formatDuration(d);
-                        duration.setText(s);
-                    }else{
-                        duration.setText("");
+
+                    size = row.getLong("_size");
+                    if (row.getString("type") != null &&
+                            (row.getString("type").equals("video") ||
+                                    row.getString("type").equals("radio"))) {
+                        if (d != null) {
+                            String s = Utils.formatDuration(d);
+                            duration.setText(s);
+                        } else {
+                            duration.setText("");
+                        }
+                        ln_duration.setVisibility(VISIBLE);
+                    } else {
+                        ln_duration.setVisibility(GONE);
+
                     }
-                    ln_duration.setVisibility(VISIBLE);
                 }
-                TextView file_size= (TextView) holder.views.get("file_size");
-                Long size = row.getLong("_size");
-                if(size!=null){
+                if (size != null) {
                     String s = FileUtils.formetFileSize(size);
                     file_size.setText(s);
-                }else{
+                } else {
                     file_size.setText("");
                 }
-
+                onItemModify(convertView, row, position, holder);
             }
         });
         dl_file.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View convertView, final RowObject row, int position) {
-                L.i("============onItemClick==========="+row);
+                L.i("============onItemClick===========" + row);
                 if (row.getBoolean("isDir")) {
                     String name = row.getString("name");
                     listFilePath.add(name);
                     curFilePath = curFilePath + name + "/";
                     showInPath(curFilePath);
                 } else {
-                    if (DLNAService.playerDevice != null) {
-                        try {
-                            final Service localService = DLNAService.playerDevice
-                                    .findService(new UDAServiceType("AVTransport"));
-                            if (localService != null && DLNAService.playerDevice != null) {
-                                DLNAService.upnpService.getControlPoint().execute(
-                                        new StopCallback(localService) {
-                                            @Override
-                                            public void onResult(String msg) {
-                                                try {
-                                                    Item curItem=null;
-                                                    if ("video".equals(row.getString("type"))) {
-                                                        curItem = MediaServer.buildVideoItem(row);
-                                                    } else if ("radio".equals(row.getString("type"))) {
-                                                        //curItem=MediaServer.buildPlaylistItem(rowsCur);
-                                                        curItem = MediaServer.buildRadioItem(row);
-                                                    } else if ("image".equals(row.getString("type"))) {
-                                                        curItem = MediaServer.buildImageItem(row);
-                                                    }
-                                                    List<Res> resources = curItem.getResources();
-                                                    String url = "";
-                                                    for (int i = 0; i < resources.size(); i++) {
-                                                        url = resources.get(i).getValue();
-                                                    }
-                                                    String generate = new GenerateXml().generate(curItem, null);
-                                                    DMCControl.setAvURL(new SetAVTransportURIActionCallback(localService,
-                                                            url, generate) {
-                                                        @Override
-                                                        public void onResult(String msg) {
-                                                            DMCControl.play(new PlayerCallback(localService) {
-                                                                @Override
-                                                                public void onResult(final String msg) {
-                                                                    HandlerQueue.onResultCallBack(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            ViewUtils.toast(msg);
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-                                                    }, curItem);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-                            } else {
-                                ViewUtils.toast("获取设备服务失败！");
-                            }
-                        } catch (Exception localException) {
-                            localException.printStackTrace();
-                        }
-                    } else {
-                        ViewUtils.toast("请先选择投屏设备！");
+                    if(onFileClickListener!=null){
+                        onFileClickListener.onFileClick(row);
                     }
                 }
             }
         });
+    }
+
+
+    public void onItemModify(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
     }
 
     @Override
@@ -189,14 +141,14 @@ public class FileView extends CustomLayout {
     }
 
     public void setFileType(String type) {
-        fileType=type;
-        if(type.equals(FILE_TYPE.VIDEO)){
+        fileType = type;
+        if (type.equals(FILE_TYPE.VIDEO)) {
             setRowsAndSort(MediaServer.rowsVideo);
-        }else if(type.equals(FILE_TYPE.RADIO)){
+        } else if (type.equals(FILE_TYPE.RADIO)) {
             setRowsAndSort(MediaServer.rowsRadio);
-        }else if(type.equals(FILE_TYPE.IMAGE)){
+        } else if (type.equals(FILE_TYPE.IMAGE)) {
             setRowsAndSort(MediaServer.rowsImage);
-        }else{
+        } else {
             setRows(MediaServer.rowsNet);
         }
     }
@@ -214,7 +166,7 @@ public class FileView extends CustomLayout {
 
 
     public void showInPath(String curFilePath) {
-        this.curFilePath=curFilePath;
+        this.curFilePath = curFilePath;
         dl_file.clearData();
         dl_file.addItems(sortAsRows(rows, curFilePath));
 
@@ -240,13 +192,12 @@ public class FileView extends CustomLayout {
                     nextFileName = nextFileName.substring(0, nextFileName.indexOf("/"));
                     row.put("name", nextFileName);
                     Long size = row.getLong("_size");
-                    if(tempRowDir.getRow(nextFileName)!=null&&tempRowDir.getRow(nextFileName).getLong("file_size")!=null){
-                        Long aLong = tempRowDir.getRow(nextFileName).getLong("file_size");
-                        size=size+aLong;
+                    if(size==null){
+                        size=0l;
                     }
-                    L.i("============sortAsRows==========="+row.getString("type"));
-                    if(row.getString("type").equals(MediaServer.FILE_TYPE.VIDEO)){
-                        L.i("============sortAsRows==========="+nextFileName+"   "+FileUtils.formetFileSize(size));
+                    if (tempRowDir.getRow(nextFileName) != null && tempRowDir.getRow(nextFileName).getLong("file_size") != null) {
+                        Long aLong = tempRowDir.getRow(nextFileName).getLong("file_size");
+                        size = size + aLong;
                     }
                     row.put("file_size", size);
                     row.put("isDir", true);
@@ -268,6 +219,11 @@ public class FileView extends CustomLayout {
         return tempRowsFile;
     }
 
+
+    public interface OnFileClickListener{
+        void onFileClick(RowObject row);
+    }
+
     public String getCurFilePath() {
         return curFilePath;
     }
@@ -286,5 +242,13 @@ public class FileView extends CustomLayout {
 
     public String getFileType() {
         return fileType;
+    }
+
+    public OnFileClickListener getOnFileClickListener() {
+        return onFileClickListener;
+    }
+
+    public void setOnFileClickListener(OnFileClickListener onFileClickListener) {
+        this.onFileClickListener = onFileClickListener;
     }
 }

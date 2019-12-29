@@ -16,8 +16,11 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import cn.oasdk.R;
-import cn.oasdk.dlna.base.BaseActivity;
+import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.RowObject;
@@ -29,9 +32,6 @@ import cn.oaui.view.dialog.extra.WindowTipDialog;
 import cn.oaui.view.listview.BaseFillAdapter;
 import cn.oaui.view.listview.DataListView;
 import cn.oaui.view.tiplayout.TipLayout;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import static android.bluetooth.BluetoothDevice.ACTION_PAIRING_REQUEST;
 

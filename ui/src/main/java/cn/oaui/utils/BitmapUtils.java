@@ -1,5 +1,6 @@
 package cn.oaui.utils;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ThumbnailUtils;
+import android.view.View;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -303,4 +305,62 @@ public class BitmapUtils {
         BitmapFactory.decodeFile(path, options);
         return options.outMimeType;
     }
+
+
+    /**
+     * view转bitmap
+     * @param v
+     * @return
+     */
+    public static Bitmap getBitmapFromView(View v) {
+        int w = v.getWidth();
+        int h = v.getHeight();
+
+        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+
+        c.drawColor(Color.WHITE);
+        /** 如果不设置canvas画布为白色，则生成透明 */
+
+        v.layout(0, 0, w, h);
+        v.draw(c);
+
+        return bmp;
+    }
+
+
+    /**
+     * 获取当前屏幕截图，不包含状态栏
+     *
+     * @param activity
+     * @return
+     */
+    public static Bitmap screenShotWithoutStatusBar(Activity activity) {
+        //通过window的源码可以看出：检索顶层窗口的装饰视图，可以作为一个窗口添加到窗口管理器
+        View view = activity.getWindow().getDecorView();
+        //SYSTEM_UI_FLAG_FULLSCREEN表示全屏的意思，也就是会将状态栏隐藏
+        //设置系统UI元素的可见性
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+        //启用或禁用绘图缓存
+        view.setDrawingCacheEnabled(true);
+        //创建绘图缓存
+        view.buildDrawingCache();
+        //拿到绘图缓存
+        Bitmap bitmap = view.getDrawingCache();
+
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        //状态栏高度
+        int statusBarHeight = frame.top;
+        int width = AppUtils.getScreenWidth();
+        int height = AppUtils.getScreenHeight();
+
+        Bitmap bp = null;
+//        bp = Bitmap.createBitmap(bitmap, 0, 0, width, height - statusBarHeight);
+        bp = Bitmap.createScaledBitmap(bitmap, width, height - statusBarHeight,true);
+        view.destroyDrawingCache();
+        view.setSystemUiVisibility(View.VISIBLE);
+        return bp;
+    }
+
 }

@@ -95,6 +95,10 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         super(context, attrs);
         init();
     }
+    public FrameDialog(Context context) {
+        super(context);
+
+    }
 
     @SuppressLint("NewApi")
     protected void init() {
@@ -102,21 +106,12 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         if(AppUtils.isFullScreen(getContext())){
             statusHeight=0;
         }
-
-        //if(screenWidth>screenHeight){
-        //    int temp=screenWidth;
-        //    screenWidth=screenHeight;
-        //    screenHeight=temp;
-        //    dialogMargin=screenWidth/10;
-        //}
         setShadow(true);
         setBorder();
         addView(dialogView);
-        //dialogView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         onInitDialog(dialogView);
         setClickShadowToDismiss();
         coverOnClickListener();
-        //getScreenSizeOfDevice2();
     }
 
     private void getScreenSizeOfDevice2() {
@@ -195,16 +190,7 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
                 measureChildren(widthMeasureSpec ,
                         heightMeasureSpec);
             }
-            //int w = MeasureSpec.getSize(widthMeasureSpec);
-            //int h = MeasureSpec.getSize(heightMeasureSpec);
-            //L.i("=========onMeasure=============="+w+"   "+h);
-            //if (isFillwidth) {
-            //    measureChildren(widthMeasureSpec,
-            //            heightMeasureSpec - (screenHeight - viewLocation[1]-statusHeight));
-            //} else {
-            //    measureChildren(widthMeasureSpec - viewLocation[0],
-            //            heightMeasureSpec - (screenHeight - viewLocation[1]-statusHeight));
-            //}
+
         } else if (showType == SHOW_TYPE.AS_DOWN) {
             if (isFillwidth) {
                 measureChildren(widthMeasureSpec,
@@ -256,15 +242,8 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         } else {// showType==SHOW_TYPE.FULL
             L.i("=========onLayout=============="+heightStart+"   "+childHeight);
         }
-        // if(modeWidth== MeasureSpec.EXACTLY){
-        // childAt.layout(widthStart, heightStart, screenWidth, heightStart +
-        // childHeight);
-        // }else{
         dialogView.layout(widthStart, heightStart, widthStart + childWidth,
                 heightStart + childHeight);
-        //borderView.layout(widthStart- borderWidth, heightStart- borderWidth, widthStart + childWidth+ borderWidth,
-        //        heightStart + childHeight+ borderWidth);
-        // }
 
     }
 
@@ -366,18 +345,10 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
                 dismiss();
                 return true;
             }
         });
-        // setOnClickListener(new View.OnClickListener() {
-        // @Override
-        // public void onClick(View v) {
-        // Logger.i("setClickShadowToDismiss=========================");
-        // dismiss();
-        // }
-        // });
     }
 
 

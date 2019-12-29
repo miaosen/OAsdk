@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -71,6 +72,7 @@ public class SignatureView extends CustomLayout {
 
 	private void initView() {
 		//注解查找View
+		setBackgroundColor(Color.parseColor("#ffffff"));
 		InjectReader.injectAllFields(this);
 		ln_color.setOnClickListener(new mClick());
 		ln_bold.setOnClickListener(new mClick());
@@ -163,5 +165,22 @@ public class SignatureView extends CustomLayout {
 
 	public void setOnSureListener(OnActionListener onSureListener) {
 		this.onSureListener = onSureListener;
+	}
+
+
+	public HuaBanView getHuaBan() {
+		return huaBan;
+	}
+
+	public void setHuaBan(HuaBanView huaBan) {
+		this.huaBan = huaBan;
+	}
+
+	public HeaderView getHeaderView() {
+		return headerView;
+	}
+
+	public void setHeaderView(HeaderView headerView) {
+		this.headerView = headerView;
 	}
 }

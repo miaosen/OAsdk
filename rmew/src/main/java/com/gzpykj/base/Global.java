@@ -12,8 +12,8 @@ import cn.oaui.data.RowObject;
 public class Global {
 
     //192.168.0.100   ,
-    public final static String HOST="http://192.168.1.177:8083/rmew";
-    //public final static String HOST ="http://47.97.191.166:8080/rmew";
+    //public final static String HOST="http://192.168.1.177:8083/rmew";
+    public final static String HOST ="http://47.97.191.166:8080/rmew";
 
 
     public static RowObject userInfo;

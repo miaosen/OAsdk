@@ -177,10 +177,8 @@ public class FormUtils {
             if (view instanceof ViewGroup) {
                 boolean firstCb = true;
                 List<View> allChildViews = getAllFormView(view);
-                //L.i("=========setContentValue aa=============="+allChildViews.size());
                 for (int i = 0; i < allChildViews.size(); i++) {
                     View view1 = allChildViews.get(i);
-                    //L.i("=========getContentValue aa==============");
                     if (view1 instanceof CheckBox) {
                         String text;
                         CheckBox cb = (CheckBox) view1;
@@ -212,6 +210,20 @@ public class FormUtils {
         return value;
     }
 
+
+    public static void setContentValues(View views, RowObject row) {
+        List<View> allChildViews = ViewUtils.getAllChildViews(views);
+        for (int i = 0; i < allChildViews.size(); i++) {
+            View view = allChildViews.get(i);
+            if(view.getId()>0){
+                String nameById = ResourceHold.getNameById(view.getId());
+                String value = row.getString(nameById);
+                if(StringUtils.isNotEmpty(nameById)&&StringUtils.isNotEmpty(value)){
+                    setContentValue(view,value);
+                }
+            }
+        }
+    }
 
     public static void setContentValue(View view, Object value) {
         if (view instanceof FormAdpater) {

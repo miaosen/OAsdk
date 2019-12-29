@@ -66,7 +66,7 @@ public class RowObject extends LinkedHashMap<String, Object> implements Serializ
     public Integer getInteger(String key) {
         Object obj = get(key);
         if (obj == null) {
-            return null;
+            return 0;
         }
         if (obj instanceof String) {
             return Double.valueOf((String) obj).intValue();
@@ -93,6 +93,7 @@ public class RowObject extends LinkedHashMap<String, Object> implements Serializ
         if (obj == null) {
             return null;
         }
+        //L.i("============getLong==========="+obj);
         if (obj instanceof String) {
             return Long.valueOf((String) obj).longValue();
         }

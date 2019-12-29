@@ -3,13 +3,16 @@ package cn.oasdk.dlna.dmc;
 
 import org.fourthline.cling.model.action.ActionInvocation;
 import org.fourthline.cling.model.message.UpnpResponse;
-import org.fourthline.cling.model.meta.Service;
+import org.fourthline.cling.model.types.UDAServiceType;
 import org.fourthline.cling.support.avtransport.callback.Stop;
+
+import cn.oasdk.dlna.dms.DLNAService;
 
 public abstract class StopCallback extends Stop {
 
-    public StopCallback(Service paramService) {
-        super(paramService);
+    public StopCallback() {
+        super(DLNAService.playerDevice
+                .findService(new UDAServiceType("AVTransport")));
     }
 
     public void failure(ActionInvocation paramActionInvocation, UpnpResponse paramUpnpResponse,

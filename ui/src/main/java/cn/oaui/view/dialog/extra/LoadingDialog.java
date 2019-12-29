@@ -1,9 +1,11 @@
 package cn.oaui.view.dialog.extra;
 
 import android.content.Context;
-import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
+import cn.oaui.R;
+import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.dialog.FrameDialog;
 
 /**
@@ -28,7 +30,15 @@ public class LoadingDialog extends FrameDialog {
         super(context, dialogLayout);
     }
 
-    public LoadingDialog(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public LoadingDialog(Context context) {
+        super(context);
+        dialogView= ViewUtils.inflatView(context, R.layout.ui_loading_dialog);
+        init();
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 }

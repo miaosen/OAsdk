@@ -66,7 +66,7 @@ public class TipHeadLayout extends CustomLayout {
     public void start(){
         error_in_head.setVisibility(View.GONE);
         header.setVisibility(View.VISIBLE);
-        tv_head.setText("下拉释放刷新");
+        tv_head.setText(refreshText);
     }
 
     public void error(){

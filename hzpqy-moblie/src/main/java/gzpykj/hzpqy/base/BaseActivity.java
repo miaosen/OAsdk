@@ -71,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if(form==null){
             form=new Form(this);
         }
-       return form.getContentValue();
+       return getContentValue();
     }
 
     public void setContentValue(RowObject rowObject){

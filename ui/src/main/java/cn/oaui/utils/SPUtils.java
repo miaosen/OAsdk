@@ -3,6 +3,7 @@ package cn.oaui.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,13 +90,45 @@ public class SPUtils {
         return editor.commit();
     }
 
+
+    /**
+     * RowObject转成json后保存为文本
+     * @param fileName
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean saveList(String fileName, String key, LinkedList<String> value){
+        SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String jsonString = JSONSerializer.toJSONString(value);
+        editor.putString(key, jsonString);
+        return editor.commit();
+    }
+
     /**
      * 获取json文本后转rowObject
      * @param fileName
      * @param key
      * @return
      */
-    public static List<RowObject> getRows(String fileName, String key){
+    public static List<String> getList(String fileName, String key){
+        SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        String string = preferences.getString(key, "");
+        if(string.startsWith("[")){
+            return  JSONSerializer.JSONToObject(string, List.class);
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * 获取json文本后转rowObject
+     * @param fileName
+     * @param key
+     * @return
+     */
+    public static LinkedList<RowObject> getRows(String fileName, String key){
         SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         String string = preferences.getString(key, "");
         if(JsonUtils.isCanToRows(string)){

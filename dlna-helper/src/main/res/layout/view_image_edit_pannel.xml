@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/headerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#50000000"
+    android:gravity="right"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/img_edit_pannel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/icon_edit" />
+
+
+</LinearLayout>

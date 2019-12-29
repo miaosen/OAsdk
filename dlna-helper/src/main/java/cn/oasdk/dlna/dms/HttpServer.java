@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Enumeration;
@@ -69,14 +68,18 @@ public class HttpServer {
             System.out.println("  UPLOADED: '" + value + "' = '" +
                     files.getProperty(value) + "'");
         }
-
-        //Map uri to acture file in ContentTree
-        //uri=URLDecoder.decode(uri);
-        L.i("============serve==========="+ URLDecoder.decode(uri));
         String mediaId = uri.replaceFirst("/", "");
-        String filePathById = MediaServer.getFilePathById(mediaId);
-        if (StringUtils.isNotEmpty(filePathById)) {
-            uri =filePathById;
+
+
+        String filePath = MediaServer.serverInflat.get(mediaId);
+        L.i("============serve==========="+filePath);
+        if (StringUtils.isNotEmpty(filePath)) {
+            uri =filePath;
+        }else{
+            String filePathById = MediaServer.getFilePathById(mediaId);
+            if (StringUtils.isNotEmpty(filePathById)) {
+                uri =filePathById;
+            }
         }
         return serveFile(uri, header, myRootDir, false);
     }

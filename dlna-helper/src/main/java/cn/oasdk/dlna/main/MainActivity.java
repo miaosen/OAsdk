@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ import org.fourthline.cling.model.meta.LocalDevice;
 import org.fourthline.cling.model.meta.RemoteDevice;
 import org.fourthline.cling.registry.DefaultRegistryListener;
 import org.fourthline.cling.registry.Registry;
+import org.fourthline.cling.support.model.Res;
+import org.fourthline.cling.support.model.item.Item;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,13 +33,18 @@ import java.util.Map;
 import cn.oahttp.HandlerQueue;
 import cn.oasdk.dlna.R;
 import cn.oasdk.dlna.base.BaseActivity;
+import cn.oasdk.dlna.dmc.DMCControl;
+import cn.oasdk.dlna.dmc.PlayerCallback;
 import cn.oasdk.dlna.dms.DLNAService;
+import cn.oasdk.dlna.dms.FileServer;
+import cn.oasdk.dlna.dms.MediaServer;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.JSONSerializer;
 import cn.oaui.data.RowObject;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.JsonUtils;
+import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.CustomRadioGroup;
 import cn.oaui.view.ViewPagerForScrollView;
 import cn.oaui.view.dialog.FrameDialog;
@@ -48,19 +56,25 @@ import cn.oaui.view.tiplayout.TipLayout;
 
 import static cn.oasdk.dlna.dms.DLNAService.serviceDevice;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements FileView.OnFileClickListener{
 
 
     @ViewInject
-    TextView title;
+    ControlView controlView;
 
     //设备选择框
     FrameDialog fdl_player_device, fdl_sevice_device;
 
     DataListView dlv_player_device, dlv_sevice_device;
+    RowObject rowNodata=new RowObject();
+
+
 
     @ViewInject
     TextView tv_service, tv_player, tv_settings;
+
+    @ViewInject
+    LinearLayout ln_header;
 
     @ViewInject
     CustomRadioGroup crg_type;
@@ -79,7 +93,7 @@ public class MainActivity extends BaseActivity {
     FileView videoView;
     FileView radioView;
     FileView imageView;
-    NetView netView;
+    FavoritesView netView;
 
 
     @Override
@@ -126,6 +140,10 @@ public class MainActivity extends BaseActivity {
                             RowObject rowObject = JsonUtils.jsonToRow(jsonString);
                             rowObject.put("device", device);
                             dlv_player_device.removeItem(rowObject);
+                            List<RowObject> rows = dlv_player_device.getFillApdater().getRows();
+                            if(rows.size()==0){
+                                dlv_player_device.addItem(rowNodata);
+                            }
                         }
                     });
                 }
@@ -156,9 +174,19 @@ public class MainActivity extends BaseActivity {
                             RowObject rowObject = JsonUtils.jsonToRow(jsonString);
                             rowObject.put("device", device);
                             dlv_player_device.addItem(rowObject);
+                            List<RowObject> rows = dlv_player_device.getFillApdater().getRows();
+                            if(rows.contains(rowNodata)){
+                                rows.remove(rowNodata);
+                            }
                         }
                     });
                 }
+            }
+
+            @Override
+            protected void finalize() throws Throwable {
+                //super.finalize();
+                L.i("============finalize===========");
             }
         }, MainActivity.this, handler);
     }
@@ -188,7 +216,7 @@ public class MainActivity extends BaseActivity {
         tv_player.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fdl_player_device.showAsDown(tv_player);
+                fdl_player_device.showAsDown(ln_header);
             }
         });
         tv_service.setOnClickListener(new View.OnClickListener() {
@@ -222,16 +250,18 @@ public class MainActivity extends BaseActivity {
                 viewPager.setCurrentItem(showIndex +3);
             }
         });
-        tv_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+
+        //tv_settings.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
                 //curFilePath = FileUtils.getSDCardPath();
                 //dl_file.clearData();
                 //listFilePath.clear();
                 ////rowsCur = StringUtils.deepCopyObject(MediaServer.rowsImage);
-                //dl_file.addItems(sortAsRows(MediaServer.rowsImage, curFilePath));
-            }
-        });
+                //dl_file.addItems(sortRows(MediaServer.rowsImage, curFilePath));
+            //}
+        //});
 
 
     }
@@ -240,7 +270,11 @@ public class MainActivity extends BaseActivity {
         videoView = new FileView(context);
         radioView = new FileView(context);
         imageView = new FileView(context);
-        netView = new NetView(context);
+        videoView.setOnFileClickListener(this);
+        radioView.setOnFileClickListener(this);
+        imageView.setOnFileClickListener(this);
+        netView = new FavoritesView(context);
+        netView.setOnFileClickListener(this);
         mapFgmView.put(showIndex, videoView);
         mapFgmView.put(showIndex + 1, radioView);
         mapFgmView.put(showIndex + 2, imageView);
@@ -251,27 +285,28 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
-
             @Override
             public void onPageSelected(final int position) {
                 L.i("============onPageSelected===========" + position);
-                FileView view = (FileView) mapFgmView.get(position);
+                View view = mapFgmView.get(position);
                 if (view != null) {
-                    String type = view.getFileType();
-                    if (type.equals(FileView.FILE_TYPE.VIDEO)) {
-                        crg_type.setCheck("视频");
-                    } else if (type.equals(FileView.FILE_TYPE.RADIO)) {
-                        crg_type.setCheck("音乐");
-                    } else if (type.equals(FileView.FILE_TYPE.IMAGE)) {
-                        crg_type.setCheck("图片");
-                    } else if (type.equals(FileView.FILE_TYPE.NET)) {
-                        crg_type.setCheck("网络");
+                    if(view instanceof FileView){
+                      FileView fileView= (FileView) view;
+                        String type = fileView.getFileType();
+                        if (type.equals(FileView.FILE_TYPE.VIDEO)) {
+                            crg_type.setCheck("视频");
+                        } else if (type.equals(FileView.FILE_TYPE.RADIO)) {
+                            crg_type.setCheck("音乐");
+                        } else if (type.equals(FileView.FILE_TYPE.IMAGE)) {
+                            crg_type.setCheck("图片");
+                        }
+                    }else if(view instanceof FavoritesView){
+                        crg_type.setCheck("收藏");
                     } else {
                         crg_type.setCheck("视频");
                     }
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -285,6 +320,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        FileServer.scanFile(FileUtils.getSDCardPath());
         //服务设备弹窗
         fdl_sevice_device = new FrameDialog(context, R.layout.device_list_view);
         dlv_sevice_device = (DataListView) fdl_sevice_device.findViewById(R.id.dataListView);
@@ -292,10 +328,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 dlv_sevice_device.clearData();
-                dlv_sevice_device.endRefresh();
                 DLNAService.reSearchDevice();
                 DLNAService.upnpService.getRegistry()
                         .addDevice(DLNAService.serviceDevice);
+                dlv_sevice_device.endRefresh();
             }
 
             @Override
@@ -316,6 +352,7 @@ public class MainActivity extends BaseActivity {
 
         //投屏设备弹窗
         fdl_player_device = new FrameDialog(context, R.layout.device_list_view);
+
         dlv_player_device = (DataListView) fdl_player_device.findViewById(R.id.dataListView);
         dlv_player_device.setOnTipListener(new TipLayout.OnTipListener() {
             @Override
@@ -323,21 +360,24 @@ public class MainActivity extends BaseActivity {
                 dlv_player_device.clearData();
                 dlv_player_device.endRefresh();
                 DLNAService.reSearchDevice();
-
             }
-
             @Override
             public void onLoadMore() {
             }
         });
+
+        rowNodata.put("friendlyName","暂无设备");
+        dlv_player_device.addItem(rowNodata);
         dlv_player_device.setEnableLoadMore(false);
         dlv_player_device.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View convertView, RowObject row, int position) {
                 Device device = (Device) row.get("device");
+                L.i("============onItemClick==========="+device);
                 DLNAService.playerDevice = device;
                 tv_player.setText(row.getString("friendlyName"));
                 fdl_player_device.dismiss();
+
             }
         });
         //fdl_player_device.showAsDown(tv_player);
@@ -346,6 +386,43 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onFileClick(final RowObject row) {
+        if (DLNAService.playerDevice != null) {
+            Item curItem = null;
+            if ("video".equals(row.getString("type"))||FavoritesView.ITEM_TYPE.equals(row.getString("type"))) {
+                curItem = MediaServer.buildVideoItem(row);
+            } else if ("radio".equals(row.getString("type"))) {
+                //curItem=MediaServer.buildPlaylistItem(rowsCur);
+                curItem = MediaServer.buildRadioItem(row);
+            } else if ("image".equals(row.getString("type"))) {
+                curItem = MediaServer.buildImageItem(row);
+            }
+            List<Res> resources = curItem.getResources();
+            String url = "";
+            for (int i = 0; i < resources.size(); i++) {
+                url = resources.get(i).getValue();
+            }
+            DMCControl.stopAndPaly(new PlayerCallback() {
+                @Override
+                public void onResult(final String msg) {
+                    HandlerQueue.onResultCallBack(new Runnable() {
+                        @Override
+                        public void run() {
+                            ViewUtils.toast(msg);
+                            if(msg.equals(PlayerCallback.SUCCESS_TIP)
+                                    &&!"net_video".equals(row.getString("type"))){
+                                controlView.start(row);
+                            }
+                        }
+                    });
+                }
+            },curItem,url);
+        } else {
+            ViewUtils.toast("请先选择投屏设备！");
+            fdl_player_device.showAsDown(ln_header);
+        }
+    }
 
 
     class MyPagerAdapter extends PagerAdapter {
@@ -367,10 +444,9 @@ public class MainActivity extends BaseActivity {
         //对显示的资源进行初始化
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            FileView view = (FileView) mapFgmView.get(position);
+            View view = mapFgmView.get(position);
             if (view != null) {
                 container.removeView(view);
-                //L.i("============instantiateItem===========" + view.getFileType()+"   " + position + "   " + viewPager.getCurrentItem());
                 container.addView(view);
             }
             return view;
@@ -380,19 +456,21 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        int currentItem = viewPager.getCurrentItem();
-        FileView view = (FileView) mapFgmView.get(currentItem);
-        String curFilePath=view.getCurFilePath();
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && !curFilePath.equals(FileUtils.getSDCardPath())) {
-            curFilePath = FileUtils.getSDCardPath();
-            List<String> listFilePath = view.getListFilePath();
-            for (int i = 0; i < listFilePath.size() - 1; i++) {
-                String name = listFilePath.get(i);
-                curFilePath = curFilePath + name + "/";
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            int currentItem = viewPager.getCurrentItem();
+            FileView view = (FileView) mapFgmView.get(currentItem);
+            String curFilePath=view.getCurFilePath();
+            if( !curFilePath.equals(FileUtils.getSDCardPath())){
+                curFilePath = FileUtils.getSDCardPath();
+                List<String> listFilePath = view.getListFilePath();
+                for (int i = 0; i < listFilePath.size() - 1; i++) {
+                    String name = listFilePath.get(i);
+                    curFilePath = curFilePath + name + "/";
+                }
+                listFilePath.remove(listFilePath.size() - 1);
+                view.showInPath(curFilePath);
+                return false;
             }
-            listFilePath.remove(listFilePath.size() - 1);
-            view.showInPath(curFilePath);
-            return false;
         } else if (keyCode == KeyEvent.KEYCODE_BACK){
             TipDialog tipDialog = new TipDialog(context);
             tipDialog.setTitle("提示");

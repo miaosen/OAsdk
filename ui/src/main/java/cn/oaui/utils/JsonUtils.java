@@ -124,8 +124,8 @@ public class JsonUtils {
      * @param jsonStr
      * @return
      */
-    public static List<RowObject> jsonToRows(String jsonStr) {
-        List<RowObject> rows = new LinkedList<RowObject>();
+    public static LinkedList<RowObject> jsonToRows(String jsonStr) {
+        LinkedList<RowObject> rows = new LinkedList<RowObject>();
         if (isJSONArray(jsonStr)) {
             try {
                 JSONArray jArray = new JSONArray(jsonStr);

@@ -1,14 +1,14 @@
 package cn.oasdk.ui;
 
+import java.util.List;
+
 import cn.oasdk.R;
-import cn.oasdk.dlna.base.BaseActivity;
+import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.RowObject;
 import cn.oaui.view.TailView;
 import cn.oaui.view.attachment.AttachmentView;
-
-import java.util.List;
 
 /**
  * @author zengmiaosen

@@ -7,13 +7,13 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.oaui.R;
 import cn.oaui.data.RowObject;
+import cn.oaui.view.listview.BaseFillAdapter;
 
 
 /**
@@ -41,7 +41,7 @@ public class FlowLayout extends ViewGroup {
 
     int paddingLeft, paddingTop, paddingRight, paddingBottom;
 
-    BaseAdapter adapter;
+    BaseFillAdapter adapter;
 
     OnItemClickListener onItemClickListener;
 
@@ -198,15 +198,15 @@ public class FlowLayout extends ViewGroup {
             int li = (int) rowObject.get("line");
             //L.i("=========onLayout==============" + x);
             child.layout(x, y, w, h);
-            final int finalI = i;
-            if (onItemClickListener != null) {
-                child.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onItemClickListener.onItemClick(finalI);
-                    }
-                });
-            }
+            //final int finalI = i;
+            //if (onItemClickListener != null) {
+            //    child.setOnClickListener(new OnClickListener() {
+            //        @Override
+            //        public void onClick(View v) {
+            //            onItemClickListener.onItemClick(finalI);
+            //        }
+            //    });
+            //}
         }
     }
 
@@ -263,7 +263,7 @@ public class FlowLayout extends ViewGroup {
         }
     };
 
-    public void setAdapter(BaseAdapter adapter) {
+    public void setAdapter(BaseFillAdapter adapter) {
         if (this.adapter == null) {
             adapter.registerDataSetObserver(mObserver);
         }
@@ -276,16 +276,6 @@ public class FlowLayout extends ViewGroup {
         this.removeAllViews();
         for (int i = 0; i < adapter.getCount(); i++) {
             View v = adapter.getView(i, null, null);
-            final int finalI = i;
-            //L.i("=========setAdapter==============v" + v);
-            v.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(finalI);
-                    }
-                }
-            });
             addView(v);
         }
     }

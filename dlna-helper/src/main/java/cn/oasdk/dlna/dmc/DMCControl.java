@@ -7,6 +7,8 @@ import org.fourthline.cling.model.meta.Service;
 import org.fourthline.cling.model.types.UDAServiceType;
 import org.fourthline.cling.support.avtransport.callback.GetPositionInfo;
 import org.fourthline.cling.support.avtransport.callback.GetTransportInfo;
+import org.fourthline.cling.support.avtransport.callback.Pause;
+import org.fourthline.cling.support.avtransport.callback.Seek;
 import org.fourthline.cling.support.model.Res;
 import org.fourthline.cling.support.model.item.Item;
 
@@ -84,12 +86,29 @@ public class DMCControl {
 
     public static void play(PlayerCallback playerCallback) {
         try {
-            Service localService = DLNAService.playerDevice
+            DLNAService.upnpService.getControlPoint().execute(
+                    playerCallback);
+        } catch (Exception localException) {
+            localException.printStackTrace();
+        }
+    }
+
+    public static void pause(Pause pause) {
+        try {
+            DLNAService.upnpService.getControlPoint().execute(
+                    pause);
+        } catch (Exception localException) {
+            localException.printStackTrace();
+        }
+    }
+
+
+    public static void stop(StopCallback stopCallback) {
+        try {
+            final Service localService = DLNAService.playerDevice
                     .findService(new UDAServiceType("AVTransport"));
-            if (localService != null) {
-                L.i("start play");
-                DLNAService.upnpService.getControlPoint().execute(
-                        playerCallback);
+            if (localService != null && DLNAService.playerDevice != null) {
+                DLNAService.upnpService.getControlPoint().execute(stopCallback);
             } else {
                 Log.e("null", "null");
             }
@@ -104,15 +123,9 @@ public class DMCControl {
      */
     public static void setMute(SetMuteCalllback setMuteCalllback) {
         try {
-            Service localService = DLNAService.playerDevice
-                    .findService(new UDAServiceType("RenderingControl"));
-            if (localService != null) {
-                ControlPoint localControlPoint = DLNAService.upnpService
-                        .getControlPoint();
-                localControlPoint.execute(setMuteCalllback);
-            } else {
-                L.i("============投屏设备服务为空===========");
-            }
+            ControlPoint localControlPoint = DLNAService.upnpService
+                    .getControlPoint();
+            localControlPoint.execute(setMuteCalllback);
         } catch (Exception localException) {
             localException.printStackTrace();
         }
@@ -121,16 +134,42 @@ public class DMCControl {
 
     public static void getPositionInfo(GetPositionInfo getPositionInfo) {
         try {
-            Service localService = DLNAService.playerDevice
-                    .findService(new UDAServiceType("AVTransport"));
-            if (localService != null) {
-                DLNAService.upnpService.getControlPoint().execute(
-                        getPositionInfo);
-            } else {
-            }
+            DLNAService.upnpService.getControlPoint().execute(
+                    getPositionInfo);
         } catch (Exception localException) {
             localException.printStackTrace();
         }
     }
+
+    public static void seek(Seek seek) {
+        try {
+            DLNAService.upnpService.getControlPoint().execute(
+                    seek);
+        } catch (Exception localException) {
+            localException.printStackTrace();
+        }
+    }
+
+    public static void stopAndPaly(final PlayerCallback playerCallback, final Item curItem, final String url) {
+        stop(new StopCallback() {
+            @Override
+            public void onResult(String msg) {
+                try {
+
+                    String generate = new GenerateXml().generate(curItem, null);
+                    setAvURL(new SetAVTransportURIActionCallback(
+                            url, generate) {
+                        @Override
+                        public void onResult(String msg) {
+                            play(playerCallback);
+                        }
+                    }, curItem);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
 }

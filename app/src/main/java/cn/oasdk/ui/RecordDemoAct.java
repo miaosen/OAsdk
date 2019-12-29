@@ -1,7 +1,7 @@
 package cn.oasdk.ui;
 
 import cn.oasdk.R;
-import cn.oasdk.dlna.base.BaseActivity;
+import cn.oasdk.base.BaseActivity;
 
 /**
  * @author zengmiaosen

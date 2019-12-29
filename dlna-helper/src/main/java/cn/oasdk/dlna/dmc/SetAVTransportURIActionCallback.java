@@ -3,18 +3,20 @@ package cn.oasdk.dlna.dmc;
 
 import org.fourthline.cling.model.action.ActionInvocation;
 import org.fourthline.cling.model.message.UpnpResponse;
-import org.fourthline.cling.model.meta.Service;
+import org.fourthline.cling.model.types.UDAServiceType;
 import org.fourthline.cling.support.avtransport.callback.SetAVTransportURI;
 
+import cn.oasdk.dlna.dms.DLNAService;
 import cn.oaui.L;
 
 public abstract class SetAVTransportURIActionCallback extends SetAVTransportURI {
 
 
 
-    public SetAVTransportURIActionCallback(Service paramService, String paramString1,
+    public SetAVTransportURIActionCallback(String paramString1,
                                            String paramString2) {
-        super(paramService, paramString1, paramString2);
+        super(DLNAService.playerDevice
+                .findService(new UDAServiceType("AVTransport")), paramString1, paramString2);
     }
 
     @Override

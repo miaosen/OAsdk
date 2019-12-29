@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import cn.oasdk.R;
-import cn.oasdk.dlna.base.BaseActivity;
+import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.utils.ViewUtils;

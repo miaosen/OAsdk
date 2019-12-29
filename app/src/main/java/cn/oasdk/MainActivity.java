@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import cn.oasdk.dlna.base.BaseActivity;
+import cn.oasdk.base.BaseActivity;
 import cn.oasdk.data.HttpDemoActivity;
 import cn.oasdk.data.bluetooth.BluetoothDemoAct;
 import cn.oasdk.ui.BaseViewDemoAct;

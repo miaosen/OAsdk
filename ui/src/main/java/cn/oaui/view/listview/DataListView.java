@@ -33,7 +33,7 @@ import cn.oaui.view.tiplayout.TipLayout;
 
 public class DataListView extends CustomLayout implements FormAdpater {
 
-    List<RowObject> rows = new LinkedList<RowObject>();
+    LinkedList<RowObject> rows = new LinkedList<RowObject>();
 
     @ViewInject
     ListView listView;
@@ -189,6 +189,10 @@ public class DataListView extends CustomLayout implements FormAdpater {
         }
         tipLayout.refresh();
         getData();
+    }
+
+    public void refreshNoGetData() {
+        notifyDataSetChanged();
     }
 
 
@@ -472,11 +476,11 @@ public class DataListView extends CustomLayout implements FormAdpater {
         this.fillApdater = fillApdater;
     }
 
-    public List<RowObject> getRows() {
+    public LinkedList<RowObject> getRows() {
         return rows;
     }
 
-    public void setRows(List<RowObject> rows) {
+    public void setRows(LinkedList<RowObject> rows) {
         this.rows = rows;
     }
 
@@ -561,7 +565,7 @@ public class DataListView extends CustomLayout implements FormAdpater {
 
 
     public void setEnableLoadMore(boolean enableLoadMore) {
-        tipLayout.setEanableLoadMore(enableRefresh);
+        tipLayout.setEanableLoadMore(enableLoadMore);
     }
 
     public TipLayout getTipLayout() {

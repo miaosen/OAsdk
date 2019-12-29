@@ -230,6 +230,8 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		this.onItemClickListener = onItemClickListener;
 	}
 
+
+
 	public OnItemClickListener getOnItemClickListener() {
 		return onItemClickListener;
 	}

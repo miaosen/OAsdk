@@ -1,6 +1,7 @@
 package cn.oasdk.data.dlna;
 
-import cn.oasdk.dlna.base.BaseActivity;
+
+import cn.oasdk.base.BaseActivity;
 
 /**
  * @author zengmiaosen

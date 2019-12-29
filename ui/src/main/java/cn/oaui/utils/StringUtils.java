@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -192,6 +193,15 @@ public class StringUtils {
 		} else {
 			return obj.toString();
 		}
+	}
+
+	/**
+	 * 获取UUID
+	 *
+	 * @return
+	 */
+	public static String getUUID() {
+		return UUID.randomUUID().toString().trim().replaceAll("-", "");
 	}
 
 

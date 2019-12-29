@@ -13,8 +13,8 @@
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:visibility="gone"
-        android:background="@color/blue">
+        android:background="@color/blue"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/leftBtn"
@@ -70,138 +70,149 @@
 
     </RelativeLayout>
 
-    <cn.oaui.view.FlowLayout
+    <LinearLayout
+        android:id="@+id/ln_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp"
-    android:paddingBottom="20dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:background="@color/blue"
+        android:paddingRight="10dp"
     >
+
+        <cn.oasdk.dlna.main.ControlView
+            android:id="@+id/controlView"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_height="wrap_content">
+
+
+        </cn.oasdk.dlna.main.ControlView>
 
 
         <TextView
             android:id="@+id/tv_service"
+            style="@style/btn_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="服务端"
-            android:minWidth="100dp"
             android:drawableRight="@mipmap/icon_jiantouxia01"
-            style="@style/btn_blue"
+            android:minWidth="100dp"
+            android:text="服务端"
+            android:visibility="gone"
         />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:gravity="center"
             android:text="投屏到→"
             android:textStyle="bold"
+            android:visibility="gone"
         />
         <TextView
             android:id="@+id/tv_player"
+            style="@style/btn_blue"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="电视/盒子"
-            android:minWidth="100dp"
-            android:drawableRight="@mipmap/icon_jiantouxia01"
-            style="@style/btn_blue"
+            android:drawableRight="@mipmap/icon_tv"
+            android:lines="1"
+            android:minWidth="60dp"
+            android:maxWidth="68dp"
+            android:padding="3dp"
         />
 
-        <TextView
-            android:id="@+id/tv_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置"
-            android:visibility="gone"
-            android:minWidth="100dp"
-            android:drawableRight="@mipmap/icon_jiantouxia01"
-            style="@style/btn_blue"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/icon_menu"
         />
 
-    </cn.oaui.view.FlowLayout>
-
-
-    <LinearLayout android:layout_width="match_parent"
-                  android:orientation="horizontal"
-                  android:gravity="center"
-                  android:layout_height="wrap_content">
-
-    <cn.oaui.view.CustomRadioGroup
-        android:id="@+id/crg_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:orientation="horizontal"
-
-    >
-
-        <RadioButton
-            android:id="@+id/rb_video"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="视频"
-            style="@style/rb_tab"
-        />
-        <View style="@style/line_vt_grey_lt"></View>
-
-        <RadioButton
-            android:id="@+id/rb_radio"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="音乐"
-            style="@style/rb_tab"
-        />
-        <View style="@style/line_vt_grey_lt"></View>
-
-        <RadioButton
-            android:id="@+id/rb_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="图片"
-            style="@style/rb_tab"
-        />
-        <View  style="@style/line_vt_grey_lt"></View>
-
-
-        <RadioButton
-            android:id="@+id/rb_net"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="网络"
-            style="@style/rb_tab"
-        />
-    </cn.oaui.view.CustomRadioGroup>
     </LinearLayout>
 
+    <View style="@style/line_hz_grey_lt"></View>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:orientation="horizontal">
+
+        <cn.oaui.view.CustomRadioGroup
+            android:id="@+id/crg_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
 
 
+        >
 
+            <RadioButton
+                android:id="@+id/rb_video"
+                style="@style/rb_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="视频"
+            />
+            <View style="@style/line_vt_grey_lt"></View>
+
+            <RadioButton
+                android:id="@+id/rb_radio"
+                style="@style/rb_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="音乐"
+            />
+            <View style="@style/line_vt_grey_lt"></View>
+
+            <RadioButton
+                android:id="@+id/rb_pic"
+                style="@style/rb_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="图片"
+            />
+            <View style="@style/line_vt_grey_lt"></View>
+
+
+            <RadioButton
+                android:id="@+id/rb_net"
+                style="@style/rb_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="收藏"
+            />
+        </cn.oaui.view.CustomRadioGroup>
+    </LinearLayout>
+
+    <View style="@style/line_hz_grey_lt"></View>
     <cn.oaui.view.ViewPagerForScrollView
+        android:layout_marginTop="10dp"
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     >
 
     </cn.oaui.view.ViewPagerForScrollView>
-   <!-- <cn.oaui.view.listview.DataListView
-        android:id="@+id/dl_file"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:autoInvoke="false"
-        app:isEnablePage="false"
-        app:itemLayout="@layout/file_list_item"
-    >
+    <!-- <cn.oaui.view.listview.DataListView
+         android:id="@+id/dl_file"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         app:autoInvoke="false"
+         app:isEnablePage="false"
+         app:itemLayout="@layout/file_list_item"
+     >
 
-    </cn.oaui.view.listview.DataListView>-->
+     </cn.oaui.view.listview.DataListView>-->
 
 
 </LinearLayout>

@@ -68,7 +68,7 @@ public abstract class CustomLayout extends ViewGroup {
 
 
 	/**
-	 * 一刀构造器就执行，可能高度和宽度还是为0
+	 * 一到构造器就执行，可能高度和宽度还是为0
 	 */
 	protected abstract void onCreateView();
 

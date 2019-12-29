@@ -27,7 +27,7 @@
     <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <!-- 震动 -->
-    <uses-permission android:name="android.permission.VIBRATE"/>4
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <!-- 蓝牙 -->
     <uses-permission android:name="android.permission.BLUETOOTH"/>

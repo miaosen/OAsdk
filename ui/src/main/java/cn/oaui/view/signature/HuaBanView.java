@@ -6,15 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import cn.oaui.L;
-import cn.oaui.utils.BitmapUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.oaui.L;
+import cn.oaui.utils.BitmapUtils;
 
 /**
  * @Created by com.gzpykj.com
@@ -31,6 +32,7 @@ public class HuaBanView extends View {
 	private Canvas cacheCanvas;
 
 	private int bgColor=Color.WHITE;
+	//private int bgColor=Color.parseColor("#00000000");
 	//缓存画布，用于手势抬起后保存之前的轨迹
 	private Bitmap cacheBitmap;
 
@@ -90,6 +92,7 @@ public class HuaBanView extends View {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		L.i("============onSizeChanged==========="+w+"   "+h);
 		height = h;
 		width = w;
 		init();
@@ -174,7 +177,6 @@ public class HuaBanView extends View {
 	public void setMoveToLast() {
 		path.reset();
 		path=paths.get(paths.size()-1);
-		L.i("path====="+paths.size());
 		invalidate();
 	}
 
@@ -205,8 +207,16 @@ public class HuaBanView extends View {
 		path.reset();
 		//Paint paint = new Paint();
 		//paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-		cacheCanvas.drawColor(bgColor);
+		cacheCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 		invalidate();
+	}
+
+	public int getBgColor() {
+		return bgColor;
+	}
+
+	public void setBgColor(int bgColor) {
+		this.bgColor = bgColor;
 	}
 
 	public float getPaintWidth() {

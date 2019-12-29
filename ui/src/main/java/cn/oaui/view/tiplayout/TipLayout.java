@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import cn.oaui.L;
 import cn.oaui.R;
 import cn.oaui.view.dialog.FrameDialog;
 
@@ -77,12 +76,9 @@ public class TipLayout extends ViewGroup {
     }
 
     private void initView() {
-        //headView = ViewUtils.inflatView(getContext(), R.layout.tip_layout_head);
         headView = new TipHeadLayout(getContext());
         headView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         this.addView(headView);
-        //tailView = ViewUtils.inflatView(getContext(), R.layout.sp_view_mid_product_item);
-        //this.addView(tailView, 1);
         tipLayoutFooter = new FrameDialog(getContext(), R.layout.tip_layout_footer);
         tipLayoutFooter.dialogView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         tipLayoutFooter.setShadow(false);
@@ -166,14 +162,8 @@ public class TipLayout extends ViewGroup {
                     if ((!canChildScrollUp(canScrollView) && juli >= 0) && !isLoadMoreNow &&!isRefreshing) {//下拉
                         juli = juli + mJuli;
                         requestLayout();
-                        //if (juli <= 0) {
-                        //    isRefreshing = false;
-                        //} else {
-                        //    isRefreshing = true;
-                        //}
                         sendDownEvent(event);
                     } else if ((!canChildScrollDown(canScrollView) && mJuli < 0)) {
-                        //L.i("=========dispatchTouchEvent isRefreshing=============="+isRefreshing+"   "+isLoadMoreNow);
                         if (!isLoadMoreNow && !isRefreshing) {
                             if (onTipListener != null) {
                                 onTipListener.onLoadMore();
@@ -210,21 +200,17 @@ public class TipLayout extends ViewGroup {
                 final ListView listview = (ListView) canScrollView;
                 listview.setOnScrollListener(new AbsListView.OnScrollListener() {
                     int scrollState;
-
                     @Override
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
                         this.scrollState = scrollState;
                     }
-
                     @Override
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                         int lastVisiblePosition = view.getLastVisiblePosition();
                         if (totalItemCount != 0
                                 && totalItemCount > visibleItemCount
                                 && totalItemCount == lastVisiblePosition + 1) {
-                            L.i("=========onScroll=============="+isLoadMoreNow);
                             if (!isLoadMoreNow && !isRefreshing) {
-                                L.i("=========onScroll==============");
                                 if (onTipListener != null) {
                                     onTipListener.onLoadMore();
                                 }
@@ -243,7 +229,6 @@ public class TipLayout extends ViewGroup {
             tipLayoutFooter.showAsCoverUp(this);
             isLoadMoreNow=true;
         }
-        //tipLayoutFooter.show();
     }
 
     public void error() {

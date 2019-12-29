@@ -215,7 +215,7 @@ public class FeedDeatailActivity extends BaseActivity {
     }
 
     private void lineSubmit() {
-        RowObject contentValue = form.getContentValue();
+        RowObject contentValue = getContentValue();
         RowObject detail = new RowObject();
         detail.put("foreignKeyField", "feedId");
         detail.put("rows", dataListView.getRows());

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:gravity="center"
+>
+
+    <LinearLayout
+        android:id="@+id/ln_bg"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+    >
+        <TextView
+            android:id="@+id/name"
+            style="@style/tv_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ln_edit"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+    >
+
+        <CheckBox
+            android:id="@+id/cb"
+            android:clickable="false"
+            style="@style/cb_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        ></View>
+
+
+        <ImageView
+            android:id="@+id/img_edit_item"
+            android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/icon_edit"
+
+        />
+    </LinearLayout>
+</FrameLayout>

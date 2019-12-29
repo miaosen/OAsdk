@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "28.0.2"
     defaultConfig {
         applicationId "cn.oasdk"
         minSdkVersion 14
@@ -24,12 +24,38 @@ android {
 //        sourceCompatibility JavaVersion.VERSION_1_8
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
+
+
+    signingConfigs {
+        debug {
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        release {
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+
+
+//    android.applicationVariants.all {
+//        variant ->
+//            variant.outputs.each {
+//                output ->
+//                    output.outputFile = new File(output.outputFile.parent, "app"
+//                           + "-" + defaultConfig.versionCode
+//                            + "-" + defaultConfig.versionName
+//                            +"("+ new Date().format("yyyyMMdd-HHmm")+")"
+//                            + "-" + buildType.name + ".apk");
+//            }
+//    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':http')
-    compile project(':ui')
-    compile project(path: ':zxinglib')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':http')
+    implementation project(':ui')
+    implementation project(path: ':zxinglib')
 
 }

@@ -7,16 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import cn.oasdk.R;
+import cn.oaui.L;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.RowObject;
 import cn.oaui.utils.DateTimeUtils;
 import cn.oaui.view.listview.BaseFillAdapter;
 import cn.oaui.view.tiplayout.TipLayout;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author zengmiaosen
@@ -65,6 +66,7 @@ public class TipLayoutDemoAct extends Activity {
             int i=0;
             @Override
             public void onRefresh() {
+                L.i("============onRefresh===========");
                 i=i+1;
                 rows.clear();
                 setData("刷新"+i);
@@ -74,7 +76,7 @@ public class TipLayoutDemoAct extends Activity {
                     public void run() {
                         tipLayout.endRefresh();
                     }
-                },3000);
+                },1000);
             }
 
             @Override
@@ -112,6 +114,12 @@ public class TipLayoutDemoAct extends Activity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         tipLayout.refresh();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tipLayout.endRefresh();
+            }
+        },1000);
     }
 
     public void setData(String name){

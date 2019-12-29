@@ -26,7 +26,7 @@
     <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <!-- 震动 -->
-    <uses-permission android:name="android.permission.VIBRATE"/>4
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <!-- 蓝牙 -->
     <uses-permission android:name="android.permission.BLUETOOTH"/>
@@ -39,7 +39,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
 
-
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 硬件加速对X5视频播放有利，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -47,19 +50,46 @@
         android:supportsRtl="true"
         android:name=".base.AppContext"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".main.MainActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+<!--        <activity android:name=".main.MainActivity" />-->
+        <activity android:name=".image.DocumentAct" />
+        <activity android:name=".image.ImageAct" />
+        <activity android:name=".image.VideoAct" />
+        <activity android:name=".image.MusicAct" />
+        <activity android:name=".image.ShowImageAct" />
+        <activity android:name=".tbs.TBSWebviewAct" android:exported="true" />
 
+        <activity
+            android:name="com.tencent.smtt.sdk.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:alwaysRetainTaskState="true">
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".tbs.TBSVideoPlayerAct"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+        >
+        </activity>
       <!--  <service android:name="cn.oasdk.dlna.upnp.service.UpnpDeviceService" >
-        </service>-->
+        </service> -->
 
         <service android:name="org.fourthline.cling.android.AndroidUpnpServiceImpl"/>
        <!-- <service android:name="cn.oasdk.dlna.test.BrowserUpnpService"/>-->
+
+
+
     </application>
 
 
