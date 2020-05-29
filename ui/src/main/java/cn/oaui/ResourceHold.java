@@ -1,6 +1,8 @@
 package cn.oaui;
 
 
+import android.graphics.drawable.Drawable;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -211,7 +213,17 @@ public class ResourceHold {
 	public static String getNameByString(int value) {
 		return getNameByResounce("string", value);
 	}
+	public static int getColor(int colorId) {
+		return UIGlobal.getApplication().getResources().getColor(colorId);
+	}
 
+	public static String getString(int stringId) {
+		return UIGlobal.getApplication().getResources().getString(stringId);
+	}
+
+	public static Drawable getDrawable(int drawableId) {
+		return UIGlobal.getApplication().getResources().getDrawable(drawableId);
+	}
 
 
 }

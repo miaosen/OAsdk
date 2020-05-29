@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/OAsdk.iml" filepath="$PROJECT_DIR$/OAsdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dlna-helper/dlna-helper.iml" filepath="$PROJECT_DIR$/dlna-helper/dlna-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fileview/fileview.iml" filepath="$PROJECT_DIR$/fileview/fileview.iml" />
       <module fileurl="file://$PROJECT_DIR$/http/http.iml" filepath="$PROJECT_DIR$/http/http.iml" />
       <module fileurl="file://$PROJECT_DIR$/hzpqy-moblie/hzpqy-moblie.iml" filepath="$PROJECT_DIR$/hzpqy-moblie/hzpqy-moblie.iml" />
       <module fileurl="file://$PROJECT_DIR$/rmew/rmew.iml" filepath="$PROJECT_DIR$/rmew/rmew.iml" />

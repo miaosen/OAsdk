@@ -1,1 +1,1 @@
-include ':app', ':http', ':ui', ':hzpqy-moblie', ':zxinglib', ':rmew', ':dlna-helper'
+include ':app', ':http', ':ui', ':hzpqy-moblie', ':zxinglib', ':rmew', ':dlna-helper', ':fileview'

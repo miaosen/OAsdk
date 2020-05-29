@@ -100,7 +100,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 			onItemModifylistenert.onItemModify(convertView,row,position,holder);
 		}
 		setItem(convertView, row, position, holder);
-		convertView.setOnClickListener(new mClick(convertView, row, position));
+		convertView.setOnClickListener(new mClick(convertView, row, position,holder));
 		return convertView;
 	}
 
@@ -186,19 +186,22 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		private View convertView;
 		private RowObject row;
 		private int position;
+		ViewHolder	holder;
 		/**
 		 * 回调 item 监听接口
 		 * @param position
+		 * @param holder
 		 */
-		public mClick(View convertView, RowObject row, int position) {
+		public mClick(View convertView, RowObject row, int position, ViewHolder holder) {
 			this.convertView = convertView;
 			this.row = row;
 			this.position = position;
+			this.holder=holder;
 		}
 		@Override
 		public void onClick(View v) {
 			if (onItemClickListener != null) {
-				onItemClickListener.onItemClick(convertView, row, position);
+				onItemClickListener.onItemClick(convertView, row, position,holder);
 			}
 		}
 	}
@@ -207,7 +210,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * item 监听接口
 	 */
 	public interface OnItemClickListener {
-		void onItemClick(View convertView, RowObject row, int position);
+		void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder);
 	}
 
 	public interface OnItemModifylistenert {

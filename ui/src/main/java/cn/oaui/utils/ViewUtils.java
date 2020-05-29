@@ -1,8 +1,10 @@
 package cn.oaui.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -307,6 +309,25 @@ public class ViewUtils {
                 ed.setEnabled(b);
             }
         }
+    }
+
+
+    public static AlertDialog showAlertDialog(Context context, String tip, String content, String leftBtnText, String rightBtnText, DialogInterface.OnClickListener onClickListener, DialogInterface.OnClickListener cancleListener) {
+        return new AlertDialog.Builder(context)
+                .setTitle(tip)//标题
+                .setMessage(content)//内容
+                .setPositiveButton(leftBtnText, onClickListener)
+                .setNegativeButton(rightBtnText,cancleListener)
+                .create();
+    }
+
+    public static AlertDialog showAlertEditDialog(Context context,String tip, View view, String leftBtnText, String rightBtnText, DialogInterface.OnClickListener onClickListener, DialogInterface.OnClickListener cancleListener) {
+        return new AlertDialog.Builder(context)
+                .setView(view)
+                .setTitle(tip)//标题
+                .setPositiveButton(leftBtnText, onClickListener)
+                .setNegativeButton(rightBtnText,cancleListener)
+                .create();
     }
 
 }
