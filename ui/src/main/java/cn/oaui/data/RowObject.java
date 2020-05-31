@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.oaui.L;
 import cn.oaui.utils.JsonUtils;
 import cn.oaui.utils.StringUtils;
 
@@ -91,9 +92,9 @@ public class RowObject extends LinkedHashMap<String, Object> implements Serializ
     public Long getLong(String key) {
         Object obj = get(key);
         if (obj == null) {
-            return null;
+            return 0l;
         }
-        //L.i("============getLong==========="+obj);
+//        L.i("============getLong==========="+obj);
         if (obj instanceof String) {
             return Long.valueOf((String) obj).longValue();
         }

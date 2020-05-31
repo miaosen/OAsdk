@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">fileview</string>
+
+    <string name="rename">重命名</string>
+    <string name="modify">修改</string>
+    <string name="delete">删除</string>
+    <string name="move">移动</string>
+    <string name="moveTo">移动到</string>
+    <string name="copyTo">复制到</string>
+    <string name="check_all">全选</string>
+    <string name="check">选择</string>
+    <string name="more">更多</string>
+    <string name="edit">编辑</string>
+    <string name="copy">复制</string>
+    <string name="paste">粘贴</string>
+    <string name="copying_file">正在复制文件</string>
+    <string name="deleting_file">正在删除文件</string>
+    <string name="dir">文件夹</string>
+    <string name="file">文件</string>
+    <string name="name">名称</string>
+    <string name="tip_not_check_data">没有选中数据！</string>
+    <string name="collect">收藏夹</string>
+    <string name="tip_no_file">暂无文件</string>
+    <string name="add_file">添加文件</string>
+    <string name="sort_crate_time">创建时间</string>
+    <string name="sort_file_size">文件大小</string>
+    <string name="sort_file_type">文件类型</string>
+    <string name="share">分享</string>
+    <string name="sure">确定</string>
+    <string name="cancle">取消</string>
+    <string name="delete_tip">是否删除选中的</string>
+    <string name="tip">提示 </string>
+    <string name="tip_install_app_cannot_open">已安装的App不能直接打开！</string>
+
+
+    <string name="quick">快捷</string>
+    <string name="phone">手机</string>
+    <string name="one">个</string>
+
+    <!-- 文件类型 -->
+    <string name="file_type_all">全部</string>
+    <string name="file_type_img">图片</string>
+    <string name="file_type_video">视频</string>
+    <string name="file_type_music">音乐</string>
+    <string name="file_type_app">安装包</string>
+    <string name="file_type_doc">文档</string>
+    <string name="file_type_rar">压缩包</string>
+    <string name="file_type_other">其他</string>
+    <string name="analyse">分析</string>
+</resources>

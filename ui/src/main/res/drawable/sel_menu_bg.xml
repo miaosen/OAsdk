@@ -3,10 +3,5 @@
 
 
 
-    <item android:state_pressed="true" android:drawable="@drawable/icon_menu_bg_unchecked">
 
-   </item>
-    <item android:drawable="@drawable/icon_menu_bg_checked">
-
-    </item>
 </selector>

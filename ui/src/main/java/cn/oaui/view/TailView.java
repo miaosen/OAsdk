@@ -79,7 +79,7 @@ public class TailView extends LinearLayoutForListView {
 		};
 		fillListViewAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
 			@Override
-			public void onItemClick(View convertView, RowObject row, int position) {
+			public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
 				String name=row.getString("name");
 				if(onTailItemListeners.containsKey(name)){
 					onTailItemListeners.get(name).onClickItem();

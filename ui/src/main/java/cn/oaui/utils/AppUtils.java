@@ -7,20 +7,28 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import cn.oaui.BuildConfig;
+import cn.oaui.L;
+import cn.oaui.R;
+import cn.oaui.ResourceHold;
 import cn.oaui.UIGlobal;
 
 /**
@@ -202,25 +210,26 @@ public class AppUtils {
 	}
 
 	/**
-	 * 调用手机上的应用打开app,以打开新app的方式运行，在任务管理器会出现该app的进程
-	 * @param path
-     */
-	public static void openFileBySystemApp(String path) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.parse("file://" +path),FileUtils.getMIMEType(path));
-		UIGlobal.getApplication().startActivity(intent);
-	}
-
-	/**
 	 * 调用手机上的应用打开app,在当前app进程下运行,在任务管理器不会出现该app的进程
 	 * @param path
 	 */
 	public static void openFileBySystemApp(Context context,String path) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.parse("file://" +path),FileUtils.getMIMEType(path));
+		File file = new File(path);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+			Uri uri = FileProvider.getUriForFile(context,
+					UIGlobal.getApplication().getPackageName()+ ".provider",
+					file);
+			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			// 设置文件类型为Word
+			intent.setDataAndType(uri, FileUtils.getMIMEType(path));
+		} else{
+			Uri uri = Uri.fromFile(file);
+			intent.setDataAndType(uri, FileUtils.getMIMEType(path));
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
 		context.startActivity(intent);
 	}
-
 
 
 	/**
@@ -244,4 +253,88 @@ public class AppUtils {
 		}
 	}
 
+	/**
+	 * 获取apk包的信息：版本号，名称，图标等
+	 * @param apkPath apk包的绝对路径
+	 */
+	public static Drawable getApkIcon(String apkPath) {
+		PackageManager pm = UIGlobal.getApplication().getPackageManager();
+		PackageInfo pkgInfo = pm.getPackageArchiveInfo(apkPath,PackageManager.GET_ACTIVITIES);
+		if (pkgInfo != null) {
+			ApplicationInfo appInfo = pkgInfo.applicationInfo;
+			/* 必须加这两句，不然下面icon获取是default icon而不是应用包的icon */
+			appInfo.sourceDir = apkPath;
+			appInfo.publicSourceDir = apkPath;
+//			String appName = pm.getApplicationLabel(appInfo).toString();// 得到应用名
+//			String packageName = appInfo.packageName; // 得到包名
+//			String version = pkgInfo.versionName; // 得到版本信息
+			/* icon1和icon2其实是一样的 */
+			Drawable icon1 = pm.getApplicationIcon(appInfo);// 得到图标信息
+//			Drawable icon2 = appInfo.loadIcon(pm);
+//			String pkgInfoStr = String.format("PackageName:%s, Vesion: %s, AppName: %s", packageName, version, appName);
+			return icon1;
+		}else{
+			return null;
+		}
+
+	}
+
+	/**
+	 * 调用手机上的应用打开app,在当前app进程下运行,在任务管理器不会出现该app的进程
+	 * @param path
+	 */
+	public static void shareFileBySystemApp(Context context,String path) {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.addCategory("android.intent.category.DEFAULT");
+		File file = new File(path);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+			Uri uri = FileProvider.getUriForFile(context,
+					BuildConfig.APPLICATION_ID+ ".provider",
+					file);
+			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			intent.putExtra(Intent.EXTRA_STREAM, uri);
+			intent.setType(FileUtils.getMIMEType(path));
+		} else{
+			Uri uri = Uri.fromFile(file);
+			intent.setDataAndType(uri, FileUtils.getMIMEType(path));
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+		//Uri uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", );
+		//intent.setDataAndType(uri,FileUtils.getMIMEType(path));
+		context.startActivity(intent);
+	}
+
+	/**
+	 * 调用手机上的应用打开app,在当前app进程下运行,在任务管理器不会出现该app的进程
+	 * @param paths
+	 */
+	public static void shareFilesBySystemApp(Context context,ArrayList<String> paths ) {
+		Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+		intent.addCategory("android.intent.category.DEFAULT");
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+			ArrayList<Uri> files=new ArrayList<>();
+			for (int i = 0; i < paths.size(); i++) {
+				String s = paths.get(i);
+				L.i("======shareFilesBySystemApp===== "+s);
+				Uri uri = FileProvider.getUriForFile(context,
+						BuildConfig.APPLICATION_ID+ ".provider",
+						new File(s));
+				files.add(uri);
+			}
+			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+			intent.setType("*/*");//多个文件格式
+			// 设置文件类型为Word
+			intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,files);//Intent.EXTRA_STREAM同于传输文件流
+			// intent.setType(FileUtils.getMIMEType(path));
+		} else{
+			ArrayList<Uri> files=new ArrayList<>();
+			for (int i = 0; i < paths.size(); i++) {
+				String s = paths.get(i);
+				files.add(Uri.fromFile(new File(s)));
+			}
+			intent.setType("*/*");//多个文件格式
+			intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,files);//Intent.EXTRA_STREAM同于传输文件流
+		}
+		context.startActivity(intent);
+	}
 }

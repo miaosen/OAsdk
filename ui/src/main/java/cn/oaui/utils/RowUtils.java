@@ -115,5 +115,9 @@ public class RowUtils {
 		}
 		return contentValues;
 	}
+	public static  LinkedList<RowObject>  listEntityToRows(Object object){
+		String jsonString = JSONSerializer.toJSONString(object);
+		return JsonUtils.jsonToRows(jsonString);
+	}
 
 }

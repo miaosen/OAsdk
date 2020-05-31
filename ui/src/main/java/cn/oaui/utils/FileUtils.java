@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 
+import cn.oaui.L;
 import cn.oaui.UIGlobal;
 
 /**
@@ -139,8 +140,7 @@ public class FileUtils {
      * @return
      */
     public static String getSDCardPath() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator;
+        return Environment.getExternalStorageDirectory().getAbsolutePath() ;
     }
 
     /**
@@ -260,32 +260,63 @@ public class FileUtils {
 
     /**
      * 复制单个文件
-     *
      * @param oldPath String 原文件路径 如：c:/fqf.txt
-     * @param newPath String 复制后路径 如：f:/fqf.txt
+     * @param targetDir String  如：f:/fqf.txt
      * @return boolean
      */
-    public static void copyFile(String oldPath, String newPath) {
+    public static boolean copyFile(String oldPath, String targetDir) {
+        boolean sucess=false;
         try {
             int bytesum = 0;
             int byteread = 0;
             File oldfile = new File(oldPath);
+            String newPath=renameFileIfExit( targetDir+"/"+oldfile.getName());
             if (oldfile.exists()) { // 文件存在时
                 InputStream inStream = new FileInputStream(oldPath); // 读入原文件
                 FileOutputStream fs = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1444];
-                int length;
                 while ((byteread = inStream.read(buffer)) != -1) {
                     bytesum += byteread; // 字节数 文件大小
                     fs.write(buffer, 0, byteread);
                 }
                 inStream.close();
             }
+            sucess=true;
         } catch (Exception e) {
             e.printStackTrace();
-
         }
+        return sucess;
+    }
 
+    /**
+     * 文件如果存在，进行重命名
+     * @param path
+     * @return
+     */
+    public static String renameFileIfExit(String path) {
+        File file1=new File(path);
+        int i=0;
+        while (file1.exists()) {
+            i = i + 1;
+            String name = file1.getName();
+            if(name.contains(".")&&!name.endsWith(".")){
+                int i1 = name.lastIndexOf(".");
+                String nameNoSuffix = name.substring(0, i1);
+                String lastIndex="("+(i-1)+")";
+                if(nameNoSuffix.endsWith(lastIndex)){
+                    nameNoSuffix=nameNoSuffix.substring(0,nameNoSuffix.length()-lastIndex.length());
+                }
+                String suffix= name.substring(i1,name.length());
+                name=nameNoSuffix+"("+i+")"+suffix;
+            }else{
+                name=name+"("+i+")";
+            }
+            String newPath= file1.getParent()+"/"+ name;
+
+            file1 = new File(newPath);
+        }
+        path=file1.getAbsolutePath();
+        return path;
     }
 
 
@@ -464,7 +495,148 @@ public class FileUtils {
             { ".wps", "application/vnd.ms-works" }, { ".xml", "text/plain" },
             { ".z", "application/x-compress" },
             { ".zip", "application/x-zip-compressed" },
-            { ".amr", "audio/*" },{ ".flac", "audio/*" },{ ".ape", "audio/*" }, { "", "*/*" } };
+            { ".amr", "audio/*" },{ ".flac", "audio/*" },{ ".ape", "audio/*" }, { "", "*/*" }
+    };
+
+    /**
+     * 复制单个文件
+     *
+     * @param oldDir String 原文件路径 如：c:/fqf.txt
+     * @param targetDir String 复制后路径 如：f:/fqf.txt
+     * @return boolean
+     */
+    public static boolean copyDirectiory(String oldDir, String targetDir) {
+        boolean sucess=false;
+        String name = new File(oldDir).getName();
+        String newDir=targetDir+"/"+name;
+        sucess=new File(newDir).mkdirs();
+        if(sucess){
+            File[] file = (new File(oldDir)).listFiles();// 获取源文件夹当下的文件或目录
+            for (int i = 0; i < file.length; i++) {
+                File sourceFile = file[i];
+                if (sourceFile.isDirectory()) {
+                    copyDirectiory(file[i].getAbsolutePath(), newDir);
+                }else{
+                    sucess= copyFile(sourceFile.getAbsolutePath(),newDir);
+                }
+            }
+        }
+        return sucess;
+    }
 
 
+
+    /**
+     * 删除单个文件
+     *
+     * @param fileName
+     *            要删除的文件的文件名
+     * @return 单个文件删除成功返回true，否则返回false
+     */
+    public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 删除目录及目录下的文件
+     * @param dir
+     *            要删除的目录的文件路径
+     * @return 目录删除成功返回true，否则返回false
+     */
+    public static boolean deleteDirectory(String dir) {
+        L.i("======deleteDirectory===== "+dir);
+        File dirFile = new File(dir);
+        // 如果dir对应的文件不存在，或者不是一个目录，则退出
+        if ((!dirFile.exists()) || (!dirFile.isDirectory())) {
+            return false;
+        }
+        boolean flag = true;
+        // 删除文件夹中的所有文件包括子目录
+        File[] files = dirFile.listFiles();
+        L.i("======deleteDirectory===== "+files);
+        for (int i = 0; i < files.length; i++) {
+            // 删除子文件
+            if (files[i].isFile()) {
+                flag = deleteFile(files[i].getAbsolutePath());
+                if (!flag)
+                    break;
+            }
+            // 删除子目录
+            else if (files[i].isDirectory()) {
+                flag = deleteDirectory(files[i]
+                        .getAbsolutePath());
+                if (!flag)
+                    break;
+            }
+        }
+        // 删除当前目录
+        if (dirFile.delete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * 移动文件
+     * @param oldPath
+     * @param dir
+     * @return
+     */
+    public static String moveFile(String oldPath, String dir) {
+        File dirFile= new File(dir);
+        if(!dirFile.exists()){
+            dirFile.mkdirs();
+        }
+        File oldFile = new File(oldPath);
+        if(oldFile.isDirectory()){
+            return null;
+        }
+        String path=dir+"/"+oldFile.getName();
+        path=FileUtils.renameFileIfExit(path);
+        File newFile = new File(path);
+        if( oldFile.renameTo(newFile)){
+            return path;
+        }else {
+            return null;
+        }
+
+    }
+
+    /**
+     * 移动文件夹
+     * @param oldDir
+     * @param dir
+     * @return
+     */
+    public static String moveDir(String oldDir, String dir) {
+        File dirFile= new File(dir);
+        if(!dirFile.exists()){
+            dirFile.mkdirs();
+        }
+        File oldFile = new File(oldDir);
+        if(oldFile.isFile()){
+            return null;
+        }
+        String path=dir+"/"+oldFile.getName();
+        path=FileUtils.renameFileIfExit(path);
+        File newFile = new File(path);
+        if(oldFile.renameTo(newFile)){
+            return path;
+        }else {
+            return null;
+        }
+
+    }
 }

@@ -119,7 +119,6 @@ public class MainActivity2 extends BaseActivity {
                 L.i("============onRefresh===========");
                 FileServer.scanFile(handler);
             }
-
             @Override
             public void onLoadMore() {
 
