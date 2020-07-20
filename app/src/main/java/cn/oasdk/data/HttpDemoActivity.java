@@ -13,6 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.text.DecimalFormat;
+
 import cn.oahttp.ClientFactory;
 import cn.oahttp.HttpRequest;
 import cn.oahttp.callback.BitmapCallBack;
@@ -22,10 +25,6 @@ import cn.oahttp.cookies.CookieManager;
 import cn.oasdk.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-
-import java.io.File;
-import java.text.DecimalFormat;
-
 import okhttp3.MediaType;
 
 /**
@@ -117,7 +116,7 @@ public class HttpDemoActivity extends Activity {
         });
         MediaType.parse("application/json; charset=utf-8");
         request.setTag("请求图片");
-        request.send();
+        request.sendAsync();
     }
 
     private void loadImg() {
@@ -142,7 +141,7 @@ public class HttpDemoActivity extends Activity {
             }
         });
         request.setTag("请求图片");
-        request.sendByGet();
+        request.sendByGetAsync();
     }
 
     private void sendByPost() {
@@ -161,7 +160,7 @@ public class HttpDemoActivity extends Activity {
             }
         });
         //request.addParam("id","a12412f7cb5849b7a0f11e79e3ce94f9");
-        request.send();
+        request.sendAsync();
     }
 
     private void sendByGet() {
@@ -180,7 +179,7 @@ public class HttpDemoActivity extends Activity {
                 e.printStackTrace();
             }
         });
-        request.sendByGet();
+        request.sendByGetAsync();
     }
 
     private void keepcookies() {
@@ -202,7 +201,7 @@ public class HttpDemoActivity extends Activity {
         request.addParam("olderType", "N");
         request.addParam("username", "thinkgem");
         request.addParam("password", "123456");
-        request.send();
+        request.sendAsync();
     }
 
     public void uploadFile() {
@@ -224,7 +223,7 @@ public class HttpDemoActivity extends Activity {
         request.addParam("olderType", "N");
         request.addFile("key", "name", new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/00001.vcf"));
         request.addFile("key", new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/00001.vcf"));
-        request.send();
+        request.sendAsync();
     }
 
     public void downloadFile() {
@@ -247,15 +246,12 @@ public class HttpDemoActivity extends Activity {
                 }
                 progressBar.setProgress((int) percent);
             }
-
             @Override
             protected void onFail(Exception e) {
                 textView.setText("下载失败！:"+e.getMessage());
             }
         });
-
-        request.setTag("下载文件");
-        request.sendByGet();
+        request.sendByGetAsync();
     }
 
     /**

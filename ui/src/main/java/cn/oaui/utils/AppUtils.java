@@ -14,7 +14,8 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
+import android.os.Environment;
+import androidx.core.content.FileProvider;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -137,7 +138,7 @@ public class AppUtils {
 	/**
 	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
 	 */
-	public static int dip2px(float dpValue) {
+	public static int dp2px(float dpValue) {
 		final float scale =  UIGlobal.getApplication().getResources().getDisplayMetrics().density;
 		return (int) (dpValue * scale + 0.5f);
 	}
@@ -289,7 +290,7 @@ public class AppUtils {
 		File file = new File(path);
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
 			Uri uri = FileProvider.getUriForFile(context,
-					BuildConfig.APPLICATION_ID+ ".provider",
+					BuildConfig.LIBRARY_PACKAGE_NAME+ ".provider",
 					file);
 			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			intent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -317,7 +318,7 @@ public class AppUtils {
 				String s = paths.get(i);
 				L.i("======shareFilesBySystemApp===== "+s);
 				Uri uri = FileProvider.getUriForFile(context,
-						BuildConfig.APPLICATION_ID+ ".provider",
+						BuildConfig.LIBRARY_PACKAGE_NAME+ ".provider",
 						new File(s));
 				files.add(uri);
 			}
@@ -336,5 +337,16 @@ public class AppUtils {
 			intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,files);//Intent.EXTRA_STREAM同于传输文件流
 		}
 		context.startActivity(intent);
+	}
+
+
+	/**
+	 * 默认下载目录
+	 *
+	 * @return
+	 */
+	public static String getDefaultDirectory() {
+		return Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ File.separator + ResourceHold.getString(R.string.app_name);
 	}
 }

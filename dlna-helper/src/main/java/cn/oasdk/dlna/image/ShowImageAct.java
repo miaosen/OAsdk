@@ -1,11 +1,11 @@
 package cn.oasdk.dlna.image;
 
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.LinkedList;
 
+import androidx.viewpager.widget.PagerAdapter;
 import cn.oasdk.dlna.R;
 import cn.oasdk.dlna.base.BaseActivity;
 import cn.oaui.ImageFactory;

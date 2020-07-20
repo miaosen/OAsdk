@@ -122,7 +122,7 @@ public class UIDemoAct extends BaseActivity {
                 e.printStackTrace();
             }
         });
-        request.sendByGet();
+        request.sendByGetAsync();
     }
 
 

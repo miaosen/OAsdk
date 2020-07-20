@@ -1,11 +1,8 @@
 package cn.oahttp.callback;
 
-import android.util.Log;
-
-import cn.oahttp.HandlerQueue;
-
 import java.io.IOException;
 
+import cn.oahttp.HandlerQueue;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -19,7 +16,6 @@ import okhttp3.Response;
  */
 
 public abstract class StringCallBack implements Callback {
-
 
     @Override
     public void onFailure(Call call, final IOException e) {
@@ -35,7 +31,6 @@ public abstract class StringCallBack implements Callback {
     public void onResponse(final Call call, final Response response) throws IOException {
         if (response.isSuccessful()) {
             final String result = response.body().string();
-            Log.i("logtag","=========onResponse==============");
             HandlerQueue.onResultCallBack(new Runnable() {
                 @Override
                 public void run() {

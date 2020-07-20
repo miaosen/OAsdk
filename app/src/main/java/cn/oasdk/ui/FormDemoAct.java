@@ -66,7 +66,7 @@ public class FormDemoAct extends Activity implements View.OnClickListener {
                 e.printStackTrace();
             }
         });
-        request.sendByGet();
+        request.sendByGetAsync();
     }
 
 

@@ -208,7 +208,7 @@ public class DataListView extends CustomLayout implements FormAdpater {
                 }
                 request.setUrl(url);
             }
-            request.send();
+            request.sendAsync();
         }
     }
 

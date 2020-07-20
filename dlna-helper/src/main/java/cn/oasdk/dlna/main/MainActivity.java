@@ -6,10 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import cn.oahttp.HandlerQueue;
 import cn.oasdk.dlna.R;
 import cn.oasdk.dlna.base.BaseActivity;
@@ -341,7 +341,7 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
         dlv_sevice_device.setEnableLoadMore(false);
         dlv_sevice_device.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, RowObject row, int position,BaseFillAdapter.ViewHolder holder) {
                 LocalDevice device = (LocalDevice) row.get("device");
                 serviceDevice = device;
                 tv_service.setText(row.getString("friendlyName"));
@@ -371,7 +371,7 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
         dlv_player_device.setEnableLoadMore(false);
         dlv_player_device.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, RowObject row, int position,BaseFillAdapter.ViewHolder holder) {
                 Device device = (Device) row.get("device");
                 L.i("============onItemClick==========="+device);
                 DLNAService.playerDevice = device;

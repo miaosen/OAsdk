@@ -193,7 +193,7 @@ public class FileUtils {
      * @return
      */
     public static String getAppDirPath() {
-        String dirPath = FileUtils.getSDCardPath() + AppUtils.getAppName();
+        String dirPath = FileUtils.getSDCardPath()+"/" + AppUtils.getAppName();
         File file = new File(dirPath);
         if (!file.exists()) {
             file.mkdirs();

@@ -11,8 +11,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -130,7 +130,7 @@ public class BluetoothDemoAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
                 Intent intent=new Intent(context,BlueToothSocketAct.class);
                 IntentUtils.addRow(intent,row,"bluetooth_info");
                 startActivity(intent);

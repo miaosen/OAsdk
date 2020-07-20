@@ -402,10 +402,10 @@ public class FavoritesView extends CustomLayout {
 
     @SuppressLint("NewApi")
     public static Bitmap setRoundedColor(View view, float roundPx, String color) {
-        Bitmap output = Bitmap.createBitmap(AppUtils.dip2px(90), AppUtils.dip2px(90), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(AppUtils.dp2px(90), AppUtils.dp2px(90), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, AppUtils.dip2px(90), AppUtils.dip2px(90));
+        final Rect rect = new Rect(0, 0, AppUtils.dp2px(90), AppUtils.dp2px(90));
         final RectF rectF = new RectF(rect);
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);

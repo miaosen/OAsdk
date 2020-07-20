@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
     <!-- 调用媒体播放器 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 

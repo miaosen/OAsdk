@@ -18,8 +18,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -243,10 +243,10 @@ public class MainActivity2 extends BaseActivity {
 
     @SuppressLint("NewApi")
     public static Bitmap setRoundedColor(View view, float roundPx, String color) {
-        Bitmap output = Bitmap.createBitmap(AppUtils.dip2px(90), AppUtils.dip2px(90), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(AppUtils.dp2px(90), AppUtils.dp2px(90), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, AppUtils.dip2px(90), AppUtils.dip2px(90));
+        final Rect rect = new Rect(0, 0, AppUtils.dp2px(90), AppUtils.dp2px(90));
         final RectF rectF = new RectF(rect);
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);

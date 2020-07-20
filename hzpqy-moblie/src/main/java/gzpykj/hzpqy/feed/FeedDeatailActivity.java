@@ -102,7 +102,7 @@ public class FeedDeatailActivity extends BaseActivity {
         Global.addJsonParam(request);
         request.addParam("workOrderId", rowFeed.getString("mainId"));
         request.setCallback(callback);
-        request.send();
+        request.sendAsync();
     }
 
     @Override
@@ -249,7 +249,7 @@ public class FeedDeatailActivity extends BaseActivity {
                 }
             }
         });
-        request.send();
+        request.sendAsync();
     }
 
     public void setErrorVoice() {

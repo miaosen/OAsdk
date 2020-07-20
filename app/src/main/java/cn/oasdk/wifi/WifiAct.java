@@ -116,7 +116,7 @@ public class WifiAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, final RowObject row, int position) {
+            public void onItemClick(View convertView, final RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
                 if(WifiP2pDevice.CONNECTED==row.getInteger("status")){
                     //Message msg=new Message();
                     //msg.obj=row;

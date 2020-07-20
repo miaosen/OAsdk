@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.2"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "cn.oasdk"
         minSdkVersion 14
@@ -54,8 +53,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':http')
-    implementation project(':ui')
+    api project(':http')
+    api project(':ui')
     implementation project(path: ':zxinglib')
 
 }

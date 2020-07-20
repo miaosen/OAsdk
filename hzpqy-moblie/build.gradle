@@ -1,17 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "gzpykj.hzpqy"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
     buildTypes {
@@ -23,11 +22,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    compile('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
 //    compile 'com.google.zxing:core:3.3.0'
-    compile 'com.alibaba:fastjson:1.1.68.android'
-    compile project(':http')
-    compile project(':ui')
-    compile project(path: ':zxinglib')
+    implementation 'com.alibaba:fastjson:1.1.68.android'
+    implementation project(':http')
+    implementation project(':ui')
+    implementation project(path: ':zxinglib')
 }

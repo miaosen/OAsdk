@@ -59,7 +59,7 @@ public class TipLayoutDemoAct extends Activity {
         listview1.setAdapter(baseFillAdapter);
         baseFillAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
             }
         });
         tipLayout.setOnTipListener(new TipLayout.OnTipListener() {

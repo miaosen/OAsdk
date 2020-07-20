@@ -40,9 +40,9 @@ public class AppContext extends Application {
         OkHttpClient client = ClientFactory.getClient();
         OkHttpClient.Builder buidler = client.newBuilder();
         // 连接超时120秒
-        buidler.connectTimeout(120, TimeUnit.SECONDS);
-        buidler.readTimeout(120, TimeUnit.SECONDS);
-        buidler.writeTimeout(120, TimeUnit.SECONDS);
+        buidler.connectTimeout(60000, TimeUnit.SECONDS);
+        buidler.readTimeout(60000, TimeUnit.SECONDS);
+        buidler.writeTimeout(60000, TimeUnit.SECONDS);
         buidler.cookieJar(new CookieManager(this));
         buidler.addInterceptor(new LogInterceptor("logtag"));
         client = buidler.build();

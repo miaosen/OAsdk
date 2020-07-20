@@ -10,11 +10,13 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * @author zengmiaosen
@@ -47,18 +49,21 @@ public class HttpRequest {
     //请求标签
     private String tag = null;
 
+    String[] namesAndValues=new String[]{};
+    Headers headers =Headers.of(namesAndValues);
+
     /**
      * 请求方法
      */
     public static interface HttpMethod {
-        final static String POST = "post";
-        final static String GET = "get";
-        final static String PUT = "put";
-        final static String DELETE = "delete";
-        final static String HEAD = "head";
-        final static String OPTIONS = "options";
-        final static String TRACE = "trace";
-        final static String CONNECT = "connect";
+        String POST = "POST";
+        String GET = "GET";
+        String PUT = "PUT";
+        String DELETE = "DELETE";
+        String HEAD = "HEAD";
+        String OPTIONS = "OPTIONS";
+        String TRACE = "TRACE";
+        String CONNECT = "CONNECT";
     }
 
     public HttpRequest() {
@@ -72,103 +77,36 @@ public class HttpRequest {
 
     }
 
+    public static HttpRequest setUrl(String url) {
+        return new HttpRequest(url);
+    }
+
     private void init() {
         client = ClientFactory.getClient();
     }
 
 
-    public void sendByGet() {
+    public void sendByGetAsync() {
         method = HttpMethod.GET;
-        send();
+        sendAsync();
+    }
+
+    public Response sendByGet() {
+        method = HttpMethod.GET;
+        return send();
     }
 
     /**
      * 发送请求
      */
-    public void send() {
-        //Application为空时
-        if (ClientFactory.getApplication()!=null&&!HttpUtils.isConnected()) {
+    public void sendAsync() {
+        //网络未连接
+        if (ClientFactory.getApplication() != null && !HttpUtils.isConnected()) {
             if (callback != null) {
                 callback.onFailure(null, new IOException("网络未连接！"));
             }
         } else {
-            requestBuilder = new Request.Builder();
-            if (!files.isEmpty()) {//post，文件输出加参数
-                //这种请求体的参数是放在流里面的，无法通过request.getparam来获取
-                MultipartBody.Builder multiBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-                MediaType parse = null;
-                if (fileMediaType != null) {
-                    parse = MediaType.parse(fileMediaType);
-                }
-                for (int i = 0; i < files.size(); i++) {
-                    FileInput file = files.get(i);
-                    multiBodyBuilder.addFormDataPart(file.key, file.filename, RequestBody.create(parse, file.file));
-                }
-                if (paramMap != null && paramMap.size() > 0) {
-                    for (String key : paramMap.keySet()) {
-                        multiBodyBuilder.addFormDataPart(key, paramMap.get(key) + "");
-                    }
-                }
-                if (tempParamMap != null && tempParamMap.size() > 0) {
-                    for (String key : tempParamMap.keySet()) {
-                        multiBodyBuilder.addFormDataPart(key, tempParamMap.get(key) + "");
-                    }
-                }
-                RequestBody requestBody = multiBodyBuilder.build();
-                //地址在前面，否是会变成获取的method是get方式
-                requestBuilder.url(url).post(requestBody);
-            } else if (method.equals(HttpMethod.POST)) {
-                //构造请求体
-                //Log.i("logtag","POST===");
-                FormBody.Builder formBody = new FormBody.Builder();
-                if (paramMap != null && paramMap.size() > 0) {
-                    for (String key : paramMap.keySet()) {
-                        formBody.add(key, paramMap.get(key) + "");
-                    }
-                }
-                if (tempParamMap != null && tempParamMap.size() > 0) {
-                    for (String key : tempParamMap.keySet()) {
-                        formBody.add(key, tempParamMap.get(key) + "");
-                    }
-                }
-                RequestBody requestBody = formBody.build();
-                requestBuilder.url(url).post(requestBody);
-            } else if (method.equals(HttpMethod.GET)) {
-                String sendUrl = url;
-                //拼接地址
-                if (paramMap.size() > 0) {
-                    int i = 0;
-                    for (String key : paramMap.keySet()) {
-                        if (i == 0) {
-                            sendUrl = sendUrl + "?" + key + "="
-                                    + paramMap.get(key).toString();
-                            i = 1;
-                        } else {
-                            sendUrl = sendUrl + "&" + key + "="
-                                    + paramMap.get(key).toString();
-                        }
-                    }
-                }
-                if (tempParamMap.size() > 0) {
-                    int i = 0;
-                    for (String key : tempParamMap.keySet()) {
-                        if (i == 0) {
-                            sendUrl = sendUrl + "?" + key + "="
-                                    + tempParamMap.get(key).toString();
-                            i = 1;
-                        } else {
-                            sendUrl = sendUrl + "&" + key + "="
-                                    + tempParamMap.get(key).toString();
-                        }
-                    }
-                }
-                requestBuilder.url(sendUrl);
-            }
-            if (tag != null) {
-                requestBuilder.tag(tag);
-            }
-            request = requestBuilder.build();
-            //Log.i("logtag", "request=============1" + requestBuilder.head().toString());
+            buildRequest();
             if (callback != null) {
                 Call call = client.newCall(request);
                 call.enqueue(callback);
@@ -176,6 +114,135 @@ public class HttpRequest {
             tempParamMap.clear();
         }
     }
+
+    /**
+     * 发送请求
+     */
+    public Response send() {
+        Response response = null;
+        //网络未连接
+        if (ClientFactory.getApplication() != null && !HttpUtils.isConnected()) {
+            if (callback != null) {
+                callback.onFailure(null, new IOException("网络未连接！"));
+            }
+        } else {
+            buildRequest();
+            Call call = client.newCall(request);
+            try {
+                response = call.execute();
+                if (callback != null) {
+                    callback.onResponse(call, response);
+                }
+            } catch (IOException e) {
+                if (callback != null) {
+                    callback.onFailure(call, e);
+                }
+                e.printStackTrace();
+            }
+            tempParamMap.clear();
+        }
+        return response;
+    }
+
+    private Request buildRequest() {
+        requestBuilder = new Request.Builder();
+        if (!files.isEmpty()) {//post，文件输出加参数
+            //这种请求体的参数是放在流里面的，无法通过request.getparam来获取
+            MultipartBody.Builder multiBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            MediaType parse = null;
+            if (fileMediaType != null) {
+                parse = MediaType.parse(fileMediaType);
+            }
+            for (int i = 0; i < files.size(); i++) {
+                FileInput file = files.get(i);
+                multiBodyBuilder.addFormDataPart(file.key, file.filename, RequestBody.create(parse, file.file));
+            }
+            if (paramMap != null && paramMap.size() > 0) {
+                for (String key : paramMap.keySet()) {
+                    multiBodyBuilder.addFormDataPart(key, paramMap.get(key) + "");
+                }
+            }
+            if (tempParamMap != null && tempParamMap.size() > 0) {
+                for (String key : tempParamMap.keySet()) {
+                    multiBodyBuilder.addFormDataPart(key, tempParamMap.get(key) + "");
+                }
+            }
+            RequestBody requestBody = multiBodyBuilder.build();
+            //地址在前面，否是会变成获取的method是get方式
+            requestBuilder.url(url).post(requestBody);
+        } else if (method.equalsIgnoreCase(HttpMethod.POST)) {
+            //构造请求体
+            //Log.i("logtag","POST===");
+            FormBody.Builder formBody = new FormBody.Builder();
+            if (paramMap != null && paramMap.size() > 0) {
+                for (String key : paramMap.keySet()) {
+                    formBody.add(key, paramMap.get(key) + "");
+                }
+            }
+            if (tempParamMap != null && tempParamMap.size() > 0) {
+                for (String key : tempParamMap.keySet()) {
+                    formBody.add(key, tempParamMap.get(key) + "");
+                }
+            }
+            RequestBody requestBody = formBody.build();
+            requestBuilder.url(url).post(requestBody);
+        } else if (method.equalsIgnoreCase(HttpMethod.GET)) {
+            String sendUrl = url;
+            //拼接地址
+            if (paramMap.size() > 0) {
+                int i = 0;
+                for (String key : paramMap.keySet()) {
+                    if (i == 0) {
+                        sendUrl = sendUrl + "?" + key + "="
+                                + paramMap.get(key).toString();
+                        i = 1;
+                    } else {
+                        sendUrl = sendUrl + "&" + key + "="
+                                + paramMap.get(key).toString();
+                    }
+                }
+            }
+            if (tempParamMap.size() > 0) {
+                int i = 0;
+                for (String key : tempParamMap.keySet()) {
+                    if (i == 0) {
+                        sendUrl = sendUrl + "?" + key + "="
+                                + tempParamMap.get(key).toString();
+                        i = 1;
+                    } else {
+                        sendUrl = sendUrl + "&" + key + "="
+                                + tempParamMap.get(key).toString();
+                    }
+                }
+            }
+            requestBuilder.url(sendUrl);
+        }
+        if (tag != null) {
+            requestBuilder.tag(tag);
+        }
+        requestBuilder.removeHeader("User-Agent").addHeader("User-Agent", ClientFactory.getUserAgent());
+        requestBuilder.removeHeader("Range").addHeader("Range", "bytes=0-");
+        if(headers!=null){
+            requestBuilder.headers(headers);
+        }
+
+        //requestBuilder.removeHeader("Connection").addHeader("Connection", "keep-alive");
+
+        request = requestBuilder.build();
+        return request;
+    }
+
+
+    public HttpRequest setHeaders(Headers headers) {
+       this.headers=headers;
+       return this;
+    }
+
+    public HttpRequest setHeaders(Map<String, String> mapHeaders) {
+        this.headers=Headers.of(mapHeaders);
+        return this;
+    }
+
 
 
     /**
@@ -262,9 +329,6 @@ public class HttpRequest {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public static class FileInput {
         public String key;
@@ -316,8 +380,9 @@ public class HttpRequest {
         return callback;
     }
 
-    public void setCallback(Callback callback) {
+    public HttpRequest setCallback(Callback callback) {
         this.callback = callback;
+        return this;
     }
 
 
@@ -333,8 +398,9 @@ public class HttpRequest {
         return method;
     }
 
-    public void setMethod(String method) {
+    public HttpRequest setMethod(String method) {
         this.method = method;
+        return this;
     }
 
     public List<FileInput> getFiles() {

@@ -204,12 +204,12 @@ public class ColorPickerView extends View {
 
     applyThemeColors(context);
 
-    huePanelWidthPx = AppUtils.dip2px(HUE_PANEL_WDITH_DP);
-    alphaPanelHeightPx =  AppUtils.dip2px(ALPHA_PANEL_HEIGH_DP);
-    panelSpacingPx =  AppUtils.dip2px( PANEL_SPACING_DP);
-    circleTrackerRadiusPx = AppUtils.dip2px(CIRCLE_TRACKER_RADIUS_DP);
-    sliderTrackerSizePx = AppUtils.dip2px(SLIDER_TRACKER_SIZE_DP);
-    sliderTrackerOffsetPx = AppUtils.dip2px(SLIDER_TRACKER_OFFSET_DP);
+    huePanelWidthPx = AppUtils.dp2px(HUE_PANEL_WDITH_DP);
+    alphaPanelHeightPx =  AppUtils.dp2px(ALPHA_PANEL_HEIGH_DP);
+    panelSpacingPx =  AppUtils.dp2px( PANEL_SPACING_DP);
+    circleTrackerRadiusPx = AppUtils.dp2px(CIRCLE_TRACKER_RADIUS_DP);
+    sliderTrackerSizePx = AppUtils.dp2px(SLIDER_TRACKER_SIZE_DP);
+    sliderTrackerOffsetPx = AppUtils.dp2px(SLIDER_TRACKER_OFFSET_DP);
 
     mRequiredPadding = 6;
 
@@ -250,16 +250,16 @@ public class ColorPickerView extends View {
     borderPaint = new Paint();
 
     satValTrackerPaint.setStyle(Style.STROKE);
-    satValTrackerPaint.setStrokeWidth(AppUtils.dip2px(2));
+    satValTrackerPaint.setStrokeWidth(AppUtils.dp2px(2));
     satValTrackerPaint.setAntiAlias(true);
 
     hueAlphaTrackerPaint.setColor(sliderTrackerColor);
     hueAlphaTrackerPaint.setStyle(Style.STROKE);
-    hueAlphaTrackerPaint.setStrokeWidth(AppUtils.dip2px(2));
+    hueAlphaTrackerPaint.setStrokeWidth(AppUtils.dp2px(2));
     hueAlphaTrackerPaint.setAntiAlias(true);
 
     alphaTextPaint.setColor(0xff1c1c1c);
-    alphaTextPaint.setTextSize(AppUtils.dip2px(14));
+    alphaTextPaint.setTextSize(AppUtils.dp2px(14));
     alphaTextPaint.setAntiAlias(true);
     alphaTextPaint.setTextAlign(Align.CENTER);
     alphaTextPaint.setFakeBoldText(true);
@@ -344,7 +344,7 @@ public class ColorPickerView extends View {
     Point p = satValToPoint(sat, val);
 
     satValTrackerPaint.setColor(0xff000000);
-    canvas.drawCircle(p.x, p.y, circleTrackerRadiusPx -AppUtils.dip2px( 1), satValTrackerPaint);
+    canvas.drawCircle(p.x, p.y, circleTrackerRadiusPx -AppUtils.dp2px( 1), satValTrackerPaint);
 
     satValTrackerPaint.setColor(0xffdddddd);
     canvas.drawCircle(p.x, p.y, circleTrackerRadiusPx, satValTrackerPaint);
@@ -437,7 +437,7 @@ public class ColorPickerView extends View {
     canvas.drawRect(rect, alphaPaint);
 
     if (alphaSliderText != null && !alphaSliderText.equals("")) {
-      canvas.drawText(alphaSliderText, rect.centerX(), rect.centerY() + AppUtils.dip2px( 4), alphaTextPaint);
+      canvas.drawText(alphaSliderText, rect.centerX(), rect.centerY() + AppUtils.dp2px( 4), alphaTextPaint);
     }
 
     Point p = alphaToPoint(alpha);
@@ -726,13 +726,13 @@ public class ColorPickerView extends View {
 
   private int getPreferredWidth() {
     //Our preferred width and height is 200dp for the square sat / val rectangle.
-    int width = AppUtils.dip2px(200);
+    int width = AppUtils.dp2px(200);
 
     return (width + huePanelWidthPx + panelSpacingPx);
   }
 
   private int getPreferredHeight() {
-    int height = AppUtils.dip2px(200);
+    int height = AppUtils.dp2px(200);
 
     if (showAlphaPanel) {
       height += panelSpacingPx + alphaPanelHeightPx;
@@ -826,7 +826,7 @@ public class ColorPickerView extends View {
 
     alphaRect = new Rect(left, top, right, bottom);
 
-    alphaPatternDrawable = new AlphaPatternDrawable(AppUtils.dip2px( 4));
+    alphaPatternDrawable = new AlphaPatternDrawable(AppUtils.dp2px( 4));
     alphaPatternDrawable.setBounds(Math.round(alphaRect.left), Math
         .round(alphaRect.top), Math.round(alphaRect.right), Math
         .round(alphaRect.bottom));

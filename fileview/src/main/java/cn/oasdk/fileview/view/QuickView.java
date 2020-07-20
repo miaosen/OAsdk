@@ -1,13 +1,10 @@
 package cn.oasdk.fileview.view;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import java.util.LinkedList;
 
@@ -75,7 +72,6 @@ public class QuickView extends CustomLayout {
             super(context, rows, layout);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void setItem(final View convertView, final RowObject row, final int position, final ViewHolder holder) {
             ImageView img = (ImageView) holder.views.get("img");

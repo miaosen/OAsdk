@@ -29,11 +29,11 @@ import cn.oaui.utils.StringUtils;
 public class DateView extends View {
 
     //默认天字体大小18dp
-    int textSize = AppUtils.dip2px(18);
+    int textSize = AppUtils.dp2px(18);
     //默认农历字体大小12dp
-    int tsNongLi = AppUtils.dip2px(10);
+    int tsNongLi = AppUtils.dp2px(10);
     //默认内边距
-    int padding = AppUtils.dip2px(1);
+    int padding = AppUtils.dp2px(1);
     //选中日期指针
     int selectIndex = -1;
     //今天日期指针

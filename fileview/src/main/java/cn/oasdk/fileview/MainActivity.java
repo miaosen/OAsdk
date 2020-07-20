@@ -1,15 +1,10 @@
-package cn.oasdk.fileview.data;
+package cn.oasdk.fileview;
 
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +12,15 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.oasdk.fileview.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import cn.oasdk.fileview.data.FileData;
 import cn.oasdk.fileview.view.FileView;
 import cn.oasdk.fileview.view.QuickView;
+import cn.oasdk.webview.view.VideoPalyView;
 import cn.oaui.L;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
@@ -136,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
         View view = mapFgmView.get(position);
         if (view == null) {
             if (position == 0) {
-                fileView =new FileView(MainActivity.this);
-                view=fileView;
+                //fileView =new FileView(MainActivity.this);
+                //view=fileView;
+                view=new VideoPalyView(MainActivity.this);
             } else if (position == 1) {
                 quickView=new QuickView(MainActivity.this);
                 view=quickView;

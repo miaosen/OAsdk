@@ -8,8 +8,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.io.File;
 
 import cn.oaui.data.RowObject;
 import cn.oaui.utils.BitmapUtils;
@@ -17,8 +19,6 @@ import cn.oaui.utils.DateTimeUtils;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.URIUtils;
 import cn.oaui.view.attachment.VideoRecordActivity;
-
-import java.io.File;
 
 
 /**
@@ -68,8 +68,6 @@ public class IntentFactory {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         imagePath = FileUtils.getAppDirPath() + "/" + DateTimeUtils.getCurrentDay() + DateTimeUtils.getCurrentTime() + ".jpg";
         File tempFile = FileUtils.createFile(imagePath);
-        L.i("============getTakePicIntent==========="+imagePath);
-        L.i("============getTakePicIntent==========="+tempFile);
         Uri imageUri = Uri.fromFile(tempFile);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         return openCameraIntent;
@@ -145,6 +143,7 @@ public class IntentFactory {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(fileType);//无类型限制
         intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);//多选参数
         fragment.startActivityForResult(intent, REQUEST_CODE_OPEN_FILE);
     }
 

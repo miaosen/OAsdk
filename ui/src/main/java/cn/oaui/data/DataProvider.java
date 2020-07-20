@@ -4,13 +4,11 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 
-import cn.oahttp.HttpRequest;
-import cn.oahttp.callback.StringCallBack;
-import cn.oaui.L;
-import cn.oaui.utils.JsonUtils;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import cn.oaui.L;
+import cn.oaui.utils.JsonUtils;
 
 /**
  * @author zengmiaosen
@@ -117,23 +115,23 @@ public class DataProvider  {
     //    }
     //}
 
-    private void getData() {
-        HttpRequest request;
-        if(urlSuffix!=null){
-             request=new HttpRequest(url+urlSuffix);
-        }else{
-             request=new HttpRequest(url);
-        }
-        request.addParam(mapParam);
-        request.setCallback(new StringCallBack() {
-            @Override
-            public void onSuccess(String text) {
-                L.i("=========onSuccess=============="+text);
-            }
-        });
-        request.send();
-        
-    }
+    //private void getData() {
+    //    HttpRequest request;
+    //    if(urlSuffix!=null){
+    //         request=new HttpRequest(url+urlSuffix);
+    //    }else{
+    //         request=new HttpRequest(url);
+    //    }
+    //    request.addParam(mapParam);
+    //    request.setCallback(new StringCallBack() {
+    //        @Override
+    //        public void onSuccess(String text) {
+    //            L.i("=========onSuccess=============="+text);
+    //        }
+    //    });
+    //    request.send();
+    //
+    //}
 
 
 
