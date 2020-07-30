@@ -8,7 +8,7 @@ import com.gzpykj.rmew.R;
 
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.Form;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.utils.ViewUtils;
@@ -46,7 +46,7 @@ public class EditAct extends BaseActivity {
 
     @Override
     public void initData() {
-        RowObject row = IntentUtils.getRow(getIntent(), ListAct.ROW_ITEM);
+        Row row = IntentUtils.getRow(getIntent(), ListAct.ROW_ITEM);
         L.i("=========initData=============="+row);
         Form form=new Form(context);
         form.fill(row);

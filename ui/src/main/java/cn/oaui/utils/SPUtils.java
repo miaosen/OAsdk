@@ -9,7 +9,7 @@ import java.util.Map;
 
 import cn.oaui.UIGlobal;
 import cn.oaui.data.JSONSerializer;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 
 /**
  * @author zengmiaosen
@@ -51,7 +51,7 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static RowObject getRow(String fileName, String key){
+    public static Row getRow(String fileName, String key){
         SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         String string = preferences.getString(key, "");
         if(JsonUtils.isCanToRow(string)){
@@ -68,7 +68,7 @@ public class SPUtils {
      * @param value
      * @return
      */
-    public static boolean saveRow(String fileName, String key, RowObject value){
+    public static boolean saveRow(String fileName, String key, Row value){
         SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value.toJsonString());
@@ -83,7 +83,7 @@ public class SPUtils {
      * @param value
      * @return
      */
-    public static boolean saveRows(String fileName, String key, List<RowObject> value){
+    public static boolean saveRows(String fileName, String key, List<Row> value){
         SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, JSONSerializer.toJSONString(value));
@@ -128,7 +128,7 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static LinkedList<RowObject> getRows(String fileName, String key){
+    public static LinkedList<Row> getRows(String fileName, String key){
         SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         String string = preferences.getString(key, "");
         if(JsonUtils.isCanToRows(string)){

@@ -141,6 +141,7 @@ public class HttpRequest {
             }
             tempParamMap.clear();
         }
+
         return response;
     }
 
@@ -186,7 +187,7 @@ public class HttpRequest {
             }
             RequestBody requestBody = formBody.build();
             requestBuilder.url(url).post(requestBody);
-        } else if (method.equalsIgnoreCase(HttpMethod.GET)) {
+        } else {//GET
             String sendUrl = url;
             //拼接地址
             if (paramMap.size() > 0) {
@@ -220,7 +221,7 @@ public class HttpRequest {
         if (tag != null) {
             requestBuilder.tag(tag);
         }
-        requestBuilder.removeHeader("User-Agent").addHeader("User-Agent", ClientFactory.getUserAgent());
+        requestBuilder.removeHeader("User-Agent").addHeader("User-Agent", HttpUtils.getUserAgent());
         requestBuilder.removeHeader("Range").addHeader("Range", "bytes=0-");
         if(headers!=null){
             requestBuilder.headers(headers);

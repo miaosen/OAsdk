@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cn.oaui.L;
 import cn.oaui.utils.JsonUtils;
 import cn.oaui.utils.StringUtils;
 
@@ -18,36 +17,36 @@ import cn.oaui.utils.StringUtils;
  * @Descrition 键值对(key-value)实体类, 注意 : RowObject在json序列化时重写了RowObject的序列化方法，
  * value的取值只有3种String,RowObject,LinkedList<RowObject>
  */
-public class RowObject extends LinkedHashMap<String, Object> implements Serializable {
+public class Row extends LinkedHashMap<String, Object> implements Serializable {
 
     private static final long serialVersionUID = 7561153740565098648L;
 
     private String valueNoKey;
 
 
-    public RowObject() {
+    public Row() {
         super();
     }
 
-    public RowObject(String jsonObject) {
+    public Row(String jsonObject) {
         super();
         this.putAll(JsonUtils.jsonToRow(jsonObject));
     }
 
 
-    public RowObject getRow(String key) {
-        RowObject row = (RowObject) get(key);
+    public Row getRow(String key) {
+        Row row = (Row) get(key);
         if (row == null) {
             return null;
         }
         return row;
     }
 
-    public LinkedList<RowObject> getRows(String key) {
+    public LinkedList<Row> getRows(String key) {
         if(get(key)==null){
             return null;
         }
-        LinkedList<RowObject> rows = (LinkedList<RowObject>) get(key);
+        LinkedList<Row> rows = (LinkedList<Row>) get(key);
         return rows;
     }
 
@@ -112,7 +111,7 @@ public class RowObject extends LinkedHashMap<String, Object> implements Serializ
     public Object getLayerData(String expression) {
         Object result = null;
         String[] keys = expression.split("\\.");
-        RowObject layerRow = StringUtils.deepCopyObject(this);
+        Row layerRow = StringUtils.deepCopyObject(this);
         for (int i = 0; i < keys.length; i++) {
             String key = keys[i];
             int index = getIndexInExpression(key);
@@ -131,7 +130,7 @@ public class RowObject extends LinkedHashMap<String, Object> implements Serializ
                         } else {
                             result = o;
                         }
-                        if (result != null && result instanceof RowObject) {
+                        if (result != null && result instanceof Row) {
                             layerRow.putAll((Map<String, Object>) result);
                         } else {
                             layerRow.clear();
@@ -144,7 +143,7 @@ public class RowObject extends LinkedHashMap<String, Object> implements Serializ
                 } else if (!(o instanceof List) && isGetList) {
                     result = null;
                     layerRow.clear();
-                } else if (o instanceof RowObject) {
+                } else if (o instanceof Row) {
                     layerRow.putAll((Map<String, Object>) o);
                     result = o;
                 } else {

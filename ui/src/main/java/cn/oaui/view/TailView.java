@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.listview.BaseFillAdapter;
 import cn.oaui.view.listview.LinearLayoutForListView;
 
@@ -20,7 +20,7 @@ public class TailView extends LinearLayoutForListView {
 	
 	
 	BaseFillAdapter fillListViewAdapter;
-	List<RowObject> rows=new LinkedList<RowObject>();
+	List<Row> rows=new LinkedList<Row>();
 
 	String strValueText="";
 	
@@ -56,7 +56,7 @@ public class TailView extends LinearLayoutForListView {
 		rows.clear();
 		String[] split = strValueText.split(",");
 		for (int i = 0; i < split.length; i++) {
-			RowObject row=new RowObject();
+			Row row=new Row();
 			row.put("name", split[i]);
 			rows.add(row);
 		}
@@ -73,13 +73,13 @@ public class TailView extends LinearLayoutForListView {
 	private void initAdp() {
 		fillListViewAdapter=new BaseFillAdapter(getContext(),rows,itemLayoutId) {
 			@Override
-			public void setItem(View convertView, RowObject row, int position, ViewHolder holder) {
+			public void setItem(View convertView, Row row, int position, ViewHolder holder) {
 
 			}
 		};
 		fillListViewAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
 			@Override
-			public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+			public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
 				String name=row.getString("name");
 				if(onTailItemListeners.containsKey(name)){
 					onTailItemListeners.get(name).onClickItem();

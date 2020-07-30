@@ -18,6 +18,8 @@
     <color name="grey">#808080</color>
     <!-- 浅灰色 -->
     <color name="grey_lt">#D0D0D0</color>
+    <!-- 浅灰色 -->
+    <color name="grey_lt_lt">#EFEFEF</color>
     <!-- 半透明黑色 -->
     <color name="black_op">#66000000</color>
     <!-- 全透明 -->

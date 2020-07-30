@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.SPUtils;
@@ -41,7 +41,7 @@ public class FileServer {
 
     public static LinkedList<String> files = new LinkedList<>();
 
-    public static LinkedList<RowObject> rowsVideo = new LinkedList<>();
+    public static LinkedList<Row> rowsVideo = new LinkedList<>();
     public static String[] VIDEO_PREFIX = new String[]{
             "mp4", "flv", "avi", "3gp", "webm", "ts", "ogv", "m3u8", "asf",
             "wmv", "rm", "rmvb", "mov", "mkv","f4v","mpg","mpeg",
@@ -49,17 +49,17 @@ public class FileServer {
     };
 
 
-    public static LinkedList<RowObject> rowsDocumnet = new LinkedList<>();
+    public static LinkedList<Row> rowsDocumnet = new LinkedList<>();
     public static String[] DOCUMNET_PREFIX = new String[]{
             "docx", "doc", "xls", "xlsx", "pdf", "ppt"
     };
 
 
-    public static LinkedList<RowObject> rowsImage = new LinkedList<>();
+    public static LinkedList<Row> rowsImage = new LinkedList<>();
     public static String[] IMAGE_PREFIX = new String[]{
             "jpg", "png", "jpeg", "gif", "bmp"
     };
-    public static LinkedList<RowObject> rowsMusic = new LinkedList<>();
+    public static LinkedList<Row> rowsMusic = new LinkedList<>();
     public static String[] MUSIC_PREFIX = new String[]{
             "mp3", "wma", "amr", "ape"
     };
@@ -113,16 +113,16 @@ public class FileServer {
             }
             //files.add(file1.getAbsolutePath());
             if (isPrefixOf(file1.getAbsolutePath(), IMAGE_PREFIX)) {
-                RowObject row = getBaseRow(file1, i);
+                Row row = getBaseRow(file1, i);
                 rowsImage.add(row);
             } else if (isPrefixOf(file1.getAbsolutePath(), DOCUMNET_PREFIX)) {
-                RowObject row = getBaseRow(file1, i);
+                Row row = getBaseRow(file1, i);
                 rowsDocumnet.add(row);
             } else if (isPrefixOf(file1.getAbsolutePath(), VIDEO_PREFIX)) {
-                RowObject row = getBaseRow(file1, i);
+                Row row = getBaseRow(file1, i);
                 rowsVideo.add(row);
             } else if (isPrefixOf(file1.getAbsolutePath(), MUSIC_PREFIX)) {
-                RowObject row = getBaseRow(file1, i);
+                Row row = getBaseRow(file1, i);
                 rowsMusic.add(row);
             }
             //}
@@ -132,8 +132,8 @@ public class FileServer {
         handler.sendMessage(message);
     }
 
-    private static RowObject getBaseRow(File file1, int i) {
-        RowObject row = new RowObject();
+    private static Row getBaseRow(File file1, int i) {
+        Row row = new Row();
         row.put("_id", i);
         row.put("name", file1.getName());
         row.put("isHidden", file1.isHidden());
@@ -226,10 +226,10 @@ public class FileServer {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                LinkedList<RowObject>  rowsI = SPUtils.getRows("rowsImage","rowsImage");
-                LinkedList<RowObject> rowsD = SPUtils.getRows("rowsDocumnet","rowsDocumnet");
-                LinkedList<RowObject> rowsV = SPUtils.getRows("rowsVideo","rowsVideo");
-                LinkedList<RowObject> rowsM = SPUtils.getRows("rowsMusic","rowsMusic");
+                LinkedList<Row>  rowsI = SPUtils.getRows("rowsImage","rowsImage");
+                LinkedList<Row> rowsD = SPUtils.getRows("rowsDocumnet","rowsDocumnet");
+                LinkedList<Row> rowsV = SPUtils.getRows("rowsVideo","rowsVideo");
+                LinkedList<Row> rowsM = SPUtils.getRows("rowsMusic","rowsMusic");
                 if (rowsI == null &&rowsD == null &&rowsV == null &&rowsM == null) {
                     FileServer.scanFile(handler);
                 } else {
@@ -265,7 +265,7 @@ public class FileServer {
      * @param FILE_TYPE
      */
 
-    public static void getByPrefix(LinkedList<RowObject> rows, String[] FILE_TYPE) {
+    public static void getByPrefix(LinkedList<Row> rows, String[] FILE_TYPE) {
         rows.clear();
         L.i("============getByPrefix===========" + files.size());
         long startTime = System.currentTimeMillis();
@@ -339,11 +339,11 @@ public class FileServer {
      * @param rows
      * @param curFilePath
      */
-    public static LinkedList<RowObject> sortRows(List<RowObject> rows, String curFilePath) {
-        RowObject tempRowDir = new RowObject();
-        RowObject tempRowFile = new RowObject();
+    public static LinkedList<Row> sortRows(List<Row> rows, String curFilePath) {
+        Row tempRowDir = new Row();
+        Row tempRowFile = new Row();
         for (int i = 0; i < rows.size(); i++) {
-            RowObject row = rows.get(i);
+            Row row = rows.get(i);
             String filePath = row.getString("filePath");
             if (filePath.startsWith(curFilePath)) {
                 //RowObject row = StringUtils.deepCopyObject(row);
@@ -381,15 +381,15 @@ public class FileServer {
                 }
             }
         }
-        LinkedList<RowObject> tempRowsFile = new LinkedList<>();
+        LinkedList<Row> tempRowsFile = new LinkedList<>();
         for (Object row : tempRowDir.values()) {
-            tempRowsFile.add((RowObject) row);
+            tempRowsFile.add((Row) row);
         }
         L.i("============sortRows===========" + tempRowFile);
         for (Object row : tempRowFile.values()) {
 
-            ((RowObject) row).remove("sum");
-            tempRowsFile.add((RowObject) row);
+            ((Row) row).remove("sum");
+            tempRowsFile.add((Row) row);
         }
         return tempRowsFile;
     }

@@ -14,7 +14,7 @@ import java.util.Map;
 
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.FormUtils;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.view.HeaderView;
@@ -66,7 +66,7 @@ public class ListAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 //Intent in=new Intent(context,FeedDeatailActivity.class);
                 //IntentUtils.addRow(in,row,FEED_DETAIL_ROW);
                 //startActivity(in);
@@ -116,7 +116,7 @@ public class ListAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 Intent intent=new Intent(context,EditAct.class);
                 IntentUtils.addRow(intent,row,ROW_ITEM);
                 startActivity(intent);

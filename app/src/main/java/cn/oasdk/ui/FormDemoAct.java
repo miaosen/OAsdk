@@ -12,7 +12,7 @@ import cn.oahttp.callback.StringCallBack;
 import cn.oasdk.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.Form;
 import cn.oaui.utils.JsonUtils;
 
@@ -56,9 +56,9 @@ public class FormDemoAct extends Activity implements View.OnClickListener {
                 String expression = "data.ganmao";
                 //String expression="status[0]";
                 //String expression="data";
-                RowObject rowObject = JsonUtils.jsonToRow(text);
+                Row row = JsonUtils.jsonToRow(text);
                 // RowObject layerData = (RowObject) rowObject.getLayerData(expression);
-                Log.i("logtag", "layerData======" + rowObject.getLayerData(expression));
+                Log.i("logtag", "layerData======" + row.getLayerData(expression));
             }
             @Override
             protected void onFail(Exception e) {

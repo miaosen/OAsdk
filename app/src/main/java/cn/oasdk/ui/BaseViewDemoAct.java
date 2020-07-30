@@ -6,7 +6,7 @@ import cn.oasdk.R;
 import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.TailView;
 import cn.oaui.view.attachment.AttachmentView;
 
@@ -46,7 +46,7 @@ public class BaseViewDemoAct extends BaseActivity {
         tailView.addTailItemListener("获取", new TailView.OnTailItemListener() {
             @Override
             public void onClickItem() {
-                List<RowObject> data = attachmentView.getData();
+                List<Row> data = attachmentView.getData();
                 L.i("=========onViewCreate=============="+data);
             }
         });

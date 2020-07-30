@@ -8,7 +8,7 @@ import cn.oasdk.dlna.R;
 import cn.oasdk.dlna.dms.FileServer;
 import cn.oasdk.dlna.tbs.TBSVideoPlayerAct;
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 
 /**
  * @author zengmiaosen
@@ -44,7 +44,7 @@ public class VideoAct extends BaseFileAct {
     }
 
     @Override
-    protected void onListItemClick(View convertView, RowObject row, int position) {
+    protected void onListItemClick(View convertView, Row row, int position) {
         //if(TbsVideo.canUseTbsPlayer(context)){
         //    Bundle data = new Bundle();
         //    //全屏

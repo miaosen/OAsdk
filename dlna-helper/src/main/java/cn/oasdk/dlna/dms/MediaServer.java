@@ -37,7 +37,7 @@ import java.util.UUID;
 import cn.oasdk.dlna.util.UpnpUtil;
 import cn.oasdk.dlna.util.Utils;
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.SPUtils;
@@ -68,16 +68,16 @@ public class MediaServer {
     public final static int PORT = 8192;
     private Activity activity;
 
-    public static LinkedList<RowObject> rowsAllFile = new LinkedList<>();
+    public static LinkedList<Row> rowsAllFile = new LinkedList<>();
 
-    public static LinkedList<RowObject> rowsVideo = new LinkedList<>();
+    public static LinkedList<Row> rowsVideo = new LinkedList<>();
 
 
-    public static LinkedList<RowObject> rowsRadio = new LinkedList<>();
+    public static LinkedList<Row> rowsRadio = new LinkedList<>();
 
-    public static LinkedList<RowObject> rowsImage = new LinkedList<>();
+    public static LinkedList<Row> rowsImage = new LinkedList<>();
 
-    public static LinkedList<RowObject> rowsNet = new LinkedList<>();
+    public static LinkedList<Row> rowsNet = new LinkedList<>();
 
 
     //http临时服务地址映射
@@ -149,19 +149,19 @@ public class MediaServer {
 
 
         rowsRadio.clear();
-        List<RowObject> radioList = getRadioList(activity);
+        List<Row> radioList = getRadioList(activity);
         if(radioList!=null) {
             rowsRadio.addAll(radioList);
         }
 
         rowsImage.clear();
-        List<RowObject> imageList = getImageList(activity);
+        List<Row> imageList = getImageList(activity);
         if(imageList!=null) {
             rowsImage.addAll(imageList);
         }
 
         rowsNet.clear();
-        List<RowObject> netList = getNetList(activity);
+        List<Row> netList = getNetList(activity);
         if(netList!=null){
             rowsNet.addAll(netList);
         }
@@ -170,16 +170,16 @@ public class MediaServer {
     }
 
 
-    public static VideoItem buildVideoItem(RowObject rowObject) {
-        String id =  rowObject.getString(MediaStore.Video.Media._ID);
-        String title = rowObject.getString(MediaStore.Video.Media.DISPLAY_NAME);
-        String creator = rowObject.getString(MediaStore.Video.Media.ARTIST);
-        String filePath = rowObject.getString("filePath");
-        String mimeType = rowObject.getString(MediaStore.Video.Media.MIME_TYPE);
-        Long size = rowObject.getLong(MediaStore.Video.Media.SIZE);
-        Long duration = rowObject.getLong(MediaStore.Video.Media.DURATION);
-        String resolution = rowObject.getString(MediaStore.Video.Media.RESOLUTION);
-        String description = rowObject.getString(MediaStore.Video.Media.DESCRIPTION);
+    public static VideoItem buildVideoItem(Row row) {
+        String id =  row.getString(MediaStore.Video.Media._ID);
+        String title = row.getString(MediaStore.Video.Media.DISPLAY_NAME);
+        String creator = row.getString(MediaStore.Video.Media.ARTIST);
+        String filePath = row.getString("filePath");
+        String mimeType = row.getString(MediaStore.Video.Media.MIME_TYPE);
+        Long size = row.getLong(MediaStore.Video.Media.SIZE);
+        Long duration = row.getLong(MediaStore.Video.Media.DURATION);
+        String resolution = row.getString(MediaStore.Video.Media.RESOLUTION);
+        String description = row.getString(MediaStore.Video.Media.DESCRIPTION);
         String adrress;
         if(filePath.startsWith(FileUtils.getSDCardPath())){
             adrress = "http:/" + getAddress() + "/" + FILE_TYPE.VIDEO +id;
@@ -208,7 +208,7 @@ public class MediaServer {
         return videoItem;
     }
 
-    public static VideoItem buildNetItem(RowObject rowObject) {
+    public static VideoItem buildNetItem(Row row) {
         //String id = FILE_TYPE.VIDEO + rowObject.getString(MediaStore.Video.Media._ID);
         //String title = rowObject.getString(MediaStore.Video.Media.DISPLAY_NAME);
         //String creator = rowObject.getString(MediaStore.Video.Media.ARTIST);
@@ -219,8 +219,8 @@ public class MediaServer {
         //String resolution = rowObject.getString(MediaStore.Video.Media.RESOLUTION);
         //String description = rowObject.getString(MediaStore.Video.Media.DESCRIPTION);
         //String adrress = "http:/" + getAddress() + "/" + id;
-        String name = rowObject.getString("name");
-        Res res = new Res(new MimeType("",""), 0l, rowObject.getString("filePath"));
+        String name = row.getString("name");
+        Res res = new Res(new MimeType("",""), 0l, row.getString("filePath"));
 
         res.setDuration(duration / (1000 * 60 * 60) + ":"
                 + (duration % (1000 * 60 * 60)) / (1000 * 60) + ":"
@@ -233,14 +233,14 @@ public class MediaServer {
 
 
 
-    public static MusicTrack buildRadioItem(RowObject rowObject) {
-        String id =FILE_TYPE.RADIO+ rowObject.getString(MediaStore.Audio.Media._ID);
-        String title = rowObject.getString(MediaStore.Audio.Media.TITLE);
-        String creator = rowObject.getString(MediaStore.Audio.Media.ARTIST);
-        String filePath = rowObject.getString(MediaStore.Audio.Media.DATA);
-        String mimeType = rowObject.getString(MediaStore.Audio.Media.MIME_TYPE);
-        Long size = rowObject.getLong(MediaStore.Audio.Media.SIZE);
-        String album = rowObject.getString(MediaStore.Audio.Media.ALBUM);
+    public static MusicTrack buildRadioItem(Row row) {
+        String id =FILE_TYPE.RADIO+ row.getString(MediaStore.Audio.Media._ID);
+        String title = row.getString(MediaStore.Audio.Media.TITLE);
+        String creator = row.getString(MediaStore.Audio.Media.ARTIST);
+        String filePath = row.getString(MediaStore.Audio.Media.DATA);
+        String mimeType = row.getString(MediaStore.Audio.Media.MIME_TYPE);
+        Long size = row.getLong(MediaStore.Audio.Media.SIZE);
+        String album = row.getString(MediaStore.Audio.Media.ALBUM);
         Res res = null;
         try {
             String adrress = "http:/" + getAddress() + "/" + id;
@@ -262,17 +262,17 @@ public class MediaServer {
         return musicTrack;
     }
 
-    public static AudioBook buildPlaylistItem(LinkedList<RowObject> rows) {
+    public static AudioBook buildPlaylistItem(LinkedList<Row> rows) {
         Res[] argRes = new Res[rows.size()];
         for (int i = 0; i < rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
-            String id = rowObject.getString(MediaStore.Audio.Media._ID);
-            String title = rowObject.getString(MediaStore.Audio.Media.TITLE);
-            String creator = rowObject.getString(MediaStore.Audio.Media.ARTIST);
-            String filePath = rowObject.getString(MediaStore.Audio.Media.DATA);
-            String mimeType = rowObject.getString(MediaStore.Audio.Media.MIME_TYPE);
-            Long size = rowObject.getLong(MediaStore.Audio.Media.SIZE);
-            String album = rowObject.getString(MediaStore.Audio.Media.ALBUM);
+            Row row = rows.get(i);
+            String id = row.getString(MediaStore.Audio.Media._ID);
+            String title = row.getString(MediaStore.Audio.Media.TITLE);
+            String creator = row.getString(MediaStore.Audio.Media.ARTIST);
+            String filePath = row.getString(MediaStore.Audio.Media.DATA);
+            String mimeType = row.getString(MediaStore.Audio.Media.MIME_TYPE);
+            Long size = row.getLong(MediaStore.Audio.Media.SIZE);
+            String album = row.getString(MediaStore.Audio.Media.ALBUM);
             Res res = null;
             try {
                 String adrress = "http:/" + getAddress() + "/" + id;
@@ -296,13 +296,13 @@ public class MediaServer {
     }
 
 
-    public static ImageItem buildImageItem(RowObject rowObject) {
-        String id = FILE_TYPE.IMAGE+ rowObject.getString(MediaStore.Images.Media._ID);
-        String title = rowObject.getString(MediaStore.Images.Media.TITLE);
+    public static ImageItem buildImageItem(Row row) {
+        String id = FILE_TYPE.IMAGE+ row.getString(MediaStore.Images.Media._ID);
+        String title = row.getString(MediaStore.Images.Media.TITLE);
         String creator = "unkown";
-        String mimeType = rowObject.getString(MediaStore.Images.Media.MIME_TYPE);
-        Long size = rowObject.getLong(MediaStore.Images.Media.SIZE);
-        String description = rowObject.getString(MediaStore.Images.Media.DESCRIPTION);
+        String mimeType = row.getString(MediaStore.Images.Media.MIME_TYPE);
+        Long size = row.getLong(MediaStore.Images.Media.SIZE);
+        String description = row.getString(MediaStore.Images.Media.DESCRIPTION);
 
         String url = "http:/" + getAddress() + "/"
                 + id;
@@ -341,7 +341,7 @@ public class MediaServer {
      * @param activity
      * @return
      */
-    public static List<RowObject> getVideoList(Activity activity) {
+    public static List<Row> getVideoList(Activity activity) {
         String[] videoColumns = {MediaStore.Video.Media._ID,
                 MediaStore.Video.Media.TITLE,
                 MediaStore.Video.Media.DISPLAY_NAME,
@@ -354,10 +354,10 @@ public class MediaServer {
                 MediaStore.Video.Media.DESCRIPTION};
         Cursor cursor = activity.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 videoColumns, null, null, null);
-        List<RowObject> rows = new LinkedList<>();
+        List<Row> rows = new LinkedList<>();
         if (cursor.moveToFirst()) {//判断数据表里有数据
             while (cursor.moveToNext()) {//遍历数据表中的数据
-                RowObject row = new RowObject();
+                Row row = new Row();
                 for (int i = 0; i < cursor.getColumnCount(); i++) {
                     String columnName = cursor.getColumnName(i);
                     row.put(columnName, cursor.getString(i));
@@ -383,7 +383,7 @@ public class MediaServer {
      * @param activity
      * @return
      */
-    public static List<RowObject> getRadioList(Activity activity) {
+    public static List<Row> getRadioList(Activity activity) {
         String[] audioColumns = {MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DISPLAY_NAME,
@@ -394,10 +394,10 @@ public class MediaServer {
                 MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.ALBUM};
         Cursor cursor = activity.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 audioColumns, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        List<RowObject> rows = new LinkedList<>();
+        List<Row> rows = new LinkedList<>();
         if (cursor.moveToFirst()) {//判断数据表里有数据
             while (cursor.moveToNext()) {//遍历数据表中的数据
-                RowObject row = new RowObject();
+                Row row = new Row();
                 for (int i = 0; i < cursor.getColumnCount(); i++) {
                     String columnName = cursor.getColumnName(i);
                     row.put(columnName, cursor.getString(i));
@@ -423,7 +423,7 @@ public class MediaServer {
      * @param activity
      * @return
      */
-    public static List<RowObject> getImageList(Activity activity) {
+    public static List<Row> getImageList(Activity activity) {
         String[] imageColumns = {MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.TITLE,
@@ -433,10 +433,10 @@ public class MediaServer {
                 MediaStore.Images.Media.DESCRIPTION};
         Cursor cursor = activity.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 imageColumns, null, null, MediaStore.Images.Media.DATA);
-        LinkedList<RowObject> rows = new LinkedList<>();
+        LinkedList<Row> rows = new LinkedList<>();
         if (cursor.moveToFirst()) {//判断数据表里有数据
             while (cursor.moveToNext()) {//遍历数据表中的数据
-                RowObject row = new RowObject();
+                Row row = new Row();
                 for (int i = 0; i < cursor.getColumnCount(); i++) {
                     String columnName = cursor.getColumnName(i);
                     row.put(columnName, cursor.getString(i));
@@ -456,8 +456,8 @@ public class MediaServer {
     }
 
 
-    public static List<RowObject> getNetList(Activity activity) {
-        List<RowObject> url_list = SPUtils.getRows(FILE_TYPE.NET, "url_list");
+    public static List<Row> getNetList(Activity activity) {
+        List<Row> url_list = SPUtils.getRows(FILE_TYPE.NET, "url_list");
         return url_list;
     }
 
@@ -488,27 +488,27 @@ public class MediaServer {
         if (mediaId.startsWith(FILE_TYPE.VIDEO)){
             mediaId=mediaId.replace(FILE_TYPE.VIDEO,"");
             for (int i = 0; i < rowsVideo.size(); i++) {
-                RowObject rowObject = rowsVideo.get(i);
-                if (rowObject.containsValue(mediaId)) {
-                    filePath = rowObject.getString("filePath");
+                Row row = rowsVideo.get(i);
+                if (row.containsValue(mediaId)) {
+                    filePath = row.getString("filePath");
                     i = rowsVideo.size();
                 }
             }
         }else if (mediaId.startsWith(FILE_TYPE.RADIO)) {
             mediaId=mediaId.replace(FILE_TYPE.RADIO,"");
             for (int i = 0; i < rowsRadio.size(); i++) {
-                RowObject rowObject = rowsRadio.get(i);
-                if (rowObject.containsValue(mediaId)) {
-                    filePath = rowObject.getString("filePath");
+                Row row = rowsRadio.get(i);
+                if (row.containsValue(mediaId)) {
+                    filePath = row.getString("filePath");
                     i = rowsRadio.size();
                 }
             }
         }else if (mediaId.startsWith(FILE_TYPE.IMAGE)) {
             mediaId=mediaId.replace(FILE_TYPE.IMAGE,"");
             for (int i = 0; i < rowsImage.size(); i++) {
-                RowObject rowObject = rowsImage.get(i);
-                if (rowObject.containsValue(mediaId)) {
-                    filePath = rowObject.getString("filePath");
+                Row row = rowsImage.get(i);
+                if (row.containsValue(mediaId)) {
+                    filePath = row.getString("filePath");
                     i = rowsImage.size();
                 }
             }

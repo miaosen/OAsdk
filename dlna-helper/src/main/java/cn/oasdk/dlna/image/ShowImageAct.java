@@ -11,7 +11,7 @@ import cn.oasdk.dlna.base.BaseActivity;
 import cn.oaui.ImageFactory;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.ViewPagerForScrollView;
@@ -31,7 +31,7 @@ public class ShowImageAct extends BaseActivity{
 
     int index;
 
-    LinkedList<RowObject>  rowsCur;
+    LinkedList<Row>  rowsCur;
 
 
 
@@ -100,9 +100,9 @@ public class ShowImageAct extends BaseActivity{
             View view = ViewUtils.inflatView(container.getContext(),R.layout.image_vp_item);
             L.i("============instantiateItem==========="+position+"  "+index);
             ZoomImageView img=view.findViewById(R.id.img);
-            RowObject rowObject = rowsCur.get(position);
+            Row row = rowsCur.get(position);
             L.i("============initConfig==========="+rowsCur);
-            ImageFactory.loadFileImage(img, rowObject.getString("filePath"));
+            ImageFactory.loadFileImage(img, row.getString("filePath"));
             //Thread thread = new Thread(new Runnable() {
             //    @Override
             //    public void run() {

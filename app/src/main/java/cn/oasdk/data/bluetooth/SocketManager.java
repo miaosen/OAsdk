@@ -7,7 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.dialog.extra.WindowTipDialog;
 
@@ -68,7 +68,7 @@ public class SocketManager {
     }
 
 
-    public static void clientConnect(Handler handler, RowObject rowDevice){
+    public static void clientConnect(Handler handler, Row rowDevice){
         new ClientThread(handler,rowDevice).start();
     }
     
@@ -213,8 +213,8 @@ public class SocketManager {
     static class ClientThread extends Thread {
 
         Handler handler;
-        RowObject rowDevice;
-        public ClientThread(Handler handler, RowObject rowDevice) {
+        Row rowDevice;
+        public ClientThread(Handler handler, Row rowDevice) {
             this.handler=handler;
             this.rowDevice=rowDevice;
         }

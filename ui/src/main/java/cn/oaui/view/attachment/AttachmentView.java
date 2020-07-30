@@ -12,7 +12,7 @@ import cn.oaui.IntentFactory;
 import cn.oaui.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.BitmapUtils;
 import cn.oaui.utils.DateTimeUtils;
 import cn.oaui.utils.FileUtils;
@@ -46,7 +46,7 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
     FrameDialog dlgVoice, dlgSign;
 
 
-    List<RowObject> attachmentList = new LinkedList<RowObject>();
+    List<Row> attachmentList = new LinkedList<Row>();
 
     public AttachmentView(Context context) {
         super(context);
@@ -74,9 +74,9 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
         tempFragmentView.setOnActivityResultListener(new TempFragment.OnActivityResultListener() {
             @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
-               RowObject rowObject = IntentFactory.onActivityResult(requestCode, resultCode, data);
-                if(rowObject!=null){
-                    attachmentList.add(rowObject);
+               Row row = IntentFactory.onActivityResult(requestCode, resultCode, data);
+                if(row !=null){
+                    attachmentList.add(row);
                     attachmentAdp.notifyDataSetChanged();
                 }
             }
@@ -86,7 +86,7 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
         dlgVoice = new FrameDialog(context, voiceRecordView);
         voiceRecordView.setOnRecordComplateListener(new VoiceRecordView.OnRecordComplateListener() {
             @Override
-            public void onComplate(RowObject result) {
+            public void onComplate(Row result) {
                 dlgVoice.dismiss();
                 if(result!=null){
                     attachmentList.add(result);
@@ -102,7 +102,7 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
             public void onSure(Bitmap bitmap) {
                 String path= FileUtils.getAppDirPath()+"/"+ DateTimeUtils.getCurrentTimeMillis()+".png";
                 BitmapUtils.saveBitmapToPathAsPng(bitmap,path);
-                RowObject result=new RowObject();
+                Row result=new Row();
                 result.put("path",path);
                 result.put("type","sign");
                 attachmentList.add(result);
@@ -140,11 +140,11 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
         }
     }
 
-    public List<RowObject> getAttachmentList() {
+    public List<Row> getAttachmentList() {
         return attachmentList;
     }
 
-    public void setAttachmentList(List<RowObject> attachmentList) {
+    public void setAttachmentList(List<Row> attachmentList) {
         this.attachmentList = attachmentList;
     }
 
@@ -156,11 +156,11 @@ public class AttachmentView extends CustomLayout implements View.OnClickListener
         this.attachmentAdp = attachmentAdp;
     }
 
-    public List<RowObject> getData() {
+    public List<Row> getData() {
         return attachmentAdp.getRows();
     }
 
-    public void  setData(List<RowObject> rows) {
+    public void  setData(List<Row> rows) {
         attachmentAdp.addRows(rows);
     }
 }

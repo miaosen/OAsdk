@@ -11,7 +11,7 @@ import java.util.Map;
 
 import cn.oaui.ImageFactory;
 import cn.oaui.R;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.view.listview.BaseFillAdapter;
 
@@ -20,13 +20,13 @@ public class AttachmentAdp extends BaseFillAdapter {
     public String urlKey="path";
 
 
-    public AttachmentAdp(Context context, List<RowObject> rows, int layout) {
+    public AttachmentAdp(Context context, List<Row> rows, int layout) {
         super(context, rows, layout);
     }
 
     @SuppressLint("NewApi")
     @Override
-    public void setItem(View convertView, final RowObject row, int position,
+    public void setItem(View convertView, final Row row, int position,
                         ViewHolder holder) {
         Map<String, View> views=holder.views;
         View rl_item = views.get("rl_item");

@@ -35,7 +35,7 @@ import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.JSONSerializer;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.JsonUtils;
 import cn.oaui.utils.StringUtils;
@@ -116,7 +116,7 @@ public class WifiAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, final RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, final Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 if(WifiP2pDevice.CONNECTED==row.getInteger("status")){
                     //Message msg=new Message();
                     //msg.obj=row;
@@ -135,7 +135,7 @@ public class WifiAct extends BaseActivity {
         });
         dataListView.setOnItemModifylistenert(new DataListView.OnItemModifylistenert() {
             @Override
-            public void setItemView(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void setItemView(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 TextView isConnect= (TextView) holder.views.get("isConnect");
                 if(WifiP2pDevice.AVAILABLE==row.getInteger("status")){
                     isConnect.setText("可用的");
@@ -174,7 +174,7 @@ public class WifiAct extends BaseActivity {
         }
     };
 
-    private void connect(RowObject deviceInfo) {
+    private void connect(Row deviceInfo) {
         WifiP2pConfig config = new WifiP2pConfig();
         if (config.deviceAddress != null && deviceInfo != null) {
             config.deviceAddress = deviceInfo.getString("deviceAddress");
@@ -340,7 +340,7 @@ public class WifiAct extends BaseActivity {
                                 L.i("=========onPeersAvailable==============" + peers.getDeviceList());
                                 L.i("=========onPeersAvailable=============="+ JSONSerializer.toJSONString(peers));
                                 if(peers.getDeviceList()!=null){
-                                    List<RowObject> rows = JsonUtils.jsonToRows(JSONSerializer.toJSONString(peers.getDeviceList()));
+                                    List<Row> rows = JsonUtils.jsonToRows(JSONSerializer.toJSONString(peers.getDeviceList()));
                                     dataListView.getRows().clear();
                                    L.i("=========onPeersAvailable=============="+rows);
                                     dataListView.setValue(rows);

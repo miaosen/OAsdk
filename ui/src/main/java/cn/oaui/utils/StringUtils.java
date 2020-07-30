@@ -259,4 +259,8 @@ public class StringUtils {
 		}
 		return list;
 	}
+
+    public static String removeUnnecessarySpace(String s) {
+		return s.replaceAll("\\s{2,}", " ");
+    }
 }

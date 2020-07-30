@@ -25,7 +25,7 @@ import cn.oasdk.base.AppContext;
 import cn.oasdk.fileview.R;
 import cn.oaui.L;
 import cn.oaui.ResourceHold;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.StringUtils;
@@ -250,10 +250,10 @@ public class FileData {
     /**
      * @param rows
      */
-    public static LinkedList<RowObject> folderRows(LinkedList<RowObject> rows) {
-        RowObject rowTemp = new RowObject();
+    public static LinkedList<Row> folderRows(LinkedList<Row> rows) {
+        Row rowTemp = new Row();
         for (int i = 0; i < rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
+            Row rowObject = rows.get(i);
             String filePath = rowObject.getString("path");
             String dir = rowObject.getString("dir");
             File file = new File(filePath);
@@ -261,16 +261,16 @@ public class FileData {
             String dirPath = StringUtils.isNotEmpty(dir) ? dir : dirFile.getAbsolutePath();
             Long fileSize = rowObject.getLong("fileSize");
             if (rowTemp.containsKey(dirPath)) {
-                RowObject row = rowTemp.getRow(dirPath);
+                Row row = rowTemp.getRow(dirPath);
                 row.put("fileCount", row.getInteger("fileCount") + 1);
                 long fileSize1 = row.getLong("fileSize") + fileSize;
                 row.put("fileSize", fileSize1);
                 row.put("fileSizeText", FileUtils.formetFileSize(fileSize1));
-                LinkedList<RowObject> rows1 = row.getRows("rows");
+                LinkedList<Row> rows1 = row.getRows("rows");
                 rows1.add(rowObject);
             } else {
-                RowObject row = new RowObject();
-                LinkedList<RowObject> rows2 = new LinkedList<>();
+                Row row = new Row();
+                LinkedList<Row> rows2 = new LinkedList<>();
                 rows2.add(rowObject);
                 row.put("rows", rows2);
                 row.put("fileName", dirFile.getName());
@@ -283,9 +283,9 @@ public class FileData {
                 rowTemp.put(dirPath, row);
             }
         }
-        LinkedList<RowObject> rows3 = new LinkedList<>();
+        LinkedList<Row> rows3 = new LinkedList<>();
         for (Object row : rowTemp.values()) {
-            RowObject rowObject= (RowObject) row;
+            Row rowObject= (Row) row;
             rows3.add(rowObject);
         }
         return rows3;
@@ -556,10 +556,10 @@ public class FileData {
         });
     }
 
-    public static void sortRowByFileSize(LinkedList<RowObject> rows) {
-        Collections.sort(rows, new Comparator<RowObject>() {
+    public static void sortRowByFileSize(LinkedList<Row> rows) {
+        Collections.sort(rows, new Comparator<Row>() {
             @Override
-            public int compare(RowObject o1, RowObject o2) {
+            public int compare(Row o1, Row o2) {
                 if (o1.getBoolean("isDir")) {
                     return 1;
                 } else if (o2.getBoolean("isDir")) {
@@ -573,10 +573,10 @@ public class FileData {
         });
     }
 
-    public static void sortRowByFileType(LinkedList<RowObject> rows) {
-        Collections.sort(rows, new Comparator<RowObject>() {
+    public static void sortRowByFileType(LinkedList<Row> rows) {
+        Collections.sort(rows, new Comparator<Row>() {
             @Override
-            public int compare(RowObject o1, RowObject o2) {
+            public int compare(Row o1, Row o2) {
                 if (o1.getBoolean("isDir")) {
                     return 1;
                 } else if (o2.getBoolean("isDir")) {
@@ -598,18 +598,18 @@ public class FileData {
     }
 
 
-    public static void copyFileByRows(final LinkedList<RowObject> rowsChecked, final String curCollectDir, final Handler handler) {
+    public static void copyFileByRows(final LinkedList<Row> rowsChecked, final String curCollectDir, final Handler handler) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < rowsChecked.size(); i++) {
-                    RowObject rowObject = rowsChecked.get(i);
-                    String path = rowObject.getString("path");
-                    Boolean isDir = rowObject.getBoolean("isDir");
+                    Row row = rowsChecked.get(i);
+                    String path = row.getString("path");
+                    Boolean isDir = row.getBoolean("isDir");
                     if (isDir) {
                         FileUtils.copyDirectiory(path, curCollectDir);
                     } else {
-                        copyFile(path, curCollectDir, rowObject);
+                        copyFile(path, curCollectDir, row);
                     }
                 }
                 handler.sendEmptyMessage(1);
@@ -625,7 +625,7 @@ public class FileData {
      * @param targetDir String  如：f:/fqf.txt
      * @return boolean
      */
-    public static boolean copyFile(String oldPath, String targetDir, RowObject row) {
+    public static boolean copyFile(String oldPath, String targetDir, Row row) {
         boolean sucess = false;
         try {
             int bytesum = 0;
@@ -657,13 +657,13 @@ public class FileData {
     }
 
 
-    public static void moveFileByRows(LinkedList<RowObject> rowsChecked, String targetDir, Handler handler) {
+    public static void moveFileByRows(LinkedList<Row> rowsChecked, String targetDir, Handler handler) {
         for (int i = 0; i < rowsChecked.size(); i++) {
-            RowObject rowObject = rowsChecked.get(i);
-            String path = rowObject.getString("path");
+            Row row = rowsChecked.get(i);
+            String path = row.getString("path");
             File file = new File(path);
             if (!targetDir.equals(file.getParent())) {
-                Boolean isDir = rowObject.getBoolean("isDir");
+                Boolean isDir = row.getBoolean("isDir");
                 String newPath;
                 if (isDir) {
                     newPath = FileUtils.moveDir(path, targetDir);
@@ -671,19 +671,19 @@ public class FileData {
                     newPath = FileUtils.moveFile(path, targetDir);
 
                 }
-                rowObject.put("path", newPath);
+                row.put("path", newPath);
             }
         }
     }
 
-    public static void deleteFileByRows(final LinkedList<RowObject> rowsChecked, final Handler handler) {
+    public static void deleteFileByRows(final LinkedList<Row> rowsChecked, final Handler handler) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < rowsChecked.size(); i++) {
-                    RowObject rowObject = rowsChecked.get(i);
-                    String path = rowObject.getString("path");
-                    Boolean isDir = rowObject.getBoolean("isDir");
+                    Row row = rowsChecked.get(i);
+                    String path = row.getString("path");
+                    Boolean isDir = row.getBoolean("isDir");
                     if (isDir) {
                         boolean b = FileUtils.deleteDirectory(path);
                         L.i("======run===== " + b);
@@ -709,18 +709,18 @@ public class FileData {
     }
 
 
-    public static void shareFileByRows(Context context, LinkedList<RowObject> rowsChecked) {
+    public static void shareFileByRows(Context context, LinkedList<Row> rowsChecked) {
         ArrayList<String> files = new ArrayList<String>();
         for (int i = 0; i < rowsChecked.size(); i++) {
-            RowObject rowObject = rowsChecked.get(i);
-            String path = rowObject.getString("path");
+            Row row = rowsChecked.get(i);
+            String path = row.getString("path");
             files.add(path);//分享文件
         }
         AppUtils.shareFileBySystemApp(context, files.get(0));
     }
 
 
-    public static void scanFile(File file,RowObject rowObject) {
+    public static void scanFile(File file, Row row) {
         File[] fs = file.listFiles();
         if (fs != null) {
             for (int i = 0; i < fs.length; i++) {
@@ -729,15 +729,15 @@ public class FileData {
                         && !isIngore(file1)) {
 //                    RowObject branch=new RowObject();
 //                    rowObject.put("branch",branch);
-                    scanFile(file1,rowObject);
+                    scanFile(file1, row);
                 }
 
                 if (!file1.isDirectory()
                         && !isIngore(file1)) {
                     if (isSuffixOf(file1.getAbsolutePath(), IMAGE_SUFFIX)) {
                         File[] fsImg ;
-                        if(rowObject.get("img")!=null){
-                            fsImg= (File[]) rowObject.get("img");
+                        if(row.get("img")!=null){
+                            fsImg= (File[]) row.get("img");
                         }else {
                             fsImg=new File[]{};
                         }
@@ -762,7 +762,7 @@ public class FileData {
                 }
                 files.add(file1.getAbsolutePath());
             }
-            rowObject.put("rows",fs);
+            row.put("rows",fs);
         }
     }
 

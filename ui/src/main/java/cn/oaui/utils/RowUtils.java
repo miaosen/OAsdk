@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.oaui.data.JSONSerializer;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 
 /**
  * @email 1510809124@qq.com
@@ -28,10 +28,10 @@ public class RowUtils {
 	 * @param args
      * @return
      */
-	public static List<RowObject> argToRows(String key, Object[] args) {
-		List<RowObject> rows = new ArrayList<RowObject>();
+	public static List<Row> argToRows(String key, Object[] args) {
+		List<Row> rows = new ArrayList<Row>();
 		for (int i = 0; i < args.length; i++) {
-			RowObject row = new RowObject();
+			Row row = new Row();
 			row.put(key, args[i]);
 			rows.add(row);
 		}
@@ -39,17 +39,17 @@ public class RowUtils {
 	}
 
 
-	public static RowObject entityToRow(Object object){
+	public static Row entityToRow(Object object){
 		String jsonString = JSONSerializer.toJSONString(object);
 		return JsonUtils.jsonToRow(jsonString);
 	}
 
 
-	public static List<RowObject> cursorToRows(Cursor cursor){
-		List<RowObject> rows=new LinkedList<>();
+	public static List<Row> cursorToRows(Cursor cursor){
+		List<Row> rows=new LinkedList<>();
 		if(cursor.moveToFirst()){//判断数据表里有数据
 			while(cursor.moveToNext()){//遍历数据表中的数据
-				RowObject row=new RowObject();
+				Row row=new Row();
 				for (int i = 0; i < cursor.getColumnCount(); i++) {
 					row.put(cursor.getColumnName(i),cursor.getString(i));
 				}
@@ -68,13 +68,13 @@ public class RowUtils {
 	 * @param args aa,bb
 	 * @return
 	 */
-	public static String getlayerData(RowObject row, String[] args) {
+	public static String getlayerData(Row row, String[] args) {
 		String value = null;
 		if (args.length < 2) {
 			return value;
 		} else {
 			//避免引用影响数据源
-			RowObject rowNew = new RowObject();
+			Row rowNew = new Row();
 			rowNew.putAll(row);
 			for (int i = 0; i < args.length; i++) {
 				if (rowNew.get(args[i]) != null) {
@@ -82,8 +82,8 @@ public class RowUtils {
 						value = rowNew.getString(args[i]);
 					} else {
 						Object obj = rowNew.get(args[i]);
-						if(obj!=null&&obj instanceof RowObject){
-							rowNew.putAll((RowObject) obj);
+						if(obj!=null&&obj instanceof Row){
+							rowNew.putAll((Row) obj);
 						} else {
 							i = args.length;
 						}
@@ -97,10 +97,10 @@ public class RowUtils {
 	}
 
 
-	public static Map<String,Object> rowToMap(RowObject rowObject) {
+	public static Map<String,Object> rowToMap(Row row) {
 		Map<String,Object> map=new HashMap<>();
-		for (String key:rowObject.keySet()){
-			map.put(key,rowObject.getString(key));
+		for (String key: row.keySet()){
+			map.put(key, row.getString(key));
 		}
 		return map;
 	}
@@ -108,14 +108,14 @@ public class RowUtils {
 
 
 
-	public static ContentValues rowToContentValues(RowObject rowObject) {
+	public static ContentValues rowToContentValues(Row row) {
 		ContentValues contentValues=new ContentValues();
-		for (String key:rowObject.keySet()){
-			contentValues.put(key,rowObject.getString(key));
+		for (String key: row.keySet()){
+			contentValues.put(key, row.getString(key));
 		}
 		return contentValues;
 	}
-	public static  LinkedList<RowObject>  listEntityToRows(Object object){
+	public static  LinkedList<Row>  listEntityToRows(Object object){
 		String jsonString = JSONSerializer.toJSONString(object);
 		return JsonUtils.jsonToRows(jsonString);
 	}

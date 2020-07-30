@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.AttributeSet;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -15,7 +16,6 @@ import com.google.android.exoplayer2.util.Util;
 import cn.oasdk.fileview.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.utils.FileUtils;
 import cn.oaui.view.CustomLayout;
 
 /**
@@ -30,7 +30,7 @@ public class VideoPalyView extends CustomLayout {
     PlayerView playerView;
     Uri uri;
 
-    SimpleExoPlayer player;
+    public SimpleExoPlayer player;
 
     public VideoPalyView(Context context) {
         super(context);
@@ -50,9 +50,12 @@ public class VideoPalyView extends CustomLayout {
 
         InjectReader.injectAllFields(this);
         // Instantiate the player.
-        player = new SimpleExoPlayer.Builder(context).build();
+        //缓冲控制
+        LoadControl loadControl = new LoadControl();
+        player = new SimpleExoPlayer.Builder(context).setLoadControl(loadControl).build();
         // Attach player to the view.
         playerView.setPlayer(player);
+
         // Prepare the player with the media source.
         //File file=new File(FileUtils.getSDCardPath()+"/phoneSaver/aa.mp3");
         //uri = Uri.parse(FileUtils.getSDCardPath()+"/phoneSaver/aa.mp3");
@@ -62,9 +65,14 @@ public class VideoPalyView extends CustomLayout {
 
 
     public void prepare(Uri uri) {
-
         player.prepare(createMediaSource(uri));
     }
+
+
+    public void stop(){
+        player.stop();
+    }
+
 
     private MediaSource createMediaSource(Uri uri) {
         // Produces DataSource instances through which media data is loaded.
@@ -80,5 +88,20 @@ public class VideoPalyView extends CustomLayout {
     @Override
     public int setXmlLayout() {
         return R.layout.exo_videopaly_view;
+    }
+
+
+
+    class LoadControl extends DefaultLoadControl{
+
+        public LoadControl(){
+            super();
+        }
+
+        @Override
+        public boolean shouldContinueLoading(long bufferedDurationUs, float playbackSpeed) {
+            return true;
+        }
+
     }
 }

@@ -12,7 +12,7 @@ import com.gzpykj.rmew.R;
 import cn.oahttp.HttpRequest;
 import cn.oahttp.callback.StringCallBack;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.Form;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.utils.ViewUtils;
@@ -56,7 +56,7 @@ public class EditAct extends BaseActivity {
 
     @Override
     public void initData() {
-        RowObject row = IntentUtils.getRow(getIntent(), ListAct.ROW_ITEM);
+        Row row = IntentUtils.getRow(getIntent(), ListAct.ROW_ITEM);
         //L.i("=========initData=============="+row);
         HttpRequest request = Global.createRequest("/jsp/rmew/mobile/riskenterprise.jsp?getInfoById");
         request.addParam("mainId",row.getString("mainId"));
@@ -65,7 +65,7 @@ public class EditAct extends BaseActivity {
             public void onSuccess(String text) {
                 JsonHandler jsonHandler=new JsonHandler(text);
                 Form form=new Form(context);
-                RowObject data = jsonHandler.getAsRow().getRow("data");
+                Row data = jsonHandler.getAsRow().getRow("data");
                 form.fill(data.getRow("compay_info"));
                 form.fill(data);
                 if(data.getRows("nclist")!=null&&data.getRows("nclist").size()>0){

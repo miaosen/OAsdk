@@ -17,7 +17,7 @@ import cn.oaui.ImageFactory;
 import cn.oaui.L;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
@@ -34,7 +34,7 @@ public class FileView extends CustomLayout {
 
     @ViewInject
     DataListView dl_file;
-    LinkedList<RowObject> rows = new LinkedList<>();
+    LinkedList<Row> rows = new LinkedList<>();
     String curFilePath = FileUtils.getSDCardPath();
     List<String> listFilePath = new LinkedList<>();
 
@@ -64,7 +64,7 @@ public class FileView extends CustomLayout {
     public void initData() {
         dl_file.setOnItemModifylistenert(new DataListView.OnItemModifylistenert() {
             @Override
-            public void setItemView(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void setItemView(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 //L.i("============setItemView===========" + row);
                 String filePath = row.getString("filePath");
                 ImageView img_file_type = (ImageView) holder.views.get("img_file_type");
@@ -110,7 +110,7 @@ public class FileView extends CustomLayout {
         });
         dl_file.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, final RowObject row, int position) {
+            public void onItemClick(View convertView, final Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
                 L.i("============onItemClick===========" + row);
                 if (row.getBoolean("isDir")) {
                     String name = row.getString("name");
@@ -127,7 +127,7 @@ public class FileView extends CustomLayout {
     }
 
 
-    public void onItemModify(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+    public void onItemModify(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
     }
 
     @Override
@@ -154,13 +154,13 @@ public class FileView extends CustomLayout {
     }
 
 
-    public void setRowsAndSort(LinkedList<RowObject> rows) {
+    public void setRowsAndSort(LinkedList<Row> rows) {
         //LinkedList<RowObject> rowObjects = StringUtils.deepCopyObject(rows);
         this.rows.addAll(rows);
         dl_file.addItems(sortAsRows(rows, curFilePath));
     }
 
-    public void setRows(LinkedList<RowObject> rows) {
+    public void setRows(LinkedList<Row> rows) {
         dl_file.addItems(rows);
     }
 
@@ -179,11 +179,11 @@ public class FileView extends CustomLayout {
      * @param rows
      * @param curFilePath
      */
-    private LinkedList<RowObject> sortAsRows(List<RowObject> rows, String curFilePath) {
-        RowObject tempRowDir = new RowObject();
-        RowObject tempRowFile = new RowObject();
+    private LinkedList<Row> sortAsRows(List<Row> rows, String curFilePath) {
+        Row tempRowDir = new Row();
+        Row tempRowFile = new Row();
         for (int i = 0; i < rows.size(); i++) {
-            RowObject row = rows.get(i);
+            Row row = rows.get(i);
             String filePath = row.getString("filePath");
             if (filePath.startsWith(curFilePath)) {
                 //RowObject row = StringUtils.deepCopyObject(row);
@@ -209,19 +209,19 @@ public class FileView extends CustomLayout {
                 }
             }
         }
-        LinkedList<RowObject> tempRowsFile = new LinkedList<>();
+        LinkedList<Row> tempRowsFile = new LinkedList<>();
         for (Object row : tempRowDir.values()) {
-            tempRowsFile.add((RowObject) row);
+            tempRowsFile.add((Row) row);
         }
         for (Object row : tempRowFile.values()) {
-            tempRowsFile.add((RowObject) row);
+            tempRowsFile.add((Row) row);
         }
         return tempRowsFile;
     }
 
 
     public interface OnFileClickListener{
-        void onFileClick(RowObject row);
+        void onFileClick(Row row);
     }
 
     public String getCurFilePath() {

@@ -2,7 +2,6 @@ package cn.oasdk.webview.view;
 
 import android.content.Context;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
@@ -10,24 +9,25 @@ import android.widget.ImageView;
 
 import java.util.LinkedList;
 
+import androidx.annotation.RequiresApi;
 import cn.oasdk.fileview.R;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
 
-public class CollectView extends CustomLayout {
+public class WebMuneView extends CustomLayout {
 
     String[] names = new String[]{
-            "静听网", "评书网",
-            "百度", "食品监管","qq音乐", "添加",
+            "文件管理", "添加书签", "历史","刷新",
+            "分享", "设置","书签", "退出",
     };
 
     Integer[] imgs = new Integer[]{
-            R.mipmap.icon_image, R.mipmap.icon_video, R.mipmap.icon_doc,
-            R.mipmap.icon_music, R.mipmap.icon_apk, R.mipmap.icon_add,
+            R.mipmap.icon_file, R.mipmap.icon_add_bookmark, R.mipmap.icon_history,R.mipmap.icon_refresh,
+            R.mipmap.icon_share, R.mipmap.icon_setting,R.mipmap.icon_bookmark,  R.mipmap.icon_out,
     };
 
     String[] urls = new String[]{
@@ -36,19 +36,24 @@ public class CollectView extends CustomLayout {
             "https://www.baidu.com",
             "http://rcjgqyd.gzfda.gov.cn:8080/spjg/jsp/mobile/login.jsp",
             "https://i.y.qq.com/n2/m/index.html",
+            "",
+            "",
             ""
     };
 
     @ViewInject
     GridView gridView;
-    private LinkedList<RowObject> rows;
+    private LinkedList<Row> rows;
     public ListAdapter listAdapter;
 
-    public CollectView(Context context) {
+
+
+
+    public WebMuneView(Context context) {
         super(context);
     }
 
-    public CollectView(Context context, AttributeSet attrs) {
+    public WebMuneView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -56,12 +61,12 @@ public class CollectView extends CustomLayout {
     public void initData() {
         rows.clear();
         for (int i = 0; i < names.length; i++) {
-            RowObject rowObject = new RowObject();
+            Row row = new Row();
             String name = names[i];
-            rowObject.put("name", name);
-            rowObject.put("img", imgs[i]);
-            rowObject.put("url", urls[i]);
-            rows.add(rowObject);
+            row.put("name", name);
+            row.put("img", imgs[i]);
+            row.put("url", urls[i]);
+            rows.add(row);
         }
         listAdapter.notifyDataSetChanged();
     }
@@ -70,29 +75,33 @@ public class CollectView extends CustomLayout {
     protected void onCreateView() {
         InjectReader.injectAllFields(this);
         rows= new LinkedList<>();
-        listAdapter=new  ListAdapter(context,rows,R.layout.collect_view_item);
+        listAdapter=new  ListAdapter(context,rows,R.layout.menu_view_item);
         gridView.setAdapter(listAdapter);
     }
 
     @Override
     public int setXmlLayout() {
-        return R.layout.collect_view;
+        return R.layout.menu_view;
     }
 
     public class ListAdapter extends BaseFillAdapter {
-        public ListAdapter(Context context, LinkedList<RowObject> rows, int layout) {
+        public ListAdapter(Context context, LinkedList<Row> rows, int layout) {
             super(context, rows, layout);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
-        public void setItem(final View convertView, final RowObject row, final int position, final ViewHolder holder) {
+        public void setItem(final View convertView, final Row row, final int position, final ViewHolder holder) {
             ImageView img = (ImageView) holder.views.get("img");
             img.setBackground(ResourceHold.getDrawable(row.getInteger("img")));
         }
     }
 
+    public ListAdapter getListAdapter() {
+        return listAdapter;
+    }
 
-
-
+    public void setListAdapter(ListAdapter listAdapter) {
+        this.listAdapter = listAdapter;
+    }
 }

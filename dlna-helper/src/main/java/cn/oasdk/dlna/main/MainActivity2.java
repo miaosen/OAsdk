@@ -36,7 +36,7 @@ import cn.oasdk.dlna.image.MusicAct;
 import cn.oasdk.dlna.image.VideoAct;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.FormUtils;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.IntentUtils;
@@ -60,7 +60,7 @@ public class MainActivity2 extends BaseActivity {
 
     MAdapter mAdapter;
 
-    private List<RowObject> rows = new LinkedList<RowObject>();
+    private List<Row> rows = new LinkedList<Row>();
 
     String[] argsName = new String[]{
             "视频", "音乐", "图片", "文档", "收藏", "网络共享"
@@ -101,7 +101,7 @@ public class MainActivity2 extends BaseActivity {
         flowLayout.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
                 L.i("============onItemClick===========" + row);
                 if ("文档".equals(row.getString("NAME"))) {
                     IntentUtils.jump(context, DocumentAct.class);
@@ -156,7 +156,7 @@ public class MainActivity2 extends BaseActivity {
     private void setListView() {
         rows.clear();
         for (int i = 0; i < 6; i++) {
-            RowObject row = new RowObject();
+            Row row = new Row();
             row.put("NAME", argsName[i]);
             row.put("COLOR", argsColor[i]);
             row.put("ICON", argsIcon[i]);
@@ -177,7 +177,7 @@ public class MainActivity2 extends BaseActivity {
         }
         for (int i = 0; i < listView.size(); i++) {
             LinearLayout linearLayout = listView.get(i);
-            final RowObject row = rows.get(i);
+            final Row row = rows.get(i);
             FormUtils.setContentValues(linearLayout, row);
             View ln_bg = linearLayout.findViewById(R.id.ln_bg);
             View img = linearLayout.findViewById(R.id.img);
@@ -261,13 +261,13 @@ public class MainActivity2 extends BaseActivity {
 
     class MAdapter extends BaseFillAdapter {
 
-        public MAdapter(List<RowObject> rows, int layout) {
+        public MAdapter(List<Row> rows, int layout) {
             super(MainActivity2.this, rows, layout);
         }
 
         @SuppressLint("NewApi")
         @Override
-        public void setItem(View convertView, RowObject row, int position, ViewHolder holder) {
+        public void setItem(View convertView, Row row, int position, ViewHolder holder) {
             View ln_bg = holder.views.get("ln_bg");
             View img = holder.views.get("img");
             setRoundedColor(ln_bg, 30, row.getString("COLOR"));

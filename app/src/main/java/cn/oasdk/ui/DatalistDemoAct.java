@@ -12,7 +12,7 @@ import cn.oahttp.HttpRequest;
 import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.listview.BaseFillAdapter;
 import cn.oaui.view.listview.DataListView;
@@ -75,7 +75,7 @@ public class DatalistDemoAct extends BaseActivity {
         dataListView.getRequest().setMethod(HttpRequest.HttpMethod.GET);
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 ViewUtils.toast(row.toString());
             }
         });

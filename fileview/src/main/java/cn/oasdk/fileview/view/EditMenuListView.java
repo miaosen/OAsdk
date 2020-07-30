@@ -13,7 +13,7 @@ import cn.oasdk.fileview.R;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
 
@@ -29,7 +29,7 @@ public class EditMenuListView extends CustomLayout {
 
     @ViewInject
     ListView listView;
-    private LinkedList<RowObject> rows;
+    private LinkedList<Row> rows;
     public ListAdapter listAdapter;
 
     Integer[] names = new Integer[]{
@@ -56,11 +56,11 @@ public class EditMenuListView extends CustomLayout {
     public void refresh(Integer[] names) {
         rows.clear();
         for (int i = 0; i < names.length; i++) {
-            RowObject rowObject = new RowObject();
+            Row row = new Row();
             Integer name = names[i];
-            rowObject.put("name", ResourceHold.getString(name));
-            rowObject.put("img",imgs[i]);
-            rows.add(rowObject);
+            row.put("name", ResourceHold.getString(name));
+            row.put("img",imgs[i]);
+            rows.add(row);
         }
         listAdapter.notifyDataSetChanged();
     }
@@ -81,13 +81,13 @@ public class EditMenuListView extends CustomLayout {
 
 
     public class ListAdapter extends BaseFillAdapter {
-        public ListAdapter(Context context, LinkedList<RowObject> rows, int layout) {
+        public ListAdapter(Context context, LinkedList<Row> rows, int layout) {
             super(context, rows, layout);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
-        public void setItem(final View convertView, final RowObject row, final int position, final ViewHolder holder) {
+        public void setItem(final View convertView, final Row row, final int position, final ViewHolder holder) {
             ImageView img = (ImageView) holder.views.get("img");
             img.setBackground(ResourceHold.getDrawable(row.getInteger("img")));
         }
@@ -101,11 +101,11 @@ public class EditMenuListView extends CustomLayout {
         this.listView = listView;
     }
 
-    public LinkedList<RowObject> getRows() {
+    public LinkedList<Row> getRows() {
         return rows;
     }
 
-    public void setRows(LinkedList<RowObject> rows) {
+    public void setRows(LinkedList<Row> rows) {
         this.rows = rows;
     }
 

@@ -96,9 +96,9 @@ public class DataProvider  {
             L.i("====readParam========"+param);
             int i=0;
             if(JsonUtils.isValidateJson(param)){
-                RowObject rowObject = JsonUtils.jsonToRow(param);
-                for(String key: rowObject.keySet()){
-                    mapParam.put(key,rowObject.get(key));
+                Row row = JsonUtils.jsonToRow(param);
+                for(String key: row.keySet()){
+                    mapParam.put(key, row.get(key));
                 }
                 L.i("====readParam========"+mapParam);
             }else{

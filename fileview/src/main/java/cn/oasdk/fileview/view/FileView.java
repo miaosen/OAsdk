@@ -27,7 +27,7 @@ import cn.oaui.L;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.RowUtils;
@@ -84,7 +84,7 @@ Button btn_add;
     @ViewInject
     View view_dlg_line;
 
-    public LinkedList<RowObject> rowsChecked;
+    public LinkedList<Row> rowsChecked;
 
     public String curCollectDir = FileUtils.getSDCardPath();
 
@@ -92,7 +92,7 @@ Button btn_add;
     public boolean isLoadByPath = true;
 
     public static final String KEY_CUR_COLLECT_DIR = "curcollectdir_key";
-    public LinkedList<RowObject> rows;
+    public LinkedList<Row> rows;
 
     private int itemLayoutId = R.layout.file_list_item;
 
@@ -154,19 +154,19 @@ Button btn_add;
 
 
     public void loadData(String path) {
-        LinkedList<RowObject> rowsFromPath = new LinkedList<>();
+        LinkedList<Row> rowsFromPath = new LinkedList<>();
         LinkedList<FileEntity> listCl = FileData.readFileFromDir(path);
         if (listCl != null) {
             rowsFromPath = RowUtils.listEntityToRows(listCl);
         }
         for (int i = 0; i < rowsFromPath.size(); i++) {
-            RowObject rowObject = rowsFromPath.get(i);
-            String path1 = rowObject.getString("path");
+            Row row = rowsFromPath.get(i);
+            String path1 = row.getString("path");
             for (int j = 0; j < rowsChecked.size(); j++) {
-                RowObject rowObject1 = rowsChecked.get(j);
-                String path2 = rowObject1.getString("path");
+                Row row1 = rowsChecked.get(j);
+                String path2 = row1.getString("path");
                 if (path1.equals(path2)) {
-                    rowObject.put(FileListAdapter.CHECK_KEY, true);
+                    row.put(FileListAdapter.CHECK_KEY, true);
 //                    rowObject.put(FileListAdapter.LOCK_KEY, true);
                 }
             }
@@ -174,16 +174,16 @@ Button btn_add;
         loadData(rowsFromPath);
     }
 
-    public void loadData(LinkedList<RowObject> rowsData) {
+    public void loadData(LinkedList<Row> rowsData) {
         rows.clear();
         for (int i = 0; i < rowsData.size(); i++) {
-            RowObject rowObject = rowsData.get(i);
-            String path1 = rowObject.getString("path");
+            Row row = rowsData.get(i);
+            String path1 = row.getString("path");
             for (int j = 0; j < rowsChecked.size(); j++) {
-                RowObject rowObject1 = rowsChecked.get(j);
-                String path2 = rowObject1.getString("path");
+                Row row1 = rowsChecked.get(j);
+                String path2 = row1.getString("path");
                 if (path1.equals(path2)) {
-                    rowObject.put(FileListAdapter.CHECK_KEY, true);
+                    row.put(FileListAdapter.CHECK_KEY, true);
 //                    rowObject.put(FileListAdapter.LOCK_KEY, true);
                 }
             }
@@ -226,7 +226,7 @@ Button btn_add;
         listAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
-            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 FileView.this.onItemClick(convertView, row, position, holder);
             }
         });
@@ -239,14 +239,14 @@ Button btn_add;
         });
         listAdapter.setOnItemModifyListener(new FileListAdapter.OnItemModifyListener() {
             @Override
-            public void setItem(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void setItem(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 onItemModifyListener(convertView,row,position,holder);
             }
         });
         listAdapter.setOnLongClickListener(new FileListAdapter.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
-            public void onClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 checkOne(row,holder);
             }
         });
@@ -330,7 +330,7 @@ Button btn_add;
 //        });
         sortDialogListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 sortDialog.dismiss();
                 sort(row);
             }
@@ -357,7 +357,7 @@ Button btn_add;
         });
     }
 
-    public void onItemModifyListener(View convertView, final RowObject row, int position, final BaseFillAdapter.ViewHolder holder) {
+    public void onItemModifyListener(View convertView, final Row row, int position, final BaseFillAdapter.ViewHolder holder) {
         ImageView img_tip_check= (ImageView) holder.views.get("img_tip_check");
         img_tip_check.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -370,7 +370,7 @@ Button btn_add;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void checkOne(RowObject row, BaseFillAdapter.ViewHolder holder) {
+    public void checkOne(Row row, BaseFillAdapter.ViewHolder holder) {
         if (!isCheckMode) {
             switchEditMode(true);
             ImageView img_check= (ImageView) holder.views.get("img_check");
@@ -380,13 +380,13 @@ Button btn_add;
         }
     }
 
-    public void onEditMenuClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder)  {
+    public void onEditMenuClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder)  {
         String name = row.getString("name");
         if (ResourceHold.getString(R.string.share).equals(name)) {
             FileData.shareFileByRows(context, rowsChecked);
         } else if (ResourceHold.getString(R.string.modify).equals(name)) {
             if (rowsChecked.size() == 1) {
-                RowObject rowObject = rowsChecked.get(0);
+                Row rowObject = rowsChecked.get(0);
                 showModifyDialog(rowObject);
             } else {
             }
@@ -417,12 +417,12 @@ Button btn_add;
         alertDialog1.show();
     }
 
-    public void sort(RowObject row) {
+    public void sort(Row row) {
 
     }
 
 
-    public void showModifyDialog(RowObject rowObject) {
+    public void showModifyDialog(Row row) {
     }
 
     public void cancleEdit() {
@@ -464,8 +464,8 @@ Button btn_add;
     private void copyOrPaste() {
         if (ResourceHold.getString(R.string.copy).equals(tv_copy.getText())) {
             for (int i = 0; i < rowsChecked.size(); i++) {
-                RowObject rowObject = rowsChecked.get(i);
-                rowObject.remove(FileListAdapter.LOCK_KEY);
+                Row row = rowsChecked.get(i);
+                row.remove(FileListAdapter.LOCK_KEY);
             }
             tv_copy.setText(ResourceHold.getString(R.string.paste));
             isPasteMode = true;
@@ -497,8 +497,8 @@ Button btn_add;
     public void logicMoveFile() {
         if (ResourceHold.getString(R.string.move).equals(tv_move.getText())) {
             for (int i = 0; i < rowsChecked.size(); i++) {
-                RowObject rowObject = rowsChecked.get(i);
-                rowObject.put(FileListAdapter.LOCK_KEY, true);
+                Row row = rowsChecked.get(i);
+                row.put(FileListAdapter.LOCK_KEY, true);
             }
             tv_move.setText(ResourceHold.getString(R.string.paste));
             isPasteMode = true;
@@ -530,8 +530,8 @@ Button btn_add;
 //        }
         rowsChecked.clear();
         for (int i = 0; i < rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
-            rowObject.put(FileListAdapter.CHECK_KEY, check);
+            Row row = rows.get(i);
+            row.put(FileListAdapter.CHECK_KEY, check);
         }
         rowsChecked.addAll(rows);
         listAdapter.notifyDataSetChanged();
@@ -546,7 +546,7 @@ Button btn_add;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+    public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
         String path = row.getString("path");
         if (isEditMode && !isPasteMode) {
             checkitem(row,holder);
@@ -573,7 +573,7 @@ Button btn_add;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void checkitem(RowObject row, BaseFillAdapter.ViewHolder holder) {
+    public void checkitem(Row row, BaseFillAdapter.ViewHolder holder) {
         ImageView img_check = (ImageView) holder.views.get("img_check");
         Boolean isCheck = !row.getBoolean(FileListAdapter.CHECK_KEY);
         if (isCheck) {
@@ -587,13 +587,13 @@ Button btn_add;
     }
 
 
-    public void openDir(RowObject row, String path) {
+    public void openDir(Row row, String path) {
         curCollectDir = path;
         logicTitle(curCollectDir);
         loadData(curCollectDir);
     }
 
-    public void openFile(RowObject row, String path) {
+    public void openFile(Row row, String path) {
         if(path.startsWith("/system/")||path.startsWith("/data/")&&path.endsWith(".apk")){
             ViewUtils.toast(ResourceHold.getString(R.string.tip_install_app_cannot_open));
         }else {
@@ -614,9 +614,9 @@ Button btn_add;
         }
         rowsChecked.clear();
         for (int i = 0; i < rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
-            rowObject.remove(FileListAdapter.CHECK_KEY);
-            rowObject.remove(FileListAdapter.LOCK_KEY);
+            Row row = rows.get(i);
+            row.remove(FileListAdapter.CHECK_KEY);
+            row.remove(FileListAdapter.LOCK_KEY);
         }
         if (isEditMode) {
             ln_edit_tail.setVisibility(View.VISIBLE);
@@ -639,9 +639,9 @@ Button btn_add;
         tv_edit_title.setText(ResourceHold.getString(R.string.check));
         this.isCheckMode = mode;
         for (int i = 0; i < rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
-            rowObject.remove(FileListAdapter.CHECK_KEY);
-            rowObject.remove(FileListAdapter.LOCK_KEY);
+            Row row = rows.get(i);
+            row.remove(FileListAdapter.CHECK_KEY);
+            row.remove(FileListAdapter.LOCK_KEY);
         }
         if (isCheckMode) {
             rowsChecked.clear();
@@ -666,7 +666,7 @@ Button btn_add;
        void onModeChange(boolean mode);
     }
     public interface OnFileCheckedListen{
-        void onChecked(LinkedList<RowObject> rows);
+        void onChecked(LinkedList<Row> rows);
     }
 
     public interface OnSucessHandlerListen{
@@ -779,11 +779,11 @@ Button btn_add;
         this.editMenuDialog = editMenuDialog;
     }
 
-    public LinkedList<RowObject> getRowsChecked() {
+    public LinkedList<Row> getRowsChecked() {
         return rowsChecked;
     }
 
-    public void setRowsChecked(LinkedList<RowObject> rowsChecked) {
+    public void setRowsChecked(LinkedList<Row> rowsChecked) {
         this.rowsChecked = rowsChecked;
     }
 }

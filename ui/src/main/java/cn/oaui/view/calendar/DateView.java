@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.StringUtils;
 
@@ -66,7 +66,7 @@ public class DateView extends View {
     int curYear = -1, curMonth = -1, curDay = -1;
 
     //数据源
-    List<RowObject> currentMonthInfo = new LinkedList<>();
+    List<Row> currentMonthInfo = new LinkedList<>();
 
     int colorGrey = Color.parseColor("#B6B6B6");
 
@@ -186,7 +186,7 @@ public class DateView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (currentMonthInfo.size() == 0) {
-            List<RowObject> currentPageCalendarInfo = CalendarDataFactory.getCurrentPageCalendarInfo();
+            List<Row> currentPageCalendarInfo = CalendarDataFactory.getCurrentPageCalendarInfo();
             currentMonthInfo.addAll(currentPageCalendarInfo);
             curYear= CalendarDataFactory.getCurYear();
             curMonth= CalendarDataFactory.getCurMonth();
@@ -279,13 +279,13 @@ public class DateView extends View {
         int y = gridHeight + padding;
         initCurPageInfo(currentMonthInfo);
         for (int i = 0; i < currentMonthInfo.size(); i++) {
-            RowObject rowObject = currentMonthInfo.get(i);
-            int yaer = rowObject.getInteger("year");
-            int month = rowObject.getInteger("month");
-            int day = rowObject.getInteger("day");
+            Row row = currentMonthInfo.get(i);
+            int yaer = row.getInteger("year");
+            int month = row.getInteger("month");
+            int day = row.getInteger("day");
             String strDay = day + "";
-            String day_yingli = rowObject.getString("day_yingli");
-            String type = rowObject.getString("type");
+            String day_yingli = row.getString("day_yingli");
+            String type = row.getString("type");
             if (i % 7 == 0 && i != 0) {
                 x = padding;
                 y = y + gridHeight;
@@ -367,23 +367,23 @@ public class DateView extends View {
         canvas.drawText(text, x - textWSpac, y + textHSpac, paint);
     }
 
-    public List<RowObject> getCurrentMonthInfo() {
+    public List<Row> getCurrentMonthInfo() {
         return currentMonthInfo;
     }
 
-    public void setCurrentMonthInfo(List<RowObject> currentMonthInfo) {
+    public void setCurrentMonthInfo(List<Row> currentMonthInfo) {
         this.currentMonthInfo.clear();
         this.currentMonthInfo.addAll(currentMonthInfo);
         initCurPageInfo(currentMonthInfo);
         invalidate();
     }
 
-    private void initCurPageInfo(List<RowObject> currentMonthInfo) {
+    private void initCurPageInfo(List<Row> currentMonthInfo) {
         for (int i = 0; i < currentMonthInfo.size(); i++) {
-            RowObject rowObject = currentMonthInfo.get(i);
-            int yaer = rowObject.getInteger("year");
-            int month = rowObject.getInteger("month");
-            String type = rowObject.getString("type");
+            Row row = currentMonthInfo.get(i);
+            int yaer = row.getInteger("year");
+            int month = row.getInteger("month");
+            String type = row.getString("type");
             if(StringUtils.isEmpty(type)){
                 curYear=yaer;
                 curMonth=month;
@@ -393,7 +393,7 @@ public class DateView extends View {
     }
 
     public interface OnDateCheckedListener {
-        void onChecked(DateView dateView, RowObject checkedDateInfo);
+        void onChecked(DateView dateView, Row checkedDateInfo);
     }
 
     public OnDateCheckedListener getOnDateCheckedListener() {
@@ -414,7 +414,7 @@ public class DateView extends View {
     }
 
 
-    public RowObject getSelectItemData() {
+    public Row getSelectItemData() {
         if (currentMonthInfo != null && currentMonthInfo.size() > 0) {
             return currentMonthInfo.get(selectIndex);
         } else {

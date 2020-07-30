@@ -1,6 +1,7 @@
 package cn.oasdk.webview;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,14 +17,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.ConsoleMessage;
 import android.webkit.SafeBrowsingResponse;
-import android.webkit.ValueCallback;
+import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,13 +38,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -50,24 +51,28 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import cn.oahttp.HandlerQueue;
 import cn.oahttp.HttpRequest;
-import cn.oahttp.callback.FileCallBack;
 import cn.oasdk.base.AppContext;
 import cn.oasdk.base.BaseAct;
 import cn.oasdk.fileview.R;
+import cn.oasdk.webview.view.BookMarkView;
 import cn.oasdk.webview.view.CWebview;
-import cn.oasdk.webview.view.CollectView;
+import cn.oasdk.webview.view.SearchMenuView;
 import cn.oasdk.webview.view.VideoPalyView;
+import cn.oasdk.webview.view.WebMuneView;
 import cn.oaui.L;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.JSONSerializer;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
-import cn.oaui.utils.FileUtils;
+import cn.oaui.utils.DateTimeUtils;
+import cn.oaui.utils.SPUtils;
 import cn.oaui.utils.StringUtils;
+import cn.oaui.utils.URIUtils;
 import cn.oaui.utils.ViewUtils;
+import cn.oaui.view.ClearableEditText;
 import cn.oaui.view.dialog.FrameDialog;
 import cn.oaui.view.listview.BaseFillAdapter;
 import okhttp3.Headers;
@@ -81,9 +86,9 @@ public class WebViewAct extends BaseAct {
     private CWebview webview;
 
     @ViewInject
-    EditText ed;
+    ClearableEditText ed;
     @ViewInject
-    TextView tv_menu;
+    LinearLayout ln_search_check, ln_go;
     FrameDialog fdlMenu;
 
     @ViewInject
@@ -98,56 +103,111 @@ public class WebViewAct extends BaseAct {
     @ViewInject
     View dlg_line;
     @ViewInject
-    LinearLayout ln_back, ln_forward, ln_down, ln_homepage;
-
-
-    @ViewInject
-    ImageView leftBtn;
+    LinearLayout ln_back, ln_forward, ln_menu, ln_down, ln_homepage, ln_edit_tail;
 
     @ViewInject
     ProgressBar progressBar;
 
     @ViewInject
-    CollectView collectView;
+    BookMarkView collectView;
+
+    String FILE_CACHE_URL = "file_cache_url";
+
+    String KEY_CACHE_URL = "key_cache_url";
+
+    @ViewInject
+    VideoPalyView videoPalyView;
 
 
+    FrameDialog menuDialog;
+
+
+    FrameDialog searchMenuDialog;
+    SearchMenuView searchMenuView;
+
+    List<Row> rowsHistory;
+
+
+    String title, url;
+    List<String> listStep = new LinkedList<>();
+
+    Row rowSearchParam;
+    public static final String KEY_SEARCH="key_search";
+    public static final String FILE_SEARCH="key_search";
+    @ViewInject
+    ImageView img_search_logo;
+
+
+    @ViewInject
+    com.google.android.material.appbar.AppBarLayout appBarLayout;
+
+    @SuppressLint("NewApi")
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_act);
         context = this;
+        rowsHistory = SPUtils.getRows(WebHistoryAct.FILE_HISTORY, WebHistoryAct.KEY_HISTORY);
+        if (rowsHistory == null) {
+            rowsHistory = new LinkedList<>();
+        }
         InjectReader.injectAllFields(this);
-        ViewUtils.finishByClick(leftBtn);
         initView();
         initPermission();
         webview.initWebview();
         initWebview();
-        String url = getIntent().getStringExtra(KEY_URl);
+        url = getIntent().getStringExtra(KEY_URl);
         L.i("======onCreate===== " + url);
         if (StringUtils.isNotEmpty(url)) {
             if (!url.startsWith("http") && !url.startsWith("file://")) {
                 url = "http://" + url;
             }
             ed.setText(url);
-            webview.loadUrl(url);
+            loadUrl(url);
         } else {
-            //webview.loadUrl(homepage);
+            url = SPUtils.getText(FILE_CACHE_URL, KEY_CACHE_URL);
+            if (StringUtils.isNotEmpty(url)) {
+                loadUrl(url);
+            } else {
+                loadUrl(homepage);
+            }
+
         }
         ed.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 String s = textView.getText() + "";
                 if (EditorInfo.IME_ACTION_DONE == i && StringUtils.isNotEmpty(s)) {
-                    loadInputUrl();
+                    loadUrlOrSearch();
+
                 }
                 return true;
+            }
+        });
+        ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                L.i("============onFocusChange==========="+hasFocus);
+                if(hasFocus){
+                    ed.setText(url);
+                }else{
+                    if(StringUtils.isNotEmpty(title)){
+                        ed.setText(title);
+                    }
+                }
+            }
+        });
+        ln_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadUrlOrSearch();
             }
         });
         initTailView();
         collectView.listAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 if (StringUtils.isEmpty(row.getString("url"))) {
                     //Intent  intent = new Intent("cn.oasdk.webview.WebViewAct");
                     Intent intent = new Intent();
@@ -161,17 +221,94 @@ public class WebViewAct extends BaseAct {
                     intent.putExtra("mainId", "-------------------");
                     startActivity(intent);
                 } else {
-                    webview.loadUrl(row.getString("url"));
+                    loadUrl(row.getString("url"));
                     collectView.setVisibility(View.GONE);
                 }
+            }
+        });
+        ln_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (menuDialog == null) {
+                    WebMuneView webMuneView = new WebMuneView(context);
+                    menuDialog = new FrameDialog(webMuneView);
+                    View ln_hide_menu = menuDialog.findViewById(R.id.ln_hide_menu);
+                    ln_hide_menu.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            menuDialog.dismiss();
+                        }
+                    });
+                    webMuneView.getListAdapter().setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
+                            String name = row.getString("name");
+                            if ("历史".equals(name)) {
+                                Intent in = new Intent(context, WebHistoryAct.class);
+                                startActivityForResult(in, WebHistoryAct.CODE_HISTORY);
+                                menuDialog.dismiss();
+                            } else if ("书签".equals(name)) {
+                                Intent in = new Intent(context, WebCollectAct.class);
+                                startActivityForResult(in, WebCollectAct.CODE_COLLECTION);
+                                menuDialog.dismiss();
+                            } else if ("添加书签".equals(name)) {
+                                Intent in = new Intent(context, WebAddCollectAct.class);
+                                in.putExtra("name", StringUtils.isEmpty(title) ? url : title);
+                                in.putExtra("url", url);
+                                startActivity(in);
+                                menuDialog.dismiss();
+                            } else if ("刷新".equals(name)) {
+                                webview.reload();
+                                menuDialog.dismiss();
+                            } else if ("退出".equals(name)) {
+                                finish();
+                            } else {
+
+                            }
+                        }
+                    });
+                }
+                menuDialog.showAsCoverUp(ln_edit_tail);
+            }
+        });
+        ln_search_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchMenuDialog == null) {
+                    searchMenuView = new SearchMenuView(context);
+                    searchMenuDialog = new FrameDialog(searchMenuView);
+                }
+                searchMenuView.listAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
+                        rowSearchParam=row;
+                        SPUtils.saveRow(FILE_SEARCH,KEY_SEARCH,rowSearchParam);
+                        Integer img = row.getInteger("img");
+                        img_search_logo.setImageDrawable(getDrawable(img));
+                        searchMenuDialog.dismiss();
+                    }
+                });
+                searchMenuDialog.showAsDown(progressBar);
 
             }
         });
+        rowSearchParam=SPUtils.getRow(FILE_SEARCH,KEY_SEARCH);
+        if(rowSearchParam==null){
+            rowSearchParam=SearchMenuView.getParamRow(0);
+            SPUtils.saveRow(FILE_SEARCH,KEY_SEARCH,rowSearchParam);
+        }
+        Integer img = rowSearchParam.getInteger("img");
+        img_search_logo.setImageDrawable(getDrawable(img));
+    }
+
+    private void loadUrl(String url) {
+        webview.loadUrl(url);
+        listStep.add(url);
     }
 
     private void initWebview() {
         webview.setWebViewClient(new WebViewClient() {
-
             @Override
             public void onSafeBrowsingHit(WebView view, WebResourceRequest request, int threatType, SafeBrowsingResponse callback) {
                 super.onSafeBrowsingHit(view, request, threatType, callback);
@@ -180,92 +317,25 @@ public class WebViewAct extends BaseAct {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                final String url = request.getUrl().toString();
                 L.i("============shouldInterceptRequest===========" + request.getUrl());
-                //WebResourceResponse webResourceResponse1 = dealRes(view, request);
-                //if (webResourceResponse1 != null) {
-                //    return webResourceResponse1;
-                //} else {
-                //final Map<String, String> requestHeaders = request.getRequestHeaders();
-                //request=  new WebResourceRequest() {
-                //    @Override
-                //    public Uri getUrl() {
-                //        HttpProxyCacheServer proxy = AppContext.getProxy();
-                //        String proxyUrl = proxy.getProxyUrl(url);
-                //        return Uri.parse(proxyUrl);
-                //    }
-                //
-                //    @SuppressLint("NewApi")
-                //    @Override
-                //    public boolean isForMainFrame() {
-                //        return true;
-                //    }
-                //
-                //    @Override
-                //    public boolean isRedirect() {
-                //        return false;
-                //    }
-                //
-                //    @SuppressLint("NewApi")
-                //    @Override
-                //    public boolean hasGesture() {
-                //        return true;
-                //    }
-                //
-                //    @SuppressLint("NewApi")
-                //    @Override
-                //    public String getMethod() {
-                //        return "GET";
-                //    }
-                //
-                //    @SuppressLint("NewApi")
-                //    @Override
-                //    public Map<String, String> getRequestHeaders() {
-                //        return requestHeaders;
-                //    }
-                //};
-                return super.shouldInterceptRequest(view, request);
-                //}
+                WebResourceResponse webResourceResponse1 = dealRes(view, request);
+                if (webResourceResponse1 != null) {
+                    return webResourceResponse1;
+                } else {
+                    return super.shouldInterceptRequest(view, request);
+                }
             }
-
 
             // 在加载页面资源时会调用，每一个资源（比如图片）的加载都会调用一次。
             @Override
             public void onLoadResource(WebView view, String url) {
-                //HttpProxyCacheServer proxy = AppContext.getProxy();
-                //String proxyUrl = proxy.getProxyUrl(url);
-                //view.loadUrl(url);
-
-                L.i("============onLoadResource===========" + view.getUrl());
                 super.onLoadResource(view, url);
-                //return;
             }
-
-            @Override
-            public void onPageCommitVisible(WebView view, String url) {
-                super.onPageCommitVisible(view, "aa");
-            }
-
-            @Nullable
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                HttpProxyCacheServer proxy = AppContext.getProxy();
-                String proxyUrl = proxy.getProxyUrl(url);
-                L.i("============shouldInterceptRequest===========" + proxyUrl);
-                if (proxy.isCached(url)) {
-                    L.i("============generate===========已缓存");
-                } else {
-                    L.i("============generate===========未缓存");
-                }
-                return super.shouldInterceptRequest(view, proxyUrl);
-            }
-
 
             // 在点击请求的是链接时才会调用，不跳到浏览器那边。
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("http") || url.startsWith("https")) {
-                    L.i("============shouldOverrideUrlLoading 2===========" + url);
                     return super.shouldOverrideUrlLoading(view, url);
                 } else {
                     return true;
@@ -277,61 +347,56 @@ public class WebViewAct extends BaseAct {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 ed.setText(url);
-                L.i("============onPageStarted===========");
-                //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                //    webview.evaluateJavascript("javaScript:function getAdPosition() { var postions=''; var audio = document.getElementsByTagName('audio'); if(audio.length>0){ for (var i = 0; i < audio.length; i++) { postions=postions+','+audio[i] } } var  iframe= document.getElementsByTagName('iframe'); console.log(\"=========\"+ iframe) if(iframe.length>0){ var audio2= iframe[0].contentWindow.document.getElementsByTagName('audio'); if(audio2!='undefined'){ for (var i = 0; i < audio2.length; i++) { postions=postions+','+audio2[i] } } }  return postions; }; window.onload = function(){ getAdPosition() }",
-                //            new ValueCallback<String>() {
-                //                @Override
-                //                public void onReceiveValue(String value) {
-                //                    L.i("============onReceiveValue==========="+value);
-                //                    if(StringUtils.isNotEmpty(value)&&!"null".equals(value)){
-                //                        int TV_HEIGHT=100;
-                //                        final TextView textView = getTextView(TV_HEIGHT);
-                //                        textView.setTranslationY(AppUtils.dp2px(Float.parseFloat(value)));
-                //                        webview.addView(textView);
-                //                        webview.loadUrl("javaScript: function setAdHeight(height) { var TV_HEIGHT=100; var audio = document.getElementsByTagName('audio'); audio[0].style.marginTop=height+\"px\"; };setAdHeight(200) ");
-                //
-                //                    }
-                //                }
-                //            });
-                //}
+                hideMediaView();
+
             }
 
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if(StringUtils.isEmpty(title)){
+                    ed.setText(url);
+                }
+                WebViewAct.this.url = url;
                 L.i("======onPageFinished===== " + url);
                 logicTail();
-                super.onPageFinished(view, url);
-                String aa="{\"postions\":\"296\",\"src\":\"http://q2.audio699.com/asdasdasd/522/205/1595239200/4db853141c650c52f86e5673f7848300/18a315c150037ca3bae35d8044c2978f.m4a\"}";
+                SPUtils.saveText(FILE_CACHE_URL, KEY_CACHE_URL, url);
+                //CoordinatorLayout.Behavior behavior =
+                //        ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
+                //if (behavior instanceof AppBarLayout.Behavior) {
+                //    AppBarLayout.Behavior appBarLayoutBehavior = (AppBarLayout.Behavior) behavior;
+                //    int topAndBottomOffset = appBarLayoutBehavior.getTopAndBottomOffset();
+                //    if (topAndBottomOffset != 0) {
+                //        appBarLayoutBehavior.setTopAndBottomOffset(0);
+                //    }
+                //}
 
-                String js = "javascript: function getMediaInfo() { var postions=''; var src=''; var audio = document.getElementsByTagName('audio');  if(audio.length>0){ for (var i = 0; i < audio.length; i++) { var url=audio[i].getElementsByTagName('source')[0].src; if(postions.length>0){ postions=postions+','+audio[i].offsetTop; src=src+','+url; }else{ postions=audio[i].offsetTop; src=url; } } } var  iframe= document.getElementsByTagName('iframe');  if(iframe.length>0){ var audio2= iframe[0].contentWindow.document.getElementsByTagName('audio'); if(audio2.length>0){ for (var i = 0; i < audio2.length; i++) { var url=audio[i].getElementsByTagName('source')[0].src; if(postions.length>0){ postions=postions+','+audio2[i].offsetTop; src=src+','+url; }else{ postions=audio2[i].offsetTop; src=url; } } } } var json='{\"postions\":\"'+postions+'\",\"src\":\"'+src+'\"}'; return json; } getMediaInfo();";
-                webview.evaluateJavascript("javaScript: " + js, new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String value) {
-
-                        value=value.replace("\\","");
-                        value=value.replaceFirst("\"","");
-                        value=value.substring(0,value.length()-1);
-                        String aa="aaaaaaaaaaaaaaaaaaaaa";
-                        L.i("============onReceiveValue==========="+aa);
-                        L.i("============onReceiveValue===========" + value);
-                        RowObject row = JSONSerializer.JSONToObject(value,RowObject.class);
-                        String postions = row.getString("postions");
-                        String src = row.getString("src");
-                        HttpProxyCacheServer proxy = AppContext.getProxy();
-                        String proxyUrl = proxy.getProxyUrl(src);
-                        if (StringUtils.isNotEmpty(postions) && !"null".equals(postions)) {
-                            int TV_HEIGHT = 100;
-                            final VideoPalyView videoPalyView = getVideoPalyView(TV_HEIGHT);
-                            videoPalyView.setTranslationY(AppUtils.dp2px(Float.parseFloat(postions)));
-                            Uri uri = Uri.parse(proxyUrl);
-                            videoPalyView.prepare(uri);
-                            webview.addView(videoPalyView);
-                            webview.loadUrl("javaScript: function setAdHeight(height) { var TV_HEIGHT=100; var audio = document.getElementsByTagName('audio'); audio[0].style.marginTop=height+\"px\"; };setAdHeight(200) ");
-                        }
-                    }
-                });
+                //InputStream inputStream = FileUtils.readFromAssets("audio.js");
+                //String s = FileUtils.toString(inputStream);
+                //s = StringUtils.removeUnnecessarySpace(s);
+                //L.i("============onPageFinished==========="+s);
+                //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                //    webview.evaluateJavascript("javaScript:" + s, new ValueCallback<String>() {
+                //        @Override
+                //        public void onReceiveValue(String value) {
+                //            value = value.replace("\\", "");
+                //            value = value.replaceFirst("\"", "");
+                //            value = value.substring(0, value.length() - 1);
+                //            if (JsonUtils.isJSONObject(value)) {
+                //                Row row = JsonUtils.jsonToRow(value);
+                //                String postions = row.getString("postions");
+                //                String src = row.getString("src");
+                //
+                //                if (StringUtils.isNotEmpty(postions) && !"null".equals(postions)) {
+                //
+                //                   playMedia(src,postions);
+                //                        webview.loadUrl("javaScript: function setAdHeight(height) { var TV_HEIGHT=100; var audio = document.getElementsByTagName('audio'); audio[0].style.marginTop=height+\"px\"; };setAdHeight(200) ");
+                //                }
+                //            }
+                //        }
+                //    });
+                //}
             }
 
             // 重写此方法才能够处理在浏览器中的按键事件。
@@ -339,11 +404,15 @@ public class WebViewAct extends BaseAct {
             public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
                 return super.shouldOverrideKeyEvent(view, event);
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+            }
+
         });
 
         webview.setWebChromeClient(new WebChromeClient() {
-
-
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
@@ -354,9 +423,70 @@ public class WebViewAct extends BaseAct {
 
                 }
                 progressBar.setProgress(newProgress);
+            }
 
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                //L.i("============onConsoleMessage===========" + consoleMessage.messageLevel() + ":" + consoleMessage.message());
+                return super.onConsoleMessage(consoleMessage);
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                WebViewAct.this.url = url;
+                WebViewAct.this.title = title;
+                if(StringUtils.isNotEmpty(title)){
+                    ed.setText(title);
+                }
+                saveHistory();
+                SPUtils.saveText(FILE_CACHE_URL, KEY_CACHE_URL, url);
+            }
+
+            @Override
+            public void onReceivedIcon(WebView view, Bitmap icon) {
+                super.onReceivedIcon(view, icon);
+                L.i("============onReceivedIcon===========" + icon);
+                //BitmapUtils.saveBitmapToPathAsPng(icon,AppUtils.getDefaultDirectory()+"/"+view.getUrl().replaceAll("/","")+".png");
             }
         });
+    }
+
+    private void hideMediaView() {
+        if (videoPalyView.player.isPlayingAd()) {
+            videoPalyView.stop();
+        }
+        videoPalyView.setVisibility(View.GONE);
+    }
+
+    private void playMedia(String url, String positionY) {
+        int TV_HEIGHT = 100;
+        //videoPalyView = getVideoPalyView(TV_HEIGHT);
+        //videoPalyView.setTranslationY(AppUtils.dp2px(Float.parseFloat(positionY)));
+        videoPalyView.setVisibility(View.VISIBLE);
+        HttpProxyCacheServer proxy = AppContext.getProxy();
+        String proxyUrl = proxy.getProxyUrl(url);
+        Uri uri = Uri.parse(proxyUrl);
+        videoPalyView.stop();
+        videoPalyView.prepare(uri);
+        //if(videoPalyView.getParent()==null){
+        //    webview.addView(videoPalyView);
+        //}
+
+
+    }
+
+    private void saveHistory() {
+        Row row = new Row();
+        row.put("url", url);
+        if (StringUtils.isEmpty(title)) {
+            title = URIUtils.getIP(url);
+        }
+        row.put("title", title);
+        row.put("datetime", DateTimeUtils.getCurrentTime());
+        rowsHistory.add(0, row);
+        //L.i("============saveHistory==========="+rowsHistory);
+        SPUtils.saveRows(WebHistoryAct.FILE_HISTORY, WebHistoryAct.KEY_HISTORY, rowsHistory);
     }
 
 
@@ -373,11 +503,12 @@ public class WebViewAct extends BaseAct {
     }
 
 
-
     @NonNull
-    private VideoPalyView getVideoPalyView(int TV_HEIGHT) {
-      VideoPalyView videoPalyView = new VideoPalyView(getApplication());
-        videoPalyView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AppUtils.dp2px(TV_HEIGHT)));
+    private VideoPalyView getVideoPalyView(int videoHeight) {
+        if (videoPalyView == null) {
+            videoPalyView = new VideoPalyView(getApplication());
+            videoPalyView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AppUtils.dp2px(videoHeight)));
+        }
         return videoPalyView;
     }
 
@@ -399,7 +530,9 @@ public class WebViewAct extends BaseAct {
         ln_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (webview.canGoBack()) {
+                if (collectView.getVisibility() == View.VISIBLE) {
+                    collectView.setVisibility(View.GONE);
+                } else if (webview.canGoBack()) {
                     back();
                 }
             }
@@ -421,7 +554,10 @@ public class WebViewAct extends BaseAct {
             @Override
             public void onClick(View view) {
                 //goHomePage();
+
+                hideMediaView();
                 collectView.setVisibility(View.VISIBLE);
+                logicTail();
             }
         });
 
@@ -429,27 +565,49 @@ public class WebViewAct extends BaseAct {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void logicTail() {
-        Drawable drawable = ResourceHold.getDrawable(R.mipmap.icon_left);
-        if (webview.canGoBack()) {
+        if (collectView.getVisibility() == View.VISIBLE) {
+            Drawable drawable = ResourceHold.getDrawable(R.mipmap.icon_left);
             ViewUtils.tintDrawable(drawable, ResourceHold.getColor(R.color.black));
-        } else {
-            ViewUtils.tintDrawable(drawable, ResourceHold.getColor(R.color.grey_lt));
-        }
-        img_back.setBackground(drawable);
-        Drawable drawable2 = ResourceHold.getDrawable(R.mipmap.icon_right);
-        if (webview.canGoForward()) {
-            ViewUtils.tintDrawable(drawable2, ResourceHold.getColor(R.color.black));
-        } else {
+            img_back.setBackground(drawable);
+            Drawable drawable2 = ResourceHold.getDrawable(R.mipmap.icon_right);
             ViewUtils.tintDrawable(drawable2, ResourceHold.getColor(R.color.grey_lt));
+            img_forword.setBackground(drawable2);
+        } else {
+            Drawable drawable = ResourceHold.getDrawable(R.mipmap.icon_left);
+            if (webview.canGoBack()) {
+                ViewUtils.tintDrawable(drawable, ResourceHold.getColor(R.color.black));
+            } else {
+                ViewUtils.tintDrawable(drawable, ResourceHold.getColor(R.color.grey_lt));
+            }
+            img_back.setBackground(drawable);
+            Drawable drawable2 = ResourceHold.getDrawable(R.mipmap.icon_right);
+            if (webview.canGoForward()) {
+                ViewUtils.tintDrawable(drawable2, ResourceHold.getColor(R.color.black));
+            } else {
+                ViewUtils.tintDrawable(drawable2, ResourceHold.getColor(R.color.grey_lt));
+            }
+            img_forword.setBackground(drawable2);
         }
-        img_forword.setBackground(drawable2);
+
     }
 
-    private void loadInputUrl() {
-        String url = ed.getText() + "";
-        if (!url.startsWith("http")) {
-            url = "http://" + url;
+    private void loadUrlOrSearch() {
+        String text = ed.getText() + "";
+        if(URLUtil.isNetworkUrl(text)){
+            if (!text.startsWith("http")) {
+                url = "http://" + text;
+            }
+            loadUrl(url);
+        }else{
+            searchByParam(text);
+
         }
+        ViewUtils.hideKeyboard(ed);
+    }
+
+    private void searchByParam(String text) {
+        ed.setText(text);
+        url=SearchMenuView.buildUrl(rowSearchParam,text);
         webview.loadUrl(url);
     }
 
@@ -463,150 +621,120 @@ public class WebViewAct extends BaseAct {
     private WebResourceResponse dealRes(WebView view, WebResourceRequest webResourceRequest) {
         //同步执行会话请求
         final String url = webResourceRequest.getUrl().toString();
-        L.i("============dealRes===========" + url);
-        HttpRequest httpRequest = HttpRequest.setUrl(url);
-        Map<String, String> requestHeaders = webResourceRequest.getRequestHeaders();
-        if (requestHeaders != null) {
-            httpRequest.setHeaders(requestHeaders);
-        }
-        String method = webResourceRequest.getMethod();
-        if (StringUtils.isNotEmpty(method)) {
-            httpRequest.setMethod(method);
-        } else {
-            httpRequest.setMethod(HttpRequest.HttpMethod.GET);
-        }
-        final Response response = httpRequest.send();
-        if (response != null) {
-            Headers headers = response.headers();
-            Map<String, String> responseHeaders = new HashMap<>();
-            final long totalSize = response.body().contentLength();
-            for (int i = 0; i < headers.size(); i++) {
-                responseHeaders.put(headers.name(i), headers.value(i));
+        if (StringUtils.isNotEmpty(url)) {
+            HttpRequest httpRequest = HttpRequest.setUrl(url);
+            Map<String, String> requestHeaders = webResourceRequest.getRequestHeaders();
+            if (requestHeaders != null) {
+                httpRequest.setHeaders(requestHeaders);
             }
-            String contentType = headers.get("Content-Type") + "";
-            L.i("============dealRes===========" + contentType);
-            if (contentType.contains("audio")
-                    || (contentType.contains("image"))
-                    || (contentType.contains("video") && totalSize > 50 * 1024)) {
-                String[] type = contentType.split("/");
+            String method = webResourceRequest.getMethod();
+            if (StringUtils.isNotEmpty(method)) {
+                httpRequest.setMethod(method);
+            }
+            final Response response = httpRequest.send();
+            if (response != null) {
+                Headers headers = response.headers();
+                Map<String, String> responseHeaders = new HashMap<>();
+                final long totalSize = response.body().contentLength();
+                for (int i = 0; i < headers.size(); i++) {
+                    responseHeaders.put(headers.name(i), headers.value(i));
+                }
+                String mimeType = "";
+                String contentType = headers.get("Content-Type") + "";
+                String s1 = headers.get("content-type");
+                if (StringUtils.isEmpty(contentType) && StringUtils.isNotEmpty(s1)) {
+                    contentType = s1 + "";
+                }
+                if (StringUtils.isEmpty(contentType)) {
+                    contentType = "text/html";
+                }
 
-                String s = FileCallBack.saveDir + "/" + FileCallBack.getFileName(response, url);
-                if (contentType.contains("image") && type.length > 1 && !s.endsWith(type[1])) {
-                    s = s + "." + type[1];
-                }
-                final File file = new File(s);
-                InputStream fileInputStream = null;
-                try {
-                    File file1 = new File(FileCallBack.saveDir);
-                    if (!file1.exists()) {
-                        boolean mkdirs = file1.mkdirs();
-                    }
-                    if (!file.exists()) {
-                        file.createNewFile();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (file.exists() && file.length() == totalSize) {
-                    L.i("============dealRes===========" + url);
-                    try {
-                        fileInputStream = new FileInputStream(file);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    return new WebResourceResponse(response.header("Content-Type"), "UTF-8", fileInputStream);
+                if (contentType.contains(";")) {
+                    mimeType = mimeType.split(";")[0];
                 } else {
-                    try {
-
-                        final PipedOutputStream out = new PipedOutputStream();
-                        final PipedInputStream[] pipedInputStream = {new PipedInputStream(out)};
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    InputStream is = response.body().byteStream();
-                                    FileOutputStream fos = new FileOutputStream(file);
-                                    byte[] b = new byte[1024];
-                                    int n;
-                                    while ((n = is.read(b)) != -1) {
-                                        out.write(b, 0, n);
-                                        fos.write(b, 0, n);
-                                    }
-                                    out.close();
-                                    fos.close();
-                                    is.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                    mimeType = contentType;
+                }
+                if (mimeType.contains("audio")
+                        || mimeType.contains("video")) {
+                    L.i("============dealRes===========" + mimeType + "  " + url);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HandlerQueue.onResultCallBack(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playMedia(url, 50 + "");
                                 }
-                            }
-                        }).start();
-
-                        //FileInputStream fileInputStream = null;
-                        //try {
-                        //    file.createNewFile();
-                        //    fileInputStream = new FileInputStream(file);
-                        //} catch (FileNotFoundException e) {
-                        //    e.printStackTrace();
-                        //} catch (IOException e) {
-                        //    e.printStackTrace();
-                        //}
-                        //webview.post(new Runnable() {
-                        //    @Override
-                        //    public void run() {
-                        //        HttpRequest request = new HttpRequest(url);
-                        //        request.setCallback(new FileCallBack() {
-                        //            @Override
-                        //            public void onSuccess(File file) {
-                        //                L.i("============onSuccess===========" + file.getAbsolutePath());
-                        //                try {
-                        //                    FileInputStream fis = new FileInputStream(file);
-                        //                    byte[] b = new byte[1024];
-                        //                    int n;
-                        //                    while ((n = fis.read(b)) != -1) {
-                        //                        out.write(b, 0, n);
-                        //                    }
-                        //
-                        //                    //out.write(fileToBytes(file));
-                        //                    out.close();
-                        //
-                        //
-                        //                } catch (IOException e) {
-                        //                    e.printStackTrace();
-                        //                } catch (Exception e) {
-                        //                    e.printStackTrace();
-                        //                }
-                        //            }
-                        //
-                        //            @Override
-                        //            protected void onProgress(long totalSize, long currentSize, double percent) {
-                        //                super.onProgress(totalSize, currentSize, percent);
-                        //            }
-                        //
-                        //            @Override
-                        //            protected void onFail(Exception e) {
-                        //            }
-                        //        });
-                        //        request.sendByGetAsync();
-                        //    }
-                        //});
-
-                        //L.i("============contains===========" + responseHeaders);
-                        //L.i("============contains===========" + response.code());
-                        //WebResourceResponse xresponse = new WebResourceResponse(response.header("Content-Type"), "UTF-8", pipedInputStream);
-                        //Map<String, String> h = new HashMap<>();
-                        //h.put("Access-Control-Allow-Origin", "*");
-                        //xresponse.setResponseHeaders(h);
-
-                        //return xresponse;
-                        return new WebResourceResponse(response.header("Content-Type"), "UTF-8", pipedInputStream[0]);
-                        //return new WebResourceResponse(response.header("Content-Type"), "UTF-8",response.code(),"aa",responseHeaders ,fileInputStream);
-                        //} catch (IOException e) {
-                        //    e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                            });
+                        }
+                    }).start();
+                    return new WebResourceResponse(mimeType, "UTF-8", 206, "aa", responseHeaders, new InputStream() {
+                        @Override
+                        public int read() throws IOException {
+                            return 0;
+                        }
+                    });
+                } else if (mimeType.contains("image")) {
+                    //String[] type = mimeType.split("/");
+                    //String s = FileCallBack.saveDir + "/" + HttpUtils.getFileName(response, url);
+                    //if (mimeType.contains("image") && type.length > 1 && !s.endsWith(type[1])) {
+                    //    s = s + "." + type[1];
+                    //}
+                    //final File file = new File(s);
+                    //InputStream fileInputStream = null;
+                    //try {
+                    //    File file1 = new File(FileCallBack.saveDir);
+                    //    if (!file1.exists()) {
+                    //        boolean mkdirs = file1.mkdirs();
+                    //    }
+                    //    if (!file.exists()) {
+                    //        file.createNewFile();
+                    //    }
+                    //} catch (IOException e) {
+                    //    e.printStackTrace();
+                    //}
+                    //if (file.exists() && file.length() == totalSize) {
+                    //    L.i("============dealRes===========" + url);
+                    //    try {
+                    //        fileInputStream = new FileInputStream(file);
+                    //    } catch (FileNotFoundException e) {
+                    //        e.printStackTrace();
+                    //    }
+                    //    return new WebResourceResponse(mimeType, "UTF-8", fileInputStream);
+                    //} else {
+                    //    try {
+                    //        final PipedOutputStream out = new PipedOutputStream();
+                    //        final PipedInputStream[] pipedInputStream = {new PipedInputStream(out)};
+                    //        new Thread(new Runnable() {
+                    //            @Override
+                    //            public void run() {
+                    //                try {
+                    //                    InputStream is = response.body().byteStream();
+                    //                    FileOutputStream fos = new FileOutputStream(file);
+                    //                    byte[] b = new byte[1024];
+                    //                    int n;
+                    //                    while ((n = is.read(b)) != -1) {
+                    //                        out.write(b, 0, n);
+                    //                        fos.write(b, 0, n);
+                    //                    }
+                    //                    out.close();
+                    //                    fos.close();
+                    //                    is.close();
+                    //                } catch (IOException e) {
+                    //                    e.printStackTrace();
+                    //                } catch (Exception e) {
+                    //                    e.printStackTrace();
+                    //                }
+                    //            }
+                    //        }).start();
+                    //        L.i("============dealRes==========="+mimeType);
+                    //        return new WebResourceResponse(mimeType, "UTF-8", pipedInputStream[0]);
+                    //    } catch (Exception e) {
+                    //        e.printStackTrace();
+                    //    }
+                    //
+                    //}
+                } else {
 
                 }
             }
@@ -676,11 +804,11 @@ public class WebViewAct extends BaseAct {
 
     @Override
     public void onBackPressed() {
-        if (webview.canGoBack()) {
+        L.i("============onBackPressed===========");
+        if (collectView.getVisibility() == View.VISIBLE) {
+            collectView.setVisibility(View.GONE);
+        } else if (webview.canGoBack()) {
             back();
-        } else if (collectView.getVisibility() == View.GONE) {
-            collectView.setVisibility(View.VISIBLE);
-            ed.setText("");
         } else {
             super.onBackPressed();
         }
@@ -688,22 +816,24 @@ public class WebViewAct extends BaseAct {
     }
 
     private void back() {
-        String url = webview.getUrl();
-        ed.setText(url);
         webview.goBack();
+
     }
 
     private void forword() {
-        String url = webview.getUrl();
-        ed.setText(url);
         webview.goForward();
     }
 
 
-    private void goHomePage() {
-        ed.setText(homepage);
-        webview.loadUrl(homepage);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == WebHistoryAct.CODE_HISTORY & requestCode == WebHistoryAct.CODE_HISTORY && data != null) {
+            url = data.getStringExtra("url");
+            if (collectView.getVisibility() == View.VISIBLE) {
+                collectView.setVisibility(View.GONE);
+            }
+            loadUrl(url);
+        }
     }
-
-
 }

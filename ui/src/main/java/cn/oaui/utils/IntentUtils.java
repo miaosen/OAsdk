@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.data.SerializableRowObject;
 
 public class IntentUtils {
@@ -39,7 +39,7 @@ public class IntentUtils {
      * @param key
      * @return
      */
-    public static Intent addRow(Intent in, RowObject row, String key) {
+    public static Intent addRow(Intent in, Row row, String key) {
         SerializableRowObject serializableRowObject = new SerializableRowObject(row);
         Bundle bundle = new Bundle();
         bundle.putSerializable(key, serializableRowObject);
@@ -54,11 +54,11 @@ public class IntentUtils {
      * @param key
      * @return
      */
-    public static RowObject getRow(Intent in, String key) {
+    public static Row getRow(Intent in, String key) {
         SerializableRowObject serializableRowObject = (SerializableRowObject) in
                 .getSerializableExtra(key);
         if (serializableRowObject != null) {
-            return serializableRowObject.getRowObject();
+            return serializableRowObject.getRow();
         } else {
             return null;
         }
@@ -72,7 +72,7 @@ public class IntentUtils {
      * @param key
      * @return
      */
-    public static Intent addRows(Intent in, LinkedList<RowObject> rows, String key) {
+    public static Intent addRows(Intent in, LinkedList<Row> rows, String key) {
         SerializableRowObject serializableRowObject = new SerializableRowObject(rows);
         Bundle bundle = new Bundle();
         bundle.putSerializable(key, serializableRowObject);
@@ -87,7 +87,7 @@ public class IntentUtils {
      * @param key
      * @return
      */
-    public static LinkedList<RowObject> getRows(Intent in, String key) {
+    public static LinkedList<Row> getRows(Intent in, String key) {
         SerializableRowObject serializableRowObject = (SerializableRowObject) in
                 .getSerializableExtra(key);
         if (serializableRowObject != null) {

@@ -15,7 +15,7 @@ import java.util.Map;
 
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.StringUtils;
 import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.CustomLayout;
@@ -77,7 +77,7 @@ public class CalendarLayout extends CustomLayout {
             public void onPageSelected(final int position) {
                 DateView dateView = mapDateView.get(position);
                 dateView.setSelectDay(day);
-                RowObject selectItemData = dateView.getSelectItemData();
+                Row selectItemData = dateView.getSelectItemData();
                 if (selectItemData != null) {
                     setDateText(dateView.getSelectItemData());
 
@@ -185,7 +185,7 @@ public class CalendarLayout extends CustomLayout {
             //L.i("=========instantiateItem==============" + sum + "  " + direct);
             //List<RowObject> pageCalendarInfoRangeMonth = CalendarDataFactory.getPageCalendarInfoRangeMonth(sum);
           if(position==showIndex+2){
-              List<RowObject> pageCalendarInfoRangeMonth = CalendarDataFactory.getPageCalendarInfo(year,month);
+              List<Row> pageCalendarInfoRangeMonth = CalendarDataFactory.getPageCalendarInfo(year,month);
               dateView.setCurrentMonthInfo(pageCalendarInfoRangeMonth);
               if (CalendarDataFactory.isToday(year,month,CalendarDataFactory.getCurDay())) {
                   dateView.setSelectDay(Calendar.getInstance().get(Calendar.DATE));
@@ -195,7 +195,7 @@ public class CalendarLayout extends CustomLayout {
           }
             dateView.setOnDateCheckedListener(new DateView.OnDateCheckedListener() {
                 @Override
-                public void onChecked(DateView dateView, RowObject checkedDateInfo) {
+                public void onChecked(DateView dateView, Row checkedDateInfo) {
                     day = checkedDateInfo.getInteger("day");
                     setDateText(checkedDateInfo);
                     String type = checkedDateInfo.getString("type");
@@ -216,7 +216,7 @@ public class CalendarLayout extends CustomLayout {
         }
     }
 
-    private void setDateText(RowObject checkedDateInfo) {
+    private void setDateText(Row checkedDateInfo) {
         year = checkedDateInfo.getInteger("year");
         month = checkedDateInfo.getInteger("month");
         day = checkedDateInfo.getInteger("day");

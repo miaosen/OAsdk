@@ -1,6 +1,6 @@
 package com.gzpykj.base;
 import cn.oahttp.HttpRequest;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 
 /**
  * @author zengmiaosen
@@ -16,7 +16,7 @@ public class Global {
     public final static String HOST ="http://47.97.191.166:8080/rmew";
 
 
-    public static RowObject userInfo;
+    public static Row userInfo;
 
     public static HttpRequest createRequest(String actionPath){
         HttpRequest request = new HttpRequest(HOST +actionPath);
@@ -29,11 +29,11 @@ public class Global {
         request.addParam("__RETURN_TYPE__","data");
     }
 
-    public static void saveUserInfo(RowObject userInfo){
+    public static void saveUserInfo(Row userInfo){
         Global.userInfo=userInfo;
     }
 
-    public static RowObject getUserInfo(){
+    public static Row getUserInfo(){
         return Global.userInfo;
     }
 }

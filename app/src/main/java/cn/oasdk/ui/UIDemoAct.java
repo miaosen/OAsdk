@@ -12,7 +12,7 @@ import cn.oasdk.R;
 import cn.oasdk.base.BaseActivity;
 import cn.oasdk.base.EventBus;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.JsonUtils;
 
 /**
@@ -111,10 +111,10 @@ public class UIDemoAct extends BaseActivity {
                 String expression="data.yesterday";
                 //String expression="status[0]";
                 //String expression="data";
-                RowObject rowObject = JsonUtils.jsonToRow(text);
+                Row row = JsonUtils.jsonToRow(text);
                // RowObject layerData = (RowObject) rowObject.getLayerData(expression);
-                Log.i("logtag", "layerData======" + rowObject.getLayerData(expression));
-                textView.setText(rowObject.getLayerData(expression)+"");
+                Log.i("logtag", "layerData======" + row.getLayerData(expression));
+                textView.setText(row.getLayerData(expression)+"");
             }
             @Override
             protected void onFail(Exception e) {

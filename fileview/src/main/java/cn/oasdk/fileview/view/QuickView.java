@@ -12,7 +12,7 @@ import cn.oasdk.fileview.R;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
 
@@ -30,7 +30,7 @@ public class QuickView extends CustomLayout {
 
     @ViewInject
     GridView gridView;
-    private LinkedList<RowObject> rows;
+    private LinkedList<Row> rows;
     public ListAdapter listAdapter;
 
     public QuickView(Context context) {
@@ -45,11 +45,11 @@ public class QuickView extends CustomLayout {
     public void initData() {
         rows.clear();
         for (int i = 0; i < names.length; i++) {
-            RowObject rowObject = new RowObject();
+            Row row = new Row();
             Integer name = names[i];
-            rowObject.put("name", ResourceHold.getString(name));
-            rowObject.put("img", imgs[i]);
-            rows.add(rowObject);
+            row.put("name", ResourceHold.getString(name));
+            row.put("img", imgs[i]);
+            rows.add(row);
         }
         listAdapter.notifyDataSetChanged();
     }
@@ -68,12 +68,12 @@ public class QuickView extends CustomLayout {
     }
 
     public class ListAdapter extends BaseFillAdapter {
-        public ListAdapter(Context context, LinkedList<RowObject> rows, int layout) {
+        public ListAdapter(Context context, LinkedList<Row> rows, int layout) {
             super(context, rows, layout);
         }
 
         @Override
-        public void setItem(final View convertView, final RowObject row, final int position, final ViewHolder holder) {
+        public void setItem(final View convertView, final Row row, final int position, final ViewHolder holder) {
             ImageView img = (ImageView) holder.views.get("img");
             img.setBackground(ResourceHold.getDrawable(row.getInteger("img")));
         }

@@ -1,6 +1,6 @@
 package cn.oaui.view.calendar;
 
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.StringUtils;
 
 import java.util.Calendar;
@@ -18,14 +18,14 @@ import java.util.List;
 public class CalendarDataFactory {
 
 
-    public static List<RowObject> getCurrentMonthInfo() {
+    public static List<Row> getCurrentMonthInfo() {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);// 获取年份
         int month = c.get(Calendar.MONTH) + 1;// 获取月份
         return getMonthInfo(year, month);
     }
 
-    public static List<RowObject> getLastMonthInfo(int year, int month) {
+    public static List<Row> getLastMonthInfo(int year, int month) {
         if(month==1){
             month=12;
             year=year-1;
@@ -35,7 +35,7 @@ public class CalendarDataFactory {
        return getMonthInfo(year,month);
     }
 
-    public static List<RowObject> getLastMonthPageInfo(int year, int month) {
+    public static List<Row> getLastMonthPageInfo(int year, int month) {
         if(month==1){
             month=12;
             year=year-1;
@@ -51,7 +51,7 @@ public class CalendarDataFactory {
      * @param month
      * @return
      */
-    public static List<RowObject> getNextMonthInfo(int year, int month) {
+    public static List<Row> getNextMonthInfo(int year, int month) {
         if(month==12){
             month=1;
             year=year+1;
@@ -67,7 +67,7 @@ public class CalendarDataFactory {
      * @param month
      * @return
      */
-    public static List<RowObject> getNextMonthPageInfo(int year, int month) {
+    public static List<Row> getNextMonthPageInfo(int year, int month) {
         if(month==12){
             month=1;
             year=year+1;
@@ -83,11 +83,11 @@ public class CalendarDataFactory {
      * @param month
      * @return
      */
-    public static List<RowObject> getMonthInfo(int year, int month) {
-        List<RowObject> rows = new LinkedList<>();
+    public static List<Row> getMonthInfo(int year, int month) {
+        List<Row> rows = new LinkedList<>();
         int actualMaximum = getMonthDaysCount(year, month);
         for (int i = 0; i < actualMaximum; i++) {
-            RowObject row = new RowObject();
+            Row row = new Row();
             int day=i+1;
             row.put("year", year);
             row.put("month", month);
@@ -109,12 +109,12 @@ public class CalendarDataFactory {
         return rows;
     }
 
-    public static List<RowObject> getNewlyThreeMonth() {
-        List<RowObject> rows = new LinkedList<>();
+    public static List<Row> getNewlyThreeMonth() {
+        List<Row> rows = new LinkedList<>();
         return rows;
     }
 
-    public static List<RowObject> getCurrentPageCalendarInfo() {
+    public static List<Row> getCurrentPageCalendarInfo() {
         Calendar cal = Calendar.getInstance();
         return getPageCalendarInfo(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
     }
@@ -139,7 +139,7 @@ public class CalendarDataFactory {
      * @param monthCount
      * @return
      */
-    public static List<RowObject> getPageCalendarInfoRangeMonth(int monthCount) {
+    public static List<Row> getPageCalendarInfoRangeMonth(int monthCount) {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH)+1;
@@ -164,40 +164,40 @@ public class CalendarDataFactory {
      * @param month
      * @return
      */
-    public static List<RowObject> getPageCalendarInfo(int year, int month) {
-        List<RowObject> rows = new LinkedList<>();
+    public static List<Row> getPageCalendarInfo(int year, int month) {
+        List<Row> rows = new LinkedList<>();
         Calendar cal = Calendar.getInstance();
         cal.set(year, month-1, 1);
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
         if(dayOfWeek!=0){
-            List<RowObject> lastMonthInfo = getLastMonthInfo(year, month);
+            List<Row> lastMonthInfo = getLastMonthInfo(year, month);
             for (int i = lastMonthInfo.size()-dayOfWeek; i < lastMonthInfo.size(); i++) {
-                RowObject rowObject = lastMonthInfo.get(i);
-                rowObject.put("type","lastMonth");
-                rows.add(rowObject);
+                Row row = lastMonthInfo.get(i);
+                row.put("type","lastMonth");
+                rows.add(row);
             }
         }
-        List<RowObject> monthInfo = getMonthInfo(year, month);
+        List<Row> monthInfo = getMonthInfo(year, month);
         rows.addAll(monthInfo);
         int monthDaysCount = getMonthDaysCount(year, month);
         cal.set(year, month-1, monthDaysCount);
         int dayOfWeekAfter = 7 - cal.get(Calendar.DAY_OF_WEEK);
         if(dayOfWeekAfter!=0){
-            List<RowObject> nextMonthInfo = getNextMonthInfo(year, month);
+            List<Row> nextMonthInfo = getNextMonthInfo(year, month);
             for (int i = 0; i < dayOfWeekAfter; i++) {
-                RowObject rowObject = nextMonthInfo.get(i);
-                rowObject.put("type","nextMonth");
-                rows.add(rowObject);
+                Row row = nextMonthInfo.get(i);
+                row.put("type","nextMonth");
+                rows.add(row);
             }
         }
         return rows;
     }
     
-    public static int getSelectedIndexLastMonth(  List<RowObject> currentMonthInfo,int day){
+    public static int getSelectedIndexLastMonth(List<Row> currentMonthInfo, int day){
         int sum=0,selectIndex=0;
         for (int i = currentMonthInfo.size()-1; i >=0 ; i--) {
-            RowObject rowObject = currentMonthInfo.get(i);
-            Integer day1 = rowObject.getInteger("day");
+            Row row = currentMonthInfo.get(i);
+            Integer day1 = row.getInteger("day");
             sum=sum+1;
             if(day1==day){
                 i=-1;
@@ -207,11 +207,11 @@ public class CalendarDataFactory {
         return selectIndex;
     }
 
-    public static int getSelectIndexNextMonth(List<RowObject> currentMonthInfo, int day){
+    public static int getSelectIndexNextMonth(List<Row> currentMonthInfo, int day){
         int sum=0,selectIndex=0;
         for (int i = 0; i <  currentMonthInfo.size(); i++) {
-            RowObject rowObject = currentMonthInfo.get(i);
-            Integer day1 = rowObject.getInteger("day");
+            Row row = currentMonthInfo.get(i);
+            Integer day1 = row.getInteger("day");
             sum=sum+1;
             if(day1==day){
                 i= currentMonthInfo.size();
@@ -221,12 +221,12 @@ public class CalendarDataFactory {
         return selectIndex;
     }
 
-    public static int getSelectIndexInMonth(List<RowObject> currentMonthInfo,int day){
+    public static int getSelectIndexInMonth(List<Row> currentMonthInfo, int day){
         int sum=0,selectIndex=0;
         for (int i = 0; i <  currentMonthInfo.size(); i++) {
-            RowObject rowObject = currentMonthInfo.get(i);
-            Integer day1 = rowObject.getInteger("day");
-            String type=rowObject.getString("type");
+            Row row = currentMonthInfo.get(i);
+            Integer day1 = row.getInteger("day");
+            String type= row.getString("type");
             sum=sum+1;
             if(day1==day&& StringUtils.isEmpty(type)){
                 i= currentMonthInfo.size();

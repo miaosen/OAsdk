@@ -12,9 +12,11 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
+        android:background="@drawable/sel_btn"
+        android:clickable="true"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
 
 
         <ImageView
@@ -31,10 +33,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="true"
+        android:background="@drawable/sel_btn"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
 
 
         <ImageView
@@ -51,9 +55,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:clickable="true"
+        android:background="@drawable/sel_btn"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
 
 
         <ImageView
@@ -70,9 +76,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:background="@drawable/sel_btn"
+        android:clickable="true"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         >
 
 
@@ -99,9 +107,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:clickable="true"
+        android:background="@drawable/sel_btn"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         >
 
 

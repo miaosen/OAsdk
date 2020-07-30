@@ -8,7 +8,7 @@ import cn.oasdk.dlna.BaseFileAct;
 import cn.oasdk.dlna.R;
 import cn.oasdk.dlna.dms.FileServer;
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.IntentUtils;
 
 /**
@@ -39,7 +39,7 @@ public class MusicAct extends BaseFileAct {
     }
 
     @Override
-    protected void onListItemClick(View convertView, RowObject row, int position) {
+    protected void onListItemClick(View convertView, Row row, int position) {
         Intent intent = new Intent(context, ShowImageAct.class);
         IntentUtils.addRows(intent,dataListView.getRows(),ShowImageAct.ROW_KEY);
         intent.putExtra(ShowImageAct.IMG_INDEX,position);

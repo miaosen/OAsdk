@@ -34,7 +34,7 @@ import cn.oaui.IntentFactory;
 import cn.oaui.L;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.FormUtils;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.FileUtils;
@@ -105,7 +105,7 @@ public class FavoritesView extends CustomLayout {
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RowObject contentRow = FormUtils.getContentRow(fdl_net);
+                Row contentRow = FormUtils.getContentRow(fdl_net);
                 //添加收藏
                 if(ln_name.getVisibility()==View.VISIBLE){
 
@@ -121,9 +121,9 @@ public class FavoritesView extends CustomLayout {
                             MediaServer.rowsNet.add(contentRow);
                         }else{//修改收藏
                             for (int i = 0; i <MediaServer.rowsNet.size() ; i++) {
-                                RowObject rowObject = MediaServer.rowsNet.get(i);
-                                if(mainid.equals(rowObject.getString("mainid"))){
-                                    rowObject.putAll(contentRow);
+                                Row row = MediaServer.rowsNet.get(i);
+                                if(mainid.equals(row.getString("mainid"))){
+                                    row.putAll(contentRow);
                                     i=MediaServer.rowsNet.size();
                                 }
                             }
@@ -171,11 +171,11 @@ public class FavoritesView extends CustomLayout {
         tempFragmentView.setOnActivityResultListener(new TempFragment.OnActivityResultListener() {
             @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                RowObject rowObject = IntentFactory.onActivityResult(requestCode, resultCode, data);
+                Row rowObject = IntentFactory.onActivityResult(requestCode, resultCode, data);
                 String path = rowObject.getString("path");
-                RowObject rowResult = analysisDpl(path);
+                Row rowResult = analysisDpl(path);
                 for(Object row:rowResult.values()){
-                    MediaServer.rowsNet.add((RowObject) row);
+                    MediaServer.rowsNet.add((Row) row);
                 }
                 SPUtils.saveRows(MediaServer.FILE_TYPE.NET, "url_list", MediaServer.rowsNet);
                 flowAdapter.notifyDataSetChanged();
@@ -202,10 +202,10 @@ public class FavoritesView extends CustomLayout {
                 flowAdapter.notifyDataSetChanged();
             }else  if(view==tv_delete){
 
-                List<RowObject> rows = flowAdapter.getRows();
-                Iterator<RowObject> iterator = rows.iterator();
+                List<Row> rows = flowAdapter.getRows();
+                Iterator<Row> iterator = rows.iterator();
                 while (iterator.hasNext()) {
-                    RowObject row=iterator.next();
+                    Row row=iterator.next();
                     Boolean isCheck = row.getBoolean("isCheck");
                     if(isCheck){
                         iterator.remove();
@@ -215,10 +215,10 @@ public class FavoritesView extends CustomLayout {
                 SPUtils.saveRows(MediaServer.FILE_TYPE.NET, "url_list", MediaServer.rowsNet);
                 flowAdapter.notifyDataSetChanged();
             }else  if(view==tv_checkall){
-                List<RowObject> rows = flowAdapter.getRows();
-                Iterator<RowObject> iterator = rows.iterator();
+                List<Row> rows = flowAdapter.getRows();
+                Iterator<Row> iterator = rows.iterator();
                 while (iterator.hasNext()) {
-                    RowObject row=iterator.next();
+                    Row row=iterator.next();
                     Boolean isCheck = row.getBoolean("isCheck");
                     if(!isCheck){
                         row.put("isCheck",true);
@@ -226,10 +226,10 @@ public class FavoritesView extends CustomLayout {
                 }
                 flowAdapter.notifyDataSetChanged();
             }else  if(view==tv_reve_check){
-                List<RowObject> rows = flowAdapter.getRows();
-                Iterator<RowObject> iterator = rows.iterator();
+                List<Row> rows = flowAdapter.getRows();
+                Iterator<Row> iterator = rows.iterator();
                 while (iterator.hasNext()) {
-                    RowObject row=iterator.next();
+                    Row row=iterator.next();
                     Boolean isCheck = row.getBoolean("isCheck");
                     if(isCheck){
                         row.put("isCheck",false);
@@ -244,7 +244,7 @@ public class FavoritesView extends CustomLayout {
                 if(DLNAService.playerDevice==null){
                     //选择设备
                     if(onFileClickListener!=null){
-                        onFileClickListener.onFileClick(new RowObject());
+                        onFileClickListener.onFileClick(new Row());
                     }
                 }else {
                     ln_name.setVisibility(GONE);
@@ -256,22 +256,22 @@ public class FavoritesView extends CustomLayout {
         }
     }
 
-    private RowObject analysisDpl(String path) {
+    private Row analysisDpl(String path) {
         File file=new File(path);
         String s = FileUtils.readFile(file);
         String[] line = s.split("\n");
-        RowObject rowResult=new RowObject();
+        Row rowResult=new Row();
         String index="";
         for (int i = 0; i < line.length; i++) {
             String s1 = line[i];
             if(s1.contains("*")){
                 String[] lineText = s1.split("\\*");
                 index = lineText[0];
-                RowObject row;
+                Row row;
                 if(rowResult.containsKey(index)){
                     row= rowResult.getRow(index);
                 }else{
-                    row=new RowObject();
+                    row=new Row();
                     row.put("type",ITEM_TYPE);
                     row.put(MediaStore.Video.Media._ID,StringUtils.getUUID());
                     rowResult.put(index,row);
@@ -299,7 +299,7 @@ public class FavoritesView extends CustomLayout {
         flowLayout.setAdapter(flowAdapter);
         flowAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
                L.i("============onItemClick==========="+row);
                 if(flowAdapter.isEditMode){
                     Boolean isCheck = row.getBoolean("isCheck");
@@ -330,12 +330,12 @@ public class FavoritesView extends CustomLayout {
 
         boolean isEditMode=false;
 
-        public FlowAdapter(List<RowObject> rows, int layout) {
+        public FlowAdapter(List<Row> rows, int layout) {
             super(context, rows, layout);
         }
 
         @Override
-        public void setItem(View convertView, final RowObject row, int position, ViewHolder holder) {
+        public void setItem(View convertView, final Row row, int position, ViewHolder holder) {
             View ln_bg = holder.views.get("ln_bg");
             setRoundedColor(ln_bg, 30, getColor(position));
             View ln_edit= holder.views.get("ln_edit");
@@ -419,7 +419,7 @@ public class FavoritesView extends CustomLayout {
     }
 
 
-    public void onItemModify(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+    public void onItemModify(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
         LinearLayout ln_msg= (LinearLayout) holder.views.get("ln_msg");
         ln_msg.setVisibility(GONE);
     }

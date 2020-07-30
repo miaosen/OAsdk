@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.view.FlowLayout;
@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     MAdapter mAdapter;
 
-    private List<RowObject> rows = new LinkedList<RowObject>();
+    private List<Row> rows = new LinkedList<Row>();
 
     String[] argsName = new String[]{
             "企业风险", "风险点", "药品风险", "问题药品流向", "企业预警", "预警地图", "药品预警"
@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
     public void initConfig() {
 
         for (int i = 0; i < 7; i++) {
-            RowObject row = new RowObject();
+            Row row = new Row();
             row.put("NAME", argsName[i]);
             row.put("COLOR", argsColor[i]);
             row.put("ICON", argsIcon[i]);
@@ -121,13 +121,13 @@ public class MainActivity extends BaseActivity {
 
     class MAdapter extends BaseFillAdapter {
 
-        public MAdapter(List<RowObject> rows, int layout) {
+        public MAdapter(List<Row> rows, int layout) {
             super(MainActivity.this, rows, layout);
         }
 
         @SuppressLint("NewApi")
         @Override
-        public void setItem(View convertView, RowObject row, int position, ViewHolder holder) {
+        public void setItem(View convertView, Row row, int position, ViewHolder holder) {
             View ln_bg = holder.views.get("ln_bg");
             View img = holder.views.get("img");
             setRoundedColor(ln_bg, 30, row.getString("COLOR"));

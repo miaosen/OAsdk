@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.JsonUtils;
 import cn.oaui.utils.StringUtils;
 import cn.oaui.utils.ViewUtils;
@@ -29,7 +29,7 @@ public class Form {
     private Map<String, View> mapView = new HashMap<String, View>();
 
 
-    private RowObject row = null;
+    private Row row = null;
 
     private OnFillLisener onFillLisener;
 
@@ -62,7 +62,7 @@ public class Form {
     }
 
 
-    public void fill(RowObject row) {
+    public void fill(Row row) {
         this.row = row;
         fill();
     }
@@ -109,19 +109,19 @@ public class Form {
 
 
     public interface OnFillLisener {
-        void onBefore(Map<String, View> formViews, RowObject row);
+        void onBefore(Map<String, View> formViews, Row row);
 
         boolean onFill(View view, String name, Object value);
 
-        void onComplate(Map<String, View> formViews, RowObject row);
+        void onComplate(Map<String, View> formViews, Row row);
     }
 
 
-    public RowObject getRow() {
+    public Row getRow() {
         return row;
     }
 
-    public void setRow(RowObject row) {
+    public void setRow(Row row) {
         this.row = row;
     }
 

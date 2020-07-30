@@ -30,10 +30,10 @@ public class FileUtils {
      * @param AbsolutePath 内存卡上的文件路径，如："/MyUtils/dom4j"
      * @return
      */
-    public static File createFile(String AbsolutePath) {
+    public static File getFile(String AbsolutePath) {
         String path = AbsolutePath.substring(0, AbsolutePath.lastIndexOf("/"));
         String name = AbsolutePath.substring(AbsolutePath.lastIndexOf("/") + 1, AbsolutePath.length());
-        return createFile(path, name);
+        return getFile(path, name);
     }
 
 
@@ -48,6 +48,9 @@ public class FileUtils {
             return false;
         }
         File dirFile = new File(path);
+        if(dirFile.exists()&&dirFile.isDirectory()){
+            return true;
+        }
         return dirFile.mkdirs();
     }
 
@@ -58,7 +61,7 @@ public class FileUtils {
      * @param name 文件名称
      * @return
      */
-    public static File createFile(String dir, String name) {
+    public static File getFile(String dir, String name) {
         // 判断是否存在sd卡
         if (!isSDCardEnable()) {// 如果不存在,
             return null;
@@ -70,7 +73,11 @@ public class FileUtils {
             // 判断文件是否存在，不存在则创建该文件
             File file = new File(dir, name);
             try {
-                isFileCreateSuccess = file.createNewFile();// 创建文件
+                if(file.exists()){
+                    isFileCreateSuccess = true;
+                }else{
+                    isFileCreateSuccess = file.createNewFile();// 创建文件
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -329,10 +336,9 @@ public class FileUtils {
     public static boolean writeFile(String text, String filePath) {
         boolean success = false;
         try {
-            File file = FileUtils.createFile(filePath);
+            File file = FileUtils.getFile(filePath);
             // 先清空内容再写入
             FileOutputStream fos = new FileOutputStream(file);
-
             byte[] buffer = text.getBytes();
             fos.write(buffer);
             fos.close();
@@ -373,6 +379,7 @@ public class FileUtils {
         }
         return result;
     }
+
 
 
     public static String toString(InputStream inputStream) {

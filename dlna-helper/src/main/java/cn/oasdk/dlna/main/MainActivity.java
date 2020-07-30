@@ -41,7 +41,7 @@ import cn.oasdk.dlna.dms.MediaServer;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.JSONSerializer;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.JsonUtils;
 import cn.oaui.utils.ViewUtils;
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
     FrameDialog fdl_player_device, fdl_sevice_device;
 
     DataListView dlv_player_device, dlv_sevice_device;
-    RowObject rowNodata=new RowObject();
+    Row rowNodata=new Row();
 
 
 
@@ -125,9 +125,9 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
                         @Override
                         public void run() {
                             String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                            RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                            rowObject.put("device", device);
-                            dlv_sevice_device.removeItem(rowObject);
+                            Row row = JsonUtils.jsonToRow(jsonString);
+                            row.put("device", device);
+                            dlv_sevice_device.removeItem(row);
                         }
                     });
                 }
@@ -137,10 +137,10 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
                         @Override
                         public void run() {
                             String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                            RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                            rowObject.put("device", device);
-                            dlv_player_device.removeItem(rowObject);
-                            List<RowObject> rows = dlv_player_device.getFillApdater().getRows();
+                            Row row = JsonUtils.jsonToRow(jsonString);
+                            row.put("device", device);
+                            dlv_player_device.removeItem(row);
+                            List<Row> rows = dlv_player_device.getFillApdater().getRows();
                             if(rows.size()==0){
                                 dlv_player_device.addItem(rowNodata);
                             }
@@ -159,9 +159,9 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
                         @Override
                         public void run() {
                             String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                            RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                            rowObject.put("device", device);
-                            dlv_sevice_device.addItem(rowObject);
+                            Row row = JsonUtils.jsonToRow(jsonString);
+                            row.put("device", device);
+                            dlv_sevice_device.addItem(row);
                         }
                     });
                 }
@@ -171,10 +171,10 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
                         @Override
                         public void run() {
                             String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                            RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                            rowObject.put("device", device);
-                            dlv_player_device.addItem(rowObject);
-                            List<RowObject> rows = dlv_player_device.getFillApdater().getRows();
+                            Row row = JsonUtils.jsonToRow(jsonString);
+                            row.put("device", device);
+                            dlv_player_device.addItem(row);
+                            List<Row> rows = dlv_player_device.getFillApdater().getRows();
                             if(rows.contains(rowNodata)){
                                 rows.remove(rowNodata);
                             }
@@ -341,7 +341,7 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
         dlv_sevice_device.setEnableLoadMore(false);
         dlv_sevice_device.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position,BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 LocalDevice device = (LocalDevice) row.get("device");
                 serviceDevice = device;
                 tv_service.setText(row.getString("friendlyName"));
@@ -371,7 +371,7 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
         dlv_player_device.setEnableLoadMore(false);
         dlv_player_device.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position,BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 Device device = (Device) row.get("device");
                 L.i("============onItemClick==========="+device);
                 DLNAService.playerDevice = device;
@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity implements FileView.OnFileClickLi
     }
 
     @Override
-    public void onFileClick(final RowObject row) {
+    public void onFileClick(final Row row) {
         if (DLNAService.playerDevice != null) {
             Item curItem = null;
             if ("video".equals(row.getString("type"))||FavoritesView.ITEM_TYPE.equals(row.getString("type"))) {

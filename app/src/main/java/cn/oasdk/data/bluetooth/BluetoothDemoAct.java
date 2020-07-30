@@ -23,7 +23,7 @@ import cn.oasdk.R;
 import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.utils.RowUtils;
 import cn.oaui.utils.ViewUtils;
@@ -45,7 +45,7 @@ import static android.bluetooth.BluetoothDevice.ACTION_PAIRING_REQUEST;
 public class BluetoothDemoAct extends BaseActivity {
 
 
-    List<RowObject> rows = new LinkedList<RowObject>();
+    List<Row> rows = new LinkedList<Row>();
 
     Context context;
 
@@ -99,7 +99,7 @@ public class BluetoothDemoAct extends BaseActivity {
         dataListView.setCustomData(true);
         dataListView.setOnItemModifylistenert(new DataListView.OnItemModifylistenert() {
             @Override
-            public void setItemView(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void setItemView(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 TextView isBond = (TextView) holder.views.get("isBond");
                 if(BluetoothDevice.BOND_BONDED==row.getInteger("bondState")) {
                     isBond.setTextColor(getResources().getColor(R.color.blue));
@@ -130,7 +130,7 @@ public class BluetoothDemoAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 Intent intent=new Intent(context,BlueToothSocketAct.class);
                 IntentUtils.addRow(intent,row,"bluetooth_info");
                 startActivity(intent);
@@ -239,9 +239,9 @@ public class BluetoothDemoAct extends BaseActivity {
                         BluetoothDevice.EXTRA_RSSI);
                 System.out.println(device.getName());
                 dataListView.notifyDataSetChanged();
-                RowObject rowObject = RowUtils.entityToRow(device);
-                L.i("=========onReceive=============="+rowObject);
-                dataListView.getFillApdater().addRow(rowObject);
+                Row row = RowUtils.entityToRow(device);
+                L.i("=========onReceive=============="+ row);
+                dataListView.getFillApdater().addRow(row);
                 //dataListView.getFillApdater().addRows();
             } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {//蓝牙开关状态
                 //    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);

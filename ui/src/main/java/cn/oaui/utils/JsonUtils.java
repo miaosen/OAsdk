@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 
 public class JsonUtils {
 
@@ -24,6 +24,9 @@ public class JsonUtils {
      * @return
      */
     public static boolean isValidateJson(String json) {
+        if(StringUtils.isEmpty(json)){
+            return false;
+        }
         try {
             new JSONTokener(json);
             return true;
@@ -73,8 +76,8 @@ public class JsonUtils {
      * @param jsonStr
      * @return
      */
-    public static RowObject jsonToRow(String jsonStr) {
-        RowObject row = new RowObject();
+    public static Row jsonToRow(String jsonStr) {
+        Row row = new Row();
         if (isValidateJson(jsonStr)) {
             if (isJsonObject(jsonStr)) {
                 try {
@@ -96,7 +99,7 @@ public class JsonUtils {
      */
     public static boolean isJSONObject(String jsonStr) {
         if (isValidateJson(jsonStr)) {
-            if (jsonStr.startsWith("[")) {
+            if (jsonStr.startsWith("{")) {
                 return true;
             }
         }
@@ -124,8 +127,8 @@ public class JsonUtils {
      * @param jsonStr
      * @return
      */
-    public static LinkedList<RowObject> jsonToRows(String jsonStr) {
-        LinkedList<RowObject> rows = new LinkedList<RowObject>();
+    public static LinkedList<Row> jsonToRows(String jsonStr) {
+        LinkedList<Row> rows = new LinkedList<Row>();
         if (isJSONArray(jsonStr)) {
             try {
                 JSONArray jArray = new JSONArray(jsonStr);
@@ -138,7 +141,7 @@ public class JsonUtils {
     }
 
 
-    public static void jsonObjectToRow(RowObject row, JSONObject jObject) {
+    public static void jsonObjectToRow(Row row, JSONObject jObject) {
         try {
             Iterator it = jObject.keys();
             while (it.hasNext()) {
@@ -149,12 +152,12 @@ public class JsonUtils {
                     if (isListString(ja)) {
                         row.put(key, jsonArrayToList(ja));
                     } else {
-                        List<RowObject> rows = new LinkedList<RowObject>();
+                        List<Row> rows = new LinkedList<Row>();
                         jsonArrayToRows(rows, ja);
                         row.put(key, rows);
                     }
                 } else if (value instanceof JSONObject) {
-                    RowObject mRow = new RowObject();
+                    Row mRow = new Row();
                     jsonObjectToRow(mRow, (JSONObject) value);
                     row.put(key, mRow);
                 } else if (value != null) {
@@ -166,12 +169,12 @@ public class JsonUtils {
         }
     }
 
-    public static void jsonArrayToRows(List<RowObject> rows, JSONArray jArray) {
+    public static void jsonArrayToRows(List<Row> rows, JSONArray jArray) {
         try {
             for (int i = 0; i < jArray.length(); i++) {
                 Object object = jArray.get(i);
                 if (object instanceof JSONObject) {
-                    RowObject row = new RowObject();
+                    Row row = new Row();
                     jsonObjectToRow(row, (JSONObject) object);
                     rows.add(row);
                 }/* else if (object instanceof RowObject) {
@@ -334,11 +337,11 @@ public class JsonUtils {
                 String key = it.next().toString();
                 Object value = jObject.get(key);
                 if (value instanceof JSONArray) {
-                    List<RowObject> rows = new LinkedList<RowObject>();
+                    List<Row> rows = new LinkedList<Row>();
                     jsonArrayToRows(rows, (JSONArray) value);
                     map.put(key, rows);
                 } else if (value instanceof JSONObject) {
-                    RowObject mRow = new RowObject();
+                    Row mRow = new Row();
                     jsonObjectToRow(mRow, (JSONObject) value);
                     map.put(key, mRow);
                 } else {

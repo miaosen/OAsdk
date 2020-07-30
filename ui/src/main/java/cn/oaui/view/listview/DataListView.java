@@ -16,7 +16,7 @@ import cn.oahttp.callback.StringCallBack;
 import cn.oaui.L;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.FormAdpater;
 import cn.oaui.utils.JsonUtils;
 import cn.oaui.utils.StringUtils;
@@ -33,7 +33,7 @@ import cn.oaui.view.tiplayout.TipLayout;
 
 public class DataListView extends CustomLayout implements FormAdpater {
 
-    LinkedList<RowObject> rows = new LinkedList<RowObject>();
+    LinkedList<Row> rows = new LinkedList<Row>();
 
     @ViewInject
     ListView listView;
@@ -127,9 +127,9 @@ public class DataListView extends CustomLayout implements FormAdpater {
             param = "{\"" + param + "\"}";
             int i = 0;
             if (JsonUtils.isValidateJson(param)) {
-                RowObject rowObject = JsonUtils.jsonToRow(param);
-                for (String key : rowObject.keySet()) {
-                    mapParam.put(key, rowObject.get(key));
+                Row row = JsonUtils.jsonToRow(param);
+                for (String key : row.keySet()) {
+                    mapParam.put(key, row.get(key));
                 }
             } else {
                 L.e("======参数格式错误======" + param);
@@ -225,13 +225,13 @@ public class DataListView extends CustomLayout implements FormAdpater {
             public void onSuccess(String text) {
                 tipLayout.end();
                 if (dataExpression != null) {
-                    RowObject rowObject = JsonUtils.jsonToRow(text);
-                    if (rowObject.getLayerData(dataExpression) instanceof List) {
-                        List<RowObject> results = (List<RowObject>) rowObject.getLayerData(dataExpression);
+                    Row row = JsonUtils.jsonToRow(text);
+                    if (row.getLayerData(dataExpression) instanceof List) {
+                        List<Row> results = (List<Row>) row.getLayerData(dataExpression);
                         setValue(results);
                     }
                 } else if (JsonUtils.isCanToRows(text)) {
-                    List<RowObject> results = JsonUtils.jsonToRows(text);
+                    List<Row> results = JsonUtils.jsonToRows(text);
                     setValue(results);
                 }
 
@@ -282,11 +282,11 @@ public class DataListView extends CustomLayout implements FormAdpater {
     public void setValue(Object object) {
         L.i("=========setValue=============="+object);
         //object可以是List<RowObject>也可以是json数组
-        List<RowObject> list = null;
+        List<Row> list = null;
         if (object != null) {
             if (object instanceof List) {
                 L.i("=========setValue==============list");
-                list= (List<RowObject>) object;
+                list= (List<Row>) object;
                 if(list.size()>0){
                     rows.addAll(list);
                     notifyDataSetChanged();
@@ -339,12 +339,12 @@ public class DataListView extends CustomLayout implements FormAdpater {
 
     public class FillApdater extends BaseFillAdapter {
 
-        public FillApdater(Context context, List<RowObject> rows, int layout) {
+        public FillApdater(Context context, List<Row> rows, int layout) {
             super(context, rows, layout);
         }
 
         @Override
-        public void setItem(View convertView, RowObject row, int position, ViewHolder holder) {
+        public void setItem(View convertView, Row row, int position, ViewHolder holder) {
             if (onItemModifylistenert != null) {
                 onItemModifylistenert.setItemView(convertView, row, position, holder);
             }
@@ -411,7 +411,7 @@ public class DataListView extends CustomLayout implements FormAdpater {
      * 添加一行数据
      * @param row
      */
-    public void removeItem(RowObject row) {
+    public void removeItem(Row row) {
         fillApdater.removeRow(row);
     }
 
@@ -419,7 +419,7 @@ public class DataListView extends CustomLayout implements FormAdpater {
      * 添加参数
      * @param row
      */
-    public void addItem(RowObject row) {
+    public void addItem(Row row) {
         fillApdater.addRow(row);
     }
 
@@ -427,7 +427,7 @@ public class DataListView extends CustomLayout implements FormAdpater {
      * 添加参数
      * @param rows
      */
-    public void addItems(List<RowObject> rows) {
+    public void addItems(List<Row> rows) {
         fillApdater.addRows(rows);
     }
 
@@ -461,7 +461,7 @@ public class DataListView extends CustomLayout implements FormAdpater {
 
 
     public interface OnItemModifylistenert {
-        void setItemView(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder);
+        void setItemView(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder);
     }
 
     public void setOnItemClickListener(BaseFillAdapter.OnItemClickListener onItemClickListener) {
@@ -476,11 +476,11 @@ public class DataListView extends CustomLayout implements FormAdpater {
         this.fillApdater = fillApdater;
     }
 
-    public LinkedList<RowObject> getRows() {
+    public LinkedList<Row> getRows() {
         return rows;
     }
 
-    public void setRows(LinkedList<RowObject> rows) {
+    public void setRows(LinkedList<Row> rows) {
         this.rows = rows;
     }
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import cn.oasdk.R;
 import cn.oasdk.base.BaseActivity;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.IntentUtils;
 import cn.oaui.utils.StringUtils;
 import cn.oaui.view.HeaderView;
@@ -24,7 +24,7 @@ import cn.oaui.view.HeaderView;
 
 public class BlueToothSocketAct extends BaseActivity {
 
-    RowObject rowDeviece;
+    Row rowDeviece;
 
     Context context;
 

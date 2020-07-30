@@ -34,7 +34,7 @@ import cn.oasdk.wifi.WifiAct;
 import cn.oaui.IntentFactory;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.BitmapUtils;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.utils.ViewUtils;
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         dlgVoice = new FrameDialog(MainActivity.this, voiceRecordView);
         voiceRecordView.setOnRecordComplateListener(new VoiceRecordView.OnRecordComplateListener() {
             @Override
-            public void onComplate(RowObject result) {
+            public void onComplate(Row result) {
                 ViewUtils.toast(result + "");
                 dlgVoice.dismiss();
             }
@@ -235,10 +235,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        RowObject rowObject = IntentFactory.onActivityResult(requestCode, resultCode, data);
-        if (rowObject != null) {
-            L.i("=========onActivityResult==============" + rowObject);
-            ViewUtils.toast("onActivityResult====" + rowObject);
+        Row row = IntentFactory.onActivityResult(requestCode, resultCode, data);
+        if (row != null) {
+            L.i("=========onActivityResult==============" + row);
+            ViewUtils.toast("onActivityResult====" + row);
         }
 
         String result = CaptureActivity.parseActivityResult(requestCode, resultCode, data);

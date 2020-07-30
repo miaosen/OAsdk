@@ -3,16 +3,18 @@ package cn.oasdk.base;
 import android.app.Application;
 
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.danikula.videocache.file.FileNameGenerator;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import cn.oahttp.ClientFactory;
+import cn.oahttp.HttpUtils;
 import cn.oahttp.cookies.CookieManager;
 import cn.oasdk.fileview.data.FileData;
 import cn.oaui.L;
 import cn.oaui.UIGlobal;
-import cn.oaui.utils.FileUtils;
+import cn.oaui.utils.AppUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -78,14 +80,19 @@ public class AppContext extends Application {
 
 
     private HttpProxyCacheServer newProxy() {
-        String appDirPath = FileUtils.getSDCardPath()+"/"+AppContext.getApplication().getPackageName();
+        String appDirPath = AppUtils.getDefaultDirectory();
         File file = new File(appDirPath);
         if(!file.exists()){
             file.mkdirs();
         }
-        L.i("============newProxy==========="+appDirPath);
         return new HttpProxyCacheServer.Builder(this)
                 .cacheDirectory(file)
+                .fileNameGenerator(new FileNameGenerator() {
+                    @Override
+                    public String generate(String url) {
+                        return   HttpUtils.getFileName(url);
+                    }
+                })
                 //最大缓存200M
                 .maxCacheSize(300 * 1024 * 1024)
                 .build();

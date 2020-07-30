@@ -15,32 +15,32 @@ public class SerializableRowObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private RowObject rowObject;
+	private Row row;
 
-	private LinkedList<RowObject> rows;
+	private LinkedList<Row> rows;
 	
-	public SerializableRowObject(RowObject rowObject){
-		setRowObject(rowObject);
+	public SerializableRowObject(Row row){
+		setRow(row);
 	}
 
-	public SerializableRowObject(LinkedList<RowObject> rows ){
+	public SerializableRowObject(LinkedList<Row> rows ){
 		setRows(rows);
 	}
 
 
-	public RowObject getRowObject() {
-		return rowObject;
+	public Row getRow() {
+		return row;
 	}
 
-	public void setRowObject(RowObject rowObject) {
-		this.rowObject = rowObject;
+	public void setRow(Row row) {
+		this.row = row;
 	}
 
-	public LinkedList<RowObject> getRows() {
+	public LinkedList<Row> getRows() {
 		return rows;
 	}
 
-	public void setRows(LinkedList<RowObject> rows) {
+	public void setRows(LinkedList<Row> rows) {
 		this.rows = rows;
 	}
 }

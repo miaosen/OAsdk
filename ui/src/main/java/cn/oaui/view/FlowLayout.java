@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cn.oaui.R;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.listview.BaseFillAdapter;
 
 
@@ -45,7 +45,7 @@ public class FlowLayout extends ViewGroup {
 
     OnItemClickListener onItemClickListener;
 
-    List<RowObject> rowsPosition = new LinkedList<>();
+    List<Row> rowsPosition = new LinkedList<>();
 
     int gravity = Gravity.NO_GRAVITY;
 
@@ -158,7 +158,7 @@ public class FlowLayout extends ViewGroup {
             //当前子View的宽度和高度
             int childWith = child.getMeasuredWidth();
             int childHeight = child.getMeasuredHeight();
-            RowObject rowObject = new RowObject();
+            Row row = new Row();
             if (i == 0) {
                 lastLineHeight = childHeight;
                 childsHeight = childY + childHeight;
@@ -179,23 +179,23 @@ public class FlowLayout extends ViewGroup {
                 childsHeight = childHeight + childY;
                 lastLineHeight = childHeight;
             }
-            rowObject.put("line", line);
-            rowObject.put("child", child);
-            rowObject.put("childX", childX);
-            rowObject.put("childY", childY);
-            rowObject.put("childsWith", childsWith);
-            rowObject.put("childsHeight", childsHeight);
-            rowsPosition.add(rowObject);
+            row.put("line", line);
+            row.put("child", child);
+            row.put("childX", childX);
+            row.put("childY", childY);
+            row.put("childsWith", childsWith);
+            row.put("childsHeight", childsHeight);
+            rowsPosition.add(row);
         }
         setGravity();
         for (int i = 0; i < rowsPosition.size(); i++) {
-            RowObject rowObject = rowsPosition.get(i);
-            View child = (View) rowObject.get("child");
-            int x = (int) rowObject.get("childX");
-            int y = (int) rowObject.get("childY");
-            int w = (int) rowObject.get("childsWith");
-            int h = (int) rowObject.get("childsHeight");
-            int li = (int) rowObject.get("line");
+            Row row = rowsPosition.get(i);
+            View child = (View) row.get("child");
+            int x = (int) row.get("childX");
+            int y = (int) row.get("childY");
+            int w = (int) row.get("childsWith");
+            int h = (int) row.get("childsHeight");
+            int li = (int) row.get("line");
             //L.i("=========onLayout==============" + x);
             child.layout(x, y, w, h);
             //final int finalI = i;
@@ -218,9 +218,9 @@ public class FlowLayout extends ViewGroup {
             int index=0;
             Integer  space=0;
             for (int i = 0; i < rowsPosition.size(); i++) {
-                RowObject rowObject = rowsPosition.get(i);
-                int w = (int) rowObject.get("childsWith");
-                int li = (int) rowObject.get("line");
+                Row row = rowsPosition.get(i);
+                int w = (int) row.get("childsWith");
+                int li = (int) row.get("line");
                 if (li != lastLi) {
                     //上一行的缩进长度
                     //for (int j = i-index; j < i; j++) {
@@ -239,13 +239,13 @@ public class FlowLayout extends ViewGroup {
             }
             //width=width-lastW;
             for (int i = 0; i < rowsPosition.size(); i++) {
-                RowObject rowObject = rowsPosition.get(i);
+                Row row = rowsPosition.get(i);
                 //L.i("=========setGravity=============="+i);
                 //int paddingSpace = (int) rowObject.get("paddingSpace");
-                int x = (int) rowObject.get("childX");
-                rowObject.put("childX", x + space/2);
-                int w = (int) rowObject.get("childsWith");
-                rowObject.put("childsWith", w + space/2);
+                int x = (int) row.get("childX");
+                row.put("childX", x + space/2);
+                int w = (int) row.get("childsWith");
+                row.put("childsWith", w + space/2);
             }
         }
     }

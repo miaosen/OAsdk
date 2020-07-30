@@ -15,7 +15,7 @@ import java.util.Map;
 
 import cn.oaui.L;
 import cn.oaui.ResourceHold;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.StringUtils;
 import cn.oaui.utils.ViewUtils;
 import cn.oaui.view.calendar.DateButton;
@@ -108,8 +108,8 @@ public class FormUtils {
         return submitMap;
     }
 
-    public static RowObject getContentRow(Map<String, View> viewWithIdName) {
-        RowObject row = new RowObject();
+    public static Row getContentRow(Map<String, View> viewWithIdName) {
+        Row row = new Row();
         for (String tagName : viewWithIdName.keySet()) {
             View view = viewWithIdName.get(tagName);
             Object contentValue = getContentValue(view);
@@ -120,9 +120,9 @@ public class FormUtils {
         return row;
     }
 
-    public static RowObject getContentRow(View viewGroup) {
+    public static Row getContentRow(View viewGroup) {
         Map<String, View> mapView = getMapView(viewGroup);
-        RowObject row = new RowObject();
+        Row row = new Row();
         for (String tagName : mapView.keySet()) {
             View view = mapView.get(tagName);
             Object value = getContentValue(view);
@@ -211,7 +211,7 @@ public class FormUtils {
     }
 
 
-    public static void setContentValues(View views, RowObject row) {
+    public static void setContentValues(View views, Row row) {
         List<View> allChildViews = ViewUtils.getAllChildViews(views);
         for (int i = 0; i < allChildViews.size(); i++) {
             View view = allChildViews.get(i);

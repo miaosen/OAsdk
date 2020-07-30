@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import cn.oasdk.fileview.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
 
@@ -31,7 +31,7 @@ public class SortDialogListView extends CustomLayout {
     @ViewInject
     ListView listView;
 
-    private LinkedList<RowObject> rows;
+    private LinkedList<Row> rows;
 
     BaseFillAdapter.OnItemClickListener onItemClickListener;
 
@@ -53,10 +53,10 @@ public class SortDialogListView extends CustomLayout {
     public void initData() {
         rows = new LinkedList<>();
         for (int i = 0; i < names.length; i++) {
-            RowObject rowObject = new RowObject();
+            Row row = new Row();
             Integer name = names[i];
-            rowObject.put("name", getResources().getString(name));
-            rows.add(rowObject);
+            row.put("name", getResources().getString(name));
+            rows.add(row);
         }
         listAdapter=new ListAdapter(context,rows,R.layout.download_dlg_sort_item);
         if(onItemClickListener!=null){
@@ -89,13 +89,13 @@ public class SortDialogListView extends CustomLayout {
 
 
     public class ListAdapter extends BaseFillAdapter {
-        public ListAdapter(Context context, LinkedList<RowObject> rows, int layout) {
+        public ListAdapter(Context context, LinkedList<Row> rows, int layout) {
             super(context, rows, layout);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
-        public void setItem(final View convertView, final RowObject row, final int position, final ViewHolder holder) {
+        public void setItem(final View convertView, final Row row, final int position, final ViewHolder holder) {
 
 
         }
@@ -109,11 +109,11 @@ public class SortDialogListView extends CustomLayout {
         this.listView = listView;
     }
 
-    public LinkedList<RowObject> getRows() {
+    public LinkedList<Row> getRows() {
         return rows;
     }
 
-    public void setRows(LinkedList<RowObject> rows) {
+    public void setRows(LinkedList<Row> rows) {
         this.rows = rows;
     }
 

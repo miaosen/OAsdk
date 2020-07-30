@@ -19,7 +19,7 @@ import cn.oasdk.dlna.util.Utils;
 import cn.oaui.ImageFactory;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.FileUtils;
 import cn.oaui.view.FlowLayout;
 import cn.oaui.view.listview.BaseFillAdapter;
@@ -43,7 +43,7 @@ public abstract class BaseFileAct extends BaseActivity {
     public List<String> listFilePath = new LinkedList<>();
 
 
-    public LinkedList<RowObject> rows;
+    public LinkedList<Row> rows;
 
     @ViewInject
     ImageButton leftBtn;
@@ -53,7 +53,7 @@ public abstract class BaseFileAct extends BaseActivity {
     @ViewInject
     FlowLayout flowLayout;
     MAdapter mAdapter;
-    LinkedList<RowObject> rowsCurPath = new LinkedList<>();
+    LinkedList<Row> rowsCurPath = new LinkedList<>();
 
     @ViewInject
     LinearLayout ln_edit_tail,ln_cancle;
@@ -64,7 +64,7 @@ public abstract class BaseFileAct extends BaseActivity {
     public void onViewCreate() {
         dataListView.setOnItemModifylistenert(new DataListView.OnItemModifylistenert() {
             @Override
-            public void setItemView(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void setItemView(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 L.i("============setItemView===========" + row);
                 String filePath = row.getString("filePath");
                 ImageView img_file_type = (ImageView) holder.views.get("img_file_type");
@@ -134,7 +134,7 @@ public abstract class BaseFileAct extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, final RowObject row, int position) {
+            public void onItemClick(View convertView, final Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
                 L.i("============onItemClick===========" + row);
                 if (isEditMode) {
                     row.put("checked",!row.getBoolean("checked"));
@@ -155,7 +155,7 @@ public abstract class BaseFileAct extends BaseActivity {
         mAdapter = new MAdapter(rowsCurPath, R.layout.image_path_item);
         mAdapter.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
                 Iterator<String> iterator = listFilePath.iterator();
                 int sum = 0;
                 curFilePath = FileUtils.getSDCardPath();
@@ -204,14 +204,14 @@ public abstract class BaseFileAct extends BaseActivity {
         dataListView.notifyDataSetChanged();
         ln_edit_tail.setVisibility(GONE);
         //
-        LinkedList<RowObject> rows = dataListView.getRows();
+        LinkedList<Row> rows = dataListView.getRows();
         for (int i = 0; i <rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
-            rowObject.put("checked",false);
+            Row row = rows.get(i);
+            row.put("checked",false);
         }
     }
 
-    protected abstract void onListItemClick(View convertView, RowObject row, int position);
+    protected abstract void onListItemClick(View convertView, Row row, int position);
 
 
     public void setFileIcon(String filePath, ImageView img_file_type) {
@@ -220,12 +220,12 @@ public abstract class BaseFileAct extends BaseActivity {
 
     public void showPath() {
         rowsCurPath.clear();
-        RowObject r = new RowObject();
+        Row r = new Row();
         r.put("NAME", "存储");
         rowsCurPath.add(r);
         L.i("============showPath===========" + listFilePath);
         for (int i = 0; i < listFilePath.size(); i++) {
-            RowObject row = new RowObject();
+            Row row = new Row();
             String s = listFilePath.get(i);
             row.put("NAME", "/" + s);
             rowsCurPath.add(row);
@@ -286,13 +286,13 @@ public abstract class BaseFileAct extends BaseActivity {
 
     class MAdapter extends BaseFillAdapter {
 
-        public MAdapter(List<RowObject> rows, int layout) {
+        public MAdapter(List<Row> rows, int layout) {
             super(BaseFileAct.this, rows, layout);
         }
 
         @SuppressLint("NewApi")
         @Override
-        public void setItem(View convertView, RowObject row, int position, ViewHolder holder) {
+        public void setItem(View convertView, Row row, int position, ViewHolder holder) {
             L.i("============setItem===========" + holder.views);
             //TextView NAME = (TextView) holder.views.get("NAME");
             //NAME.setText("!!!!");

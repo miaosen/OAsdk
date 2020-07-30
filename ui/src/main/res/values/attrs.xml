@@ -98,4 +98,11 @@
         <!-- 标题左边图标 -->
         <attr name="icon" format="reference" />
     </declare-styleable>
+
+
+
+    <declare-styleable name="ClearableEditText">
+        <attr name="right_drawable_color" format="color|reference" />
+    </declare-styleable>
+
 </resources>

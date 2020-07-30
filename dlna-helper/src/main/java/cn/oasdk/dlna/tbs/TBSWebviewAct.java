@@ -33,7 +33,7 @@ import cn.oasdk.dlna.image.view.ImageEditPannel;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.JSONSerializer;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.BitmapUtils;
 import cn.oaui.utils.FileUtils;
@@ -63,7 +63,7 @@ public class TBSWebviewAct extends BaseActivity {
     DataListView dlv_player_device;
     @ViewInject
     ImageEditPannel image_edit_pannel;
-    RowObject rowNodata = new RowObject();
+    Row rowNodata = new Row();
 
     @Override
     public void initConfig() {
@@ -77,10 +77,10 @@ public class TBSWebviewAct extends BaseActivity {
                             @Override
                             public void run() {
                                 String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                                RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                                rowObject.put("device", device);
-                                dlv_player_device.removeItem(rowObject);
-                                List<RowObject> rows = dlv_player_device.getFillApdater().getRows();
+                                Row row = JsonUtils.jsonToRow(jsonString);
+                                row.put("device", device);
+                                dlv_player_device.removeItem(row);
+                                List<Row> rows = dlv_player_device.getFillApdater().getRows();
                                 if (rows.size() == 0) {
                                     dlv_player_device.addItem(rowNodata);
                                 }
@@ -99,8 +99,8 @@ public class TBSWebviewAct extends BaseActivity {
                             @Override
                             public void run() {
                                 String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                                RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                                rowObject.put("device", device);
+                                Row row = JsonUtils.jsonToRow(jsonString);
+                                row.put("device", device);
                                 //dlv_sevice_device.addItem(rowObject);
                             }
                         });
@@ -111,10 +111,10 @@ public class TBSWebviewAct extends BaseActivity {
                             @Override
                             public void run() {
                                 String jsonString = JSONSerializer.toJSONString(device.getDetails());
-                                RowObject rowObject = JsonUtils.jsonToRow(jsonString);
-                                rowObject.put("device", device);
-                                dlv_player_device.addItem(rowObject);
-                                List<RowObject> rows = dlv_player_device.getFillApdater().getRows();
+                                Row row = JsonUtils.jsonToRow(jsonString);
+                                row.put("device", device);
+                                dlv_player_device.addItem(row);
+                                List<Row> rows = dlv_player_device.getFillApdater().getRows();
                                 if (rows.contains(rowNodata)) {
                                     rows.remove(rowNodata);
                                 }
@@ -186,7 +186,7 @@ public class TBSWebviewAct extends BaseActivity {
         dlv_player_device.setEnableLoadMore(false);
         dlv_player_device.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
                 Device device = (Device) row.get("device");
                 L.i("============onItemClick===========" + device);
                 DLNAService.playerDevice = device;

@@ -24,7 +24,7 @@ import cn.oasdk.dlna.dms.DLNAService;
 import cn.oasdk.dlna.util.Utils;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.view.CustomLayout;
 
 /**
@@ -141,7 +141,7 @@ public class ControlView extends CustomLayout {
     }
 
 
-    public void start(RowObject row) {
+    public void start(Row row) {
          if ("image".equals(row.getString("type"))) {
              setVisibility(INVISIBLE);
          }else{

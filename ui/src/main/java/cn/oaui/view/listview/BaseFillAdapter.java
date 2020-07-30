@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.oaui.UIGlobal;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.Form;
 import cn.oaui.form.FormUtils;
 import cn.oaui.utils.JsonUtils;
@@ -27,7 +27,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 
 	private Context context;
 	// 数据集 List<Map<?,?>>类型
-	private List<RowObject> rows;
+	private List<Row> rows;
 	// 布局文件
 	private int layout;
 	// item点击监听
@@ -35,7 +35,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	// setItem之前修改item
 	private OnItemModifylistenert onItemModifylistenert;
 
-	public BaseFillAdapter(Context context, List<RowObject> rows,
+	public BaseFillAdapter(Context context, List<Row> rows,
 						   int layout) {
 		this.context = context;
 		this.rows=rows;
@@ -48,7 +48,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	//	this.layout = layout;
 	//}
 
-	public BaseFillAdapter(List<RowObject> rows, int layout) {
+	public BaseFillAdapter(List<Row> rows, int layout) {
 		this.context = UIGlobal.getApplication();
 		this.rows = rows;
 		this.layout = layout;
@@ -94,7 +94,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		}
 
 		//数据填充
-		RowObject row = rows.get(position);
+		Row row = rows.get(position);
 		holder.fillUnit.fill(row);
 		if(onItemModifylistenert!=null){
 			onItemModifylistenert.onItemModify(convertView,row,position,holder);
@@ -111,7 +111,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * @param jsonStr
 	 */
 	public void addJsonData(String jsonStr) {
-		List<RowObject> list = JsonUtils.jsonToRows(jsonStr);
+		List<Row> list = JsonUtils.jsonToRows(jsonStr);
 		if (list != null) {
 			rows.addAll(list);
 			notifyDataSetChanged();
@@ -122,7 +122,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * 添加数据
 	 * @param list
 	 */
-	public void addRows(List<RowObject> list) {
+	public void addRows(List<Row> list) {
 		if (list != null) {
 			rows.addAll(list);
 			notifyDataSetChanged();
@@ -133,7 +133,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * 添加数据
 	 * @param row
 	 */
-	public void addRow(RowObject row) {
+	public void addRow(Row row) {
 		if (row!= null) {
 			rows.add(row);
 			notifyDataSetChanged();
@@ -145,7 +145,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * 移除数据
 	 * @param row
 	 */
-	public void removeRow(RowObject row) {
+	public void removeRow(Row row) {
 		if (row!= null) {
 			rows.remove(row);
 			notifyDataSetChanged();
@@ -184,7 +184,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 */
 	class mClick implements OnClickListener {
 		private View convertView;
-		private RowObject row;
+		private Row row;
 		private int position;
 		ViewHolder	holder;
 		/**
@@ -192,7 +192,7 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		 * @param position
 		 * @param holder
 		 */
-		public mClick(View convertView, RowObject row, int position, ViewHolder holder) {
+		public mClick(View convertView, Row row, int position, ViewHolder holder) {
 			this.convertView = convertView;
 			this.row = row;
 			this.position = position;
@@ -210,11 +210,11 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * item 监听接口
 	 */
 	public interface OnItemClickListener {
-		void onItemClick(View convertView, RowObject row, int position, BaseFillAdapter.ViewHolder holder);
+		void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder);
 	}
 
 	public interface OnItemModifylistenert {
-		void onItemModify(View convertView, RowObject row, int position,ViewHolder holder);
+		void onItemModify(View convertView, Row row, int position, ViewHolder holder);
 	}
 
 	/**
@@ -224,8 +224,8 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	 * @param position
      * @param holder
      */
-	public abstract void setItem(View convertView, RowObject row, int position,
-			 ViewHolder holder);
+	public abstract void setItem(View convertView, Row row, int position,
+                                 ViewHolder holder);
 
 
 
@@ -239,11 +239,11 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		return onItemClickListener;
 	}
 
-	public List<RowObject> getRows() {
+	public List<Row> getRows() {
 		return rows;
 	}
 
-	public void setRows(List<RowObject> rows) {
+	public void setRows(List<Row> rows) {
 		this.rows = rows;
 	}
 

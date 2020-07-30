@@ -20,7 +20,6 @@
             android:id="@+id/img_file"
             android:layout_width="50dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/sel_menu_bg"
             android:layout_height="50dp"/>
 
 
@@ -30,7 +29,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@id/img_file_right"
             android:layout_above="@id/img_file_right"
-            android:src="@mipmap/icon_close"/>
+            android:src="@mipmap/icon_delete"/>
 
         <ImageView
             android:id="@+id/img_paly"

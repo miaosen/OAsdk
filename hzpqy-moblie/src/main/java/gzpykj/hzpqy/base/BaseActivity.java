@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import cn.oaui.annotation.InjectReader;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.Form;
 
 /**
@@ -67,18 +67,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 
-    public RowObject getContentValue(){
+    public Row getContentValue(){
         if(form==null){
             form=new Form(this);
         }
        return getContentValue();
     }
 
-    public void setContentValue(RowObject rowObject){
+    public void setContentValue(Row row){
         if(form==null){
             form=new Form(this);
         }
-        form.fill(rowObject);
+        form.fill(row);
     }
 
 

@@ -3,28 +3,27 @@ package cn.oasdk.fileview.data;
 import java.io.File;
 
 import cn.oaui.L;
-import cn.oaui.data.RowObject;
-import cn.oaui.utils.FileUtils;
+import cn.oaui.data.Row;
 
 public class FileTree {
 
-    public static RowObject scanFile(String path) {
+    public static Row scanFile(String path) {
         long startTime = System.currentTimeMillis();
-        RowObject rowObject = new RowObject();
+        Row row = new Row();
 
 
-        scanFile(new File(path),rowObject);
-        L.i("======scanFile===== "+rowObject.getRow("MIUI").getString("size"));
-        L.i("======scanFile===== "+rowObject.getLayerData("MIUI.size"));
+        scanFile(new File(path), row);
+        L.i("======scanFile===== "+ row.getRow("MIUI").getString("size"));
+        L.i("======scanFile===== "+ row.getLayerData("MIUI.size"));
         long endTime = System.currentTimeMillis();
         L.i("============scanFile===========" + "程序运行时间：" + (endTime - startTime) + "ms");
 //        L.i("============scanFile===========" + files.size());
 //        ViewUtils.toast("程序运行时间：" + (endTime - startTime) + "ms,文件数量："+ files.size());
         //long startTime1 = System.currentTimeMillis();
-        return rowObject;
+        return row;
     }
 
-    public static void scanFile(File file, RowObject row) {
+    public static void scanFile(File file, Row row) {
         File[] fs = file.listFiles();
         //.nomedia处理
         long size=0;
@@ -36,7 +35,7 @@ public class FileTree {
 //                        && !file1.getName().startsWith(".")
 //                        && !hasNoMediaFile(file1)
                 ) {
-                    RowObject rowNext=new RowObject();
+                    Row rowNext=new Row();
                     row.put(file1.getName(),rowNext);
                     scanFile(file1, rowNext);
                     size=size+rowNext.getLong("size");

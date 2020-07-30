@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:gravity="center_vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/ln_back"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:background="@drawable/sel_btn"
+            android:gravity="center_vertical"
+            android:paddingLeft="14dp"
+            >
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@mipmap/icon_back04"
+            />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="添加书签"
+            style="@style/tv_title"
+            android:textSize="18dp"
+            android:layout_height="match_parent"/>
+        <View
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            />
+    </LinearLayout>
+    <View
+        style="@style/line_hz_grey_lt"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="8dp"
+        android:background="@drawable/company_edit_bg"
+        android:clickable="true"
+        android:gravity="center|top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="书签名："
+            android:minWidth="64dp"
+            android:gravity="right"
+            android:textSize="14dp"
+            />
+
+        <cn.oaui.view.ClearableEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/text_color"
+            android:background="@null"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="8dp"
+        android:background="@drawable/company_edit_bg"
+        android:clickable="true"
+        android:gravity="center|top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="链接："
+            android:minWidth="64dp"
+            android:gravity="right"
+            android:textSize="14dp"
+            />
+
+        <cn.oaui.view.ClearableEditText
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:padding="8dp"
+            android:textColor="@color/text_color"
+            android:minHeight="120dp"
+            android:gravity="center_vertical|top"
+            />
+
+
+
+    </LinearLayout>
+    </LinearLayout>
+   <Button
+       android:id="@+id/btn"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       style="@style/btn_blue"
+       android:text="确定"
+       android:textSize="16dp"
+       />
+
+</LinearLayout>

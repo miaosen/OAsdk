@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import cn.oaui.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.ViewUtils;
 
 
@@ -146,7 +146,7 @@ public class VoiceRecordView extends LinearLayout {
 
 	private void onRecordComplate() {
 		if(onRecordComplateListener!=null){
-			RowObject result = new RowObject();
+			Row result = new Row();
 			result.put("path", voiceRecord.getVociePath());
 			result.put("type", "voice");
 			onRecordComplateListener.onComplate(result);
@@ -207,7 +207,7 @@ public class VoiceRecordView extends LinearLayout {
 	}
 
 	public interface OnRecordComplateListener {
-		void onComplate(RowObject result);
+		void onComplate(Row result);
 	}
 
 	public OnRecordComplateListener getOnRecordComplateListener() {

@@ -13,7 +13,7 @@ import cn.oasdk.base.BaseActivity;
 import cn.oaui.L;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.DateTimeUtils;
 import cn.oaui.view.listview.DataListView;
 
@@ -51,9 +51,9 @@ public class DataDemoAct extends BaseActivity {
 
     @Override
     public void initData() {
-        final List<RowObject> rows=new LinkedList<RowObject>();
+        final List<Row> rows=new LinkedList<Row>();
         for (int i = 0; i < 10; i++) {
-            RowObject row=new RowObject();
+            Row row=new Row();
             row.put("NAME","名称"+i);
             row.put("time", DateTimeUtils.getCurrentTime());
             rows.add(row);

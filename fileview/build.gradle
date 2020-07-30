@@ -31,6 +31,7 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.11.7'
-    implementation 'com.danikula:videocache:2.7.1'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'org.slf4j:slf4j-android:1.7.21'
     api project(path: ':ui')
 }

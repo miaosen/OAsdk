@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:layout_weight="1"
+        android:numColumns="4"
+        android:layout_margin="10dp"
+        android:stretchMode="columnWidth"
+        android:clipToPadding="false"
+        android:divider="@null"
+        />
+
+    <LinearLayout
+        android:id="@+id/ln_hide_menu"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:background="@drawable/sel_btn"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/icon_down"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

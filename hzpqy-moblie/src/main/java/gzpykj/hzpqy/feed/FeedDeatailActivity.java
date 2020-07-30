@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,11 +15,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+
+import java.util.List;
+import java.util.Map;
+
+import androidx.annotation.RequiresApi;
 import cn.oahttp.HttpRequest;
 import cn.oahttp.callback.StringCallBack;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.form.Form;
 import cn.oaui.utils.DateTimeUtils;
 import cn.oaui.utils.IntentUtils;
@@ -31,10 +37,6 @@ import cn.oaui.view.dialog.extra.TipDialog;
 import cn.oaui.view.dialog.extra.WindowTipDialog;
 import cn.oaui.view.listview.BaseFillAdapter;
 import cn.oaui.view.listview.DataListView;
-
-import java.util.List;
-import java.util.Map;
-
 import gzpykj.hzpqy.R;
 import gzpykj.hzpqy.base.BaseActivity;
 import gzpykj.hzpqy.base.Global;
@@ -68,9 +70,9 @@ public class FeedDeatailActivity extends BaseActivity {
     @ViewInject
     View btn_save;
 
-    RowObject rowFeed;
+    Row rowFeed;
 
-    List<RowObject> rowsFeedNeed;
+    List<Row> rowsFeedNeed;
 
     Form form;
 
@@ -89,7 +91,7 @@ public class FeedDeatailActivity extends BaseActivity {
     private void initFeedNeed(String text) {
         JsonHandler jsonHandler = new JsonHandler(text);
         if (jsonHandler.isSuccess()) {
-            rowsFeedNeed = (List<RowObject>) jsonHandler.getAsRow().get("data");
+            rowsFeedNeed = (List<Row>) jsonHandler.getAsRow().get("data");
             if (rowsFeedNeed == null || rowsFeedNeed.size() == 0) {
                 ViewUtils.toast("领料单为空！");
             }
@@ -118,13 +120,14 @@ public class FeedDeatailActivity extends BaseActivity {
         dataListView.addParam("workOrderId", rowFeed.getString("mainId"));
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder viewHolder) {
 
             }
         });
         dataListView.setOnItemModifylistenert(new DataListView.OnItemModifylistenert() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
-            public void setItemView(View convertView, final RowObject row, int position, BaseFillAdapter.ViewHolder holder) {
+            public void setItemView(View convertView, final Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 EditText displayQty = (EditText) holder.views.get("displayQty");
                 displayQty.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -199,12 +202,12 @@ public class FeedDeatailActivity extends BaseActivity {
 
     private boolean validateDetail() {
         boolean success=true;
-        List<RowObject> rows = dataListView.getRows();
+        List<Row> rows = dataListView.getRows();
         for (int i = 0; i < rows.size(); i++) {
-            RowObject rowObject = rows.get(i);
-            String action = rowObject.getString("action");
+            Row row = rows.get(i);
+            String action = row.getString("action");
             if(StringUtils.isEmpty(action)){
-                String materialName = rowObject.getString("materialName");
+                String materialName = row.getString("materialName");
                 ViewUtils.toast("物料 "+materialName+" 未进行扫码");
                 success=false;
                 i=rows.size();
@@ -215,8 +218,8 @@ public class FeedDeatailActivity extends BaseActivity {
     }
 
     private void lineSubmit() {
-        RowObject contentValue = getContentValue();
-        RowObject detail = new RowObject();
+        Row contentValue = getContentValue();
+        Row detail = new Row();
         detail.put("foreignKeyField", "feedId");
         detail.put("rows", dataListView.getRows());
         String cacheData = JSON.toJSONString(detail);
@@ -301,20 +304,20 @@ public class FeedDeatailActivity extends BaseActivity {
     private void addScanKey(String contents) {
         L.i("=========addScanKey contents=============="+contents);
         for (int i = 0; i < rowsFeedNeed.size(); i++) {
-            RowObject rowFeedNeed = rowsFeedNeed.get(i);
+            Row rowFeedNeed = rowsFeedNeed.get(i);
             String barcode = rowFeedNeed.getString("barcode");
             L.i("=========addScanKey barcode=============="+barcode);
             if (contents.equals(barcode)) {
-                List<RowObject> rows = dataListView.getRows();
+                List<Row> rows = dataListView.getRows();
                 for (int j = 0; j < rows.size(); j++) {
-                    RowObject rowObject = rows.get(j);
-                    if (rowObject.getString("materialId").equals(rowFeedNeed.getString("materialId"))) {
+                    Row row = rows.get(j);
+                    if (row.getString("materialId").equals(rowFeedNeed.getString("materialId"))) {
                         //rowObject.putAll(rowFeedNeed);
                         //投料数量默认为需求数据
                         //if (StringUtils.isEmpty(rowObject.getString("displayQty"))) {
                         //    rowObject.put("displayQty", rowObject.getString("displayWorkOrderQty"));
                         //}
-                        rowObject.put("action", "create");
+                        row.put("action", "create");
                         j = rows.size();
                         i = rowsFeedNeed.size();
                         dataListView.notifyDataSetChanged();
@@ -334,21 +337,21 @@ public class FeedDeatailActivity extends BaseActivity {
      * 添加条码，生产批号等细节
      */
     private void addFeedsDetail() {
-        List<RowObject> rows = dataListView.getRows();
+        List<Row> rows = dataListView.getRows();
         L.i("=========addAll rows==============" + rows);
         L.i("=========addAll rowsFeedNeed==============" + rowsFeedNeed);
         for (int i = 0; i < rowsFeedNeed.size(); i++) {
-            RowObject rowFeedNeed = rowsFeedNeed.get(i);
+            Row rowFeedNeed = rowsFeedNeed.get(i);
             for (int j = 0; j < rows.size(); j++) {
-                RowObject rowObject = rows.get(j);
-                if (rowObject.getString("materialId").equals(rowFeedNeed.getString("materialId"))) {
-                    rowObject.putAll(rowFeedNeed);
+                Row row = rows.get(j);
+                if (row.getString("materialId").equals(rowFeedNeed.getString("materialId"))) {
+                    row.putAll(rowFeedNeed);
                     //投料数量默认为需求数据
-                    if (StringUtils.isEmpty(rowObject.getString("displayQty"))) {
-                        rowObject.put("displayQty", rowObject.getString("displayWorkOrderQty"));
+                    if (StringUtils.isEmpty(row.getString("displayQty"))) {
+                        row.put("displayQty", row.getString("displayWorkOrderQty"));
                     }
                     //rowObject.put("action", "create");
-                    rowObject.put("unitConvertRatio", "1");
+                    row.put("unitConvertRatio", "1");
                 }
             }
         }
@@ -400,7 +403,7 @@ public class FeedDeatailActivity extends BaseActivity {
         });
         dataListView.setOnItemClickListener(new BaseFillAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View convertView, RowObject row, int position) {
+            public void onItemClick(View convertView, Row row, int position, BaseFillAdapter.ViewHolder holder) {
                 String value = row.getString("value");
                 handler.setText(value);
                 combo.dismiss();

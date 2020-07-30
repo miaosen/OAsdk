@@ -1,6 +1,6 @@
 package gzpykj.hzpqy.base;
 
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.JsonUtils;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class JsonHandler implements Serializable {
 
     String context;
 
-    RowObject rowObject;
+    Row row;
 
     String message;
 
@@ -37,11 +37,11 @@ public class JsonHandler implements Serializable {
     }
 
 
-    public RowObject getAsRow(){
-       if(rowObject==null&&JsonUtils.isCanToRow(context)) {
-            rowObject = JsonUtils.jsonToRow(context);
+    public Row getAsRow(){
+       if(row ==null&&JsonUtils.isCanToRow(context)) {
+            row = JsonUtils.jsonToRow(context);
         }
-        return rowObject;
+        return row;
     }
 
 

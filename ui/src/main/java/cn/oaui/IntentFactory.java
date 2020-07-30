@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import java.io.File;
 
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.BitmapUtils;
 import cn.oaui.utils.DateTimeUtils;
 import cn.oaui.utils.FileUtils;
@@ -67,7 +67,7 @@ public class IntentFactory {
     public static Intent getTakePicIntent() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         imagePath = FileUtils.getAppDirPath() + "/" + DateTimeUtils.getCurrentDay() + DateTimeUtils.getCurrentTime() + ".jpg";
-        File tempFile = FileUtils.createFile(imagePath);
+        File tempFile = FileUtils.getFile(imagePath);
         Uri imageUri = Uri.fromFile(tempFile);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         return openCameraIntent;
@@ -155,11 +155,11 @@ public class IntentFactory {
      * @param intent
      * @return
      */
-    public static RowObject onActivityResult(int requestCode,
-                                             int resultCode, Intent intent) {
+    public static Row onActivityResult(int requestCode,
+                                       int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE_TAKE_PIC) {
             if (resultCode == Activity.RESULT_OK) {
-                RowObject result = new RowObject();
+                Row result = new Row();
                 result.put("type", "pic");
                 result.put("path", imagePath);
                 //result.put("thumbnailPath" ,fmThumbPic.getPath());
@@ -168,7 +168,7 @@ public class IntentFactory {
         } else if (requestCode == VideoRecordActivity.REQUEST_CODE_VIDEO) {
             if (resultCode == Activity.RESULT_OK) {
                 String videoPath = intent.getStringExtra(VideoRecordActivity.KEY_VIDEO_FILE_PATH);
-                RowObject result = new RowObject();
+                Row result = new Row();
                 result.put("type", "video");
                 result.put("path", videoPath);
                 return result;
@@ -177,7 +177,7 @@ public class IntentFactory {
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = intent.getData();
                 String path = URIUtils.getPath(uri);
-                RowObject result = new RowObject();
+                Row result = new Row();
                 if( BitmapUtils.getImageType(path)!=null){
                     result.put("type", "pic");
                 }

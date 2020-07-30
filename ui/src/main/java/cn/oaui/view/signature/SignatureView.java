@@ -13,7 +13,7 @@ import cn.oaui.IntentFactory;
 import cn.oaui.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.BitmapUtils;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.HeaderView;
@@ -118,9 +118,9 @@ public class SignatureView extends CustomLayout {
 		tempFragment.setOnActivityResultListener(new TempFragment.OnActivityResultListener() {
 			@Override
 			public void onActivityResult(int requestCode, int resultCode, Intent data) {
-				RowObject rowObject = IntentFactory.onActivityResult(requestCode, resultCode, data);
-				if(rowObject!=null){
-					String path = rowObject.getString("path");
+				Row row = IntentFactory.onActivityResult(requestCode, resultCode, data);
+				if(row !=null){
+					String path = row.getString("path");
 					Bitmap bitmapByPath = BitmapUtils.getBitmapByPath(path);
 					if(bitmapByPath!=null){
 						huaBan.loadBitmap(bitmapByPath);

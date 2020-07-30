@@ -8,7 +8,7 @@ import cn.oasdk.dlna.BaseFileAct;
 import cn.oasdk.dlna.R;
 import cn.oasdk.dlna.dms.FileServer;
 import cn.oasdk.dlna.tbs.TBSWebviewAct;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 
 /**
  * @author zengmiaosen
@@ -39,7 +39,7 @@ public class DocumentAct extends BaseFileAct {
     }
 
     @Override
-    protected void onListItemClick(View convertView, RowObject row, int position) {
+    protected void onListItemClick(View convertView, Row row, int position) {
         Intent intent=new Intent(context, TBSWebviewAct.class);
         intent.putExtra("filePath",row.getString("filePath"));
         startActivity(intent);

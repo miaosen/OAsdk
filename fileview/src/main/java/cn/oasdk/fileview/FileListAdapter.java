@@ -14,7 +14,7 @@ import cn.oasdk.fileview.data.FileData;
 import cn.oaui.ImageFactory;
 import cn.oaui.L;
 import cn.oaui.ResourceHold;
-import cn.oaui.data.RowObject;
+import cn.oaui.data.Row;
 import cn.oaui.utils.AppUtils;
 import cn.oaui.utils.StringUtils;
 import cn.oaui.view.listview.BaseFillAdapter;
@@ -39,14 +39,14 @@ public class FileListAdapter extends BaseFillAdapter {
     private OnItemModifyListener onItemModifyListener;
 
 
-    public FileListAdapter(Context context, LinkedList<RowObject> rows, int layout) {
+    public FileListAdapter(Context context, LinkedList<Row> rows, int layout) {
         super(context, rows, layout);
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void setItem(final View convertView, final RowObject row, final int position, final BaseFillAdapter.ViewHolder holder) {
+    public void setItem(final View convertView, final Row row, final int position, final BaseFillAdapter.ViewHolder holder) {
        L.i("======setItem===== "+row);
         ImageView img_type= (ImageView) holder.views.get("img_type");
         LinearLayout ln_dir= (LinearLayout) holder.views.get("ln_dir");
@@ -136,11 +136,11 @@ public class FileListAdapter extends BaseFillAdapter {
     }
 
     public interface OnItemModifyListener {
-         void setItem(final View convertView, final RowObject row, final int position, final BaseFillAdapter.ViewHolder holder);
+         void setItem(final View convertView, final Row row, final int position, final BaseFillAdapter.ViewHolder holder);
     }
 
     public interface OnLongClickListener {
-        void onClick(final View convertView, final RowObject row, final int position, final BaseFillAdapter.ViewHolder holder);
+        void onClick(final View convertView, final Row row, final int position, final BaseFillAdapter.ViewHolder holder);
     }
 
     public boolean isPasteMode() {
