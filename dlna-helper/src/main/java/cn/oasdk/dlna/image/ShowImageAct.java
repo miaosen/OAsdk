@@ -102,7 +102,7 @@ public class ShowImageAct extends BaseActivity{
             ZoomImageView img=view.findViewById(R.id.img);
             Row row = rowsCur.get(position);
             L.i("============initConfig==========="+rowsCur);
-            ImageFactory.loadFileImage(img, row.getString("filePath"));
+            ImageFactory.loadImageCorner(img, row.getString("filePath"));
             //Thread thread = new Thread(new Runnable() {
             //    @Override
             //    public void run() {

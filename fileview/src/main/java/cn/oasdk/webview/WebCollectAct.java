@@ -1,5 +1,6 @@
 package cn.oasdk.webview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,9 +77,7 @@ public class WebCollectAct extends BaseAct {
                         L.i("============onItemClick===========" + row);
                         cb.setChecked(checked);
                     } else {
-                        Intent intent = new Intent();
-                        intent.putExtra("url", row.getString("url"));
-                        setResult(CODE_COLLECTION, intent);
+                       setResultUrl(WebCollectAct.this,row.getString("url"));
                         finish();
                     }
 
@@ -102,6 +101,12 @@ public class WebCollectAct extends BaseAct {
                 tipDialog.show();
             }
         });
+    }
+
+    public static void setResultUrl(Activity activity, String url) {
+        Intent intent = new Intent();
+        intent.putExtra("url", url);
+        activity.setResult(CODE_COLLECTION, intent);
     }
 
     private void deleteChecked() {

@@ -8,11 +8,12 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
+import cn.oahttp.HttpUtils;
 import cn.oasdk.fileview.R;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
@@ -31,7 +32,7 @@ public class VideoPalyView extends CustomLayout {
     Uri uri;
 
     public SimpleExoPlayer player;
-
+    PlayerControlView customController;
     public VideoPalyView(Context context) {
         super(context);
     }
@@ -55,14 +56,39 @@ public class VideoPalyView extends CustomLayout {
         player = new SimpleExoPlayer.Builder(context).setLoadControl(loadControl).build();
         // Attach player to the view.
         playerView.setPlayer(player);
-
         // Prepare the player with the media source.
         //File file=new File(FileUtils.getSDCardPath()+"/phoneSaver/aa.mp3");
         //uri = Uri.parse(FileUtils.getSDCardPath()+"/phoneSaver/aa.mp3");
-
-
+         customController = findViewById(R.id.exo_controller);
+        player.setPlayWhenReady(true);
     }
 
+
+    public void release() {
+        if (player != null) {
+            player.setPlayWhenReady(false);
+            player.stop(true);
+            player.release();
+            player = null;
+        }
+
+        if (playerView != null) {
+            playerView.setPlayer(null);
+            playerView = null;
+        }
+
+        if (customController != null) {
+            customController.setPlayer(null);
+            customController = null;
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        release();
+
+    }
 
     public void prepare(Uri uri) {
         player.prepare(createMediaSource(uri));
@@ -77,10 +103,9 @@ public class VideoPalyView extends CustomLayout {
     private MediaSource createMediaSource(Uri uri) {
         // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                Util.getUserAgent(context, "yourApplicationName"));
+                HttpUtils.getUserAgent());
 // This is the MediaSource representing the media to be played.
-        MediaSource videoSource =
-                new ProgressiveMediaSource.Factory(dataSourceFactory)
+        MediaSource videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(uri);
         return videoSource;
     }

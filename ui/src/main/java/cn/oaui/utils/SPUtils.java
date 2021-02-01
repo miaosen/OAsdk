@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.oaui.L;
 import cn.oaui.UIGlobal;
 import cn.oaui.data.JSONSerializer;
 import cn.oaui.data.Row;
@@ -39,6 +40,8 @@ public class SPUtils {
      * @return
      */
     public static boolean saveText(String fileName, String key, String value){
+        L.i("============saveText==========="+fileName+"  "+key+"  "+value);
+
         SharedPreferences preferences = UIGlobal.getApplication().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
@@ -57,7 +60,7 @@ public class SPUtils {
         if(JsonUtils.isCanToRow(string)){
             return JsonUtils.jsonToRow(string);
         }else{
-            return null;
+            return new Row();
         }
     }
 

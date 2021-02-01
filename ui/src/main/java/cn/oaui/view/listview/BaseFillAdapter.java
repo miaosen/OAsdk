@@ -80,8 +80,8 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		final ViewHolder holder;
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(layout, null);
@@ -94,13 +94,22 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		}
 
 		//数据填充
-		Row row = rows.get(position);
+		final Row row = rows.get(position);
 		holder.fillUnit.fill(row);
 		if(onItemModifylistenert!=null){
 			onItemModifylistenert.onItemModify(convertView,row,position,holder);
 		}
 		setItem(convertView, row, position, holder);
-		convertView.setOnClickListener(new mClick(convertView, row, position,holder));
+		if (onItemClickListener != null) {
+			final View finalConvertView = convertView;
+			convertView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onItemClickListener.onItemClick(finalConvertView, row, position,holder);
+			}
+		});
+
+		}
 		return convertView;
 	}
 
@@ -177,34 +186,6 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 
 	}
 
-
-	/**
-	 * item监听
-	 *
-	 */
-	class mClick implements OnClickListener {
-		private View convertView;
-		private Row row;
-		private int position;
-		ViewHolder	holder;
-		/**
-		 * 回调 item 监听接口
-		 * @param position
-		 * @param holder
-		 */
-		public mClick(View convertView, Row row, int position, ViewHolder holder) {
-			this.convertView = convertView;
-			this.row = row;
-			this.position = position;
-			this.holder=holder;
-		}
-		@Override
-		public void onClick(View v) {
-			if (onItemClickListener != null) {
-				onItemClickListener.onItemClick(convertView, row, position,holder);
-			}
-		}
-	}
 
 	/**
 	 * item 监听接口

@@ -3,10 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
+    android:clickable="true"
+    android:background="@drawable/sel_btn"
     android:paddingTop="16dp"
     android:layout_height="match_parent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="49dp"
             android:layout_height="49dp"
             android:gravity="center"
@@ -18,8 +20,19 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="25dp"
+                android:layout_gravity="center"
                 android:layout_height="25dp" />
-        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="2"
+                android:textSize="12dp"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                />
+
+        </FrameLayout>
 
 
         <TextView
@@ -28,14 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             style="@style/tv_menu"
+            android:ellipsize="end"
+            android:maxEms="4"
+            android:textSize="10dp"
+            android:singleLine="true"
             />
 
 
-        <TextView
-            android:id="@+id/tv_img_sum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            style="@style/tv_menu"
-            android:text=""/>
 </LinearLayout>

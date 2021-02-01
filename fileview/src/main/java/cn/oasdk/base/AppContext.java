@@ -90,7 +90,7 @@ public class AppContext extends Application {
                 .fileNameGenerator(new FileNameGenerator() {
                     @Override
                     public String generate(String url) {
-                        return   HttpUtils.getFileName(url);
+                        return  HttpUtils.getFileName(url);
                     }
                 })
                 //最大缓存200M

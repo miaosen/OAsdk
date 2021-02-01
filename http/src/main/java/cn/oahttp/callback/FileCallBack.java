@@ -3,6 +3,8 @@ package cn.oahttp.callback;
 import android.os.Environment;
 import android.util.Log;
 
+import com.oasdk.data.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,7 +30,7 @@ public abstract class FileCallBack implements Callback {
 
     String fileName = null;
 
-    public static String saveDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ClientFactory.getApplication().getPackageName();
+    public static String saveDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ClientFactory.getApplication().getResources().getString(R.string.app_name);
 
     public FileCallBack() {
     }

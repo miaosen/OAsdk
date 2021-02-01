@@ -331,9 +331,9 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
     public void setShadow(boolean isShowShadow) {
         if (isShowShadow) {
             // 半透明
-            setBackgroundColor(Color.parseColor("#66000000"));
+            setBackgroundColor(Color.parseColor("#669A9A9A"));
         } else {
-            // 半透明
+            // 透明
             setBackgroundColor(Color.TRANSPARENT);
         }
     }

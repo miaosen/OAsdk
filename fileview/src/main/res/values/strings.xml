@@ -47,10 +47,11 @@
     <string name="file_type_rar">压缩包</string>
     <string name="file_type_other">其他</string>
     <string name="analyse">分析</string>
-    <string name="input_url">输入连接</string>
+    <string name="input_url">输入链接或者关键词</string>
     <string name="back">后退</string>
     <string name="forword">前进</string>
     <string name="download">文件</string>
     <string name="home_page">首页</string>
     <string name="add">添加</string>
+    <string name="setting">设置</string>
 </resources>

@@ -56,5 +56,4 @@ dependencies {
     api project(':http')
     api project(':ui')
     implementation project(path: ':zxinglib')
-
 }

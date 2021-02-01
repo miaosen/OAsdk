@@ -121,13 +121,13 @@ public class DoubleCache {
         String filePath=getCacheDir() + "/" + fileName;
         String text = FileUtils.readFile(new File(filePath));
         LinkedList<Row> rowsFile =JsonUtils.jsonToRows(text);
-        if(rowsSp==null&&rowsFile!=null&&rowsFile.size()>0){
+        if(rowsSp==null&&rowsFile.size()>0){
             SPUtils.saveRows(fileName,SP_CACHE_KEY,rowsFile);
             return rowsFile;
-        }else if(rowsSp!=null&&rowsSp.size()>0&&rowsFile==null){
+        }else if(rowsSp!=null&&rowsSp.size()>0&&rowsFile.size()==0){
             FileUtils.writeFile(text,filePath);
             return rowsSp;
-        }else if(rowsSp!=null&&rowsFile!=null){
+        }else if(rowsSp!=null&&rowsFile.size()>0){
             return rowsFile;
         }else{
             return new LinkedList<Row>();

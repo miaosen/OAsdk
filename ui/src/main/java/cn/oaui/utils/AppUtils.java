@@ -1,6 +1,7 @@
 package cn.oaui.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
-import androidx.core.content.FileProvider;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.core.content.FileProvider;
 import cn.oaui.BuildConfig;
 import cn.oaui.L;
 import cn.oaui.R;
@@ -80,7 +81,6 @@ public class AppUtils {
 		String applicationName = (String) packageManager
 				.getApplicationLabel(applicationInfo);
 		return applicationName;
-
 	}
 
 	/**
@@ -203,6 +203,7 @@ public class AppUtils {
 		Activity activity= (Activity) context;
 		int flag =activity.getWindow().getAttributes().flags;
 		if((flag & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+				== WindowManager.LayoutParams.FLAG_FULLSCREEN||(activity.getWindow().getDecorView().getSystemUiVisibility() & WindowManager.LayoutParams.FLAG_FULLSCREEN)
 				== WindowManager.LayoutParams.FLAG_FULLSCREEN) {
 			return true;
 		}else {
@@ -239,7 +240,7 @@ public class AppUtils {
 	 * @throws UnknownHostException
 	 */
 	public static InetAddress getLocalIpAddress()  {
-		WifiManager wifiManager = (WifiManager) UIGlobal.getApplication().getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiManager = (WifiManager) UIGlobal.getApplication().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 		int ipAddress = wifiInfo.getIpAddress();
 		try {
@@ -349,4 +350,10 @@ public class AppUtils {
 		return Environment.getExternalStorageDirectory().getAbsolutePath()
 				+ File.separator + ResourceHold.getString(R.string.app_name);
 	}
+
+
+    public static void quit() {
+		ActivityManager activityMgr = (ActivityManager) UIGlobal.getApplication().getSystemService(Context.ACTIVITY_SERVICE);
+		activityMgr.killBackgroundProcesses(UIGlobal.getApplication().getPackageName());
+    }
 }

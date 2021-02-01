@@ -60,12 +60,9 @@ public class HttpUtils {
                     fileName = decodeForResponse(response, fileName);
                 }
             }
-        } else if (setNameIfInUrl(url) != null) {
-            fileName = setNameIfInUrl(url);
+        } else if (getNameInUrl(url) != null) {
             fileName = decodeForResponse(response, fileName);
-        } else if (setNameIfInUrl(url) != null) {
-            fileName = setNameIfInUrl(url);
-            fileName = decodeForResponse(response, fileName);
+            fileName = getNameInUrl(url);
         }
         return fileName;
     }
@@ -81,12 +78,10 @@ public class HttpUtils {
         String fileName = System.currentTimeMillis() + "";
         String encode = "UTF-8";
         try {
-            if (setNameIfInUrl(url) != null) {
-                fileName = setNameIfInUrl(url);
+            if (getNameInUrl(url) != null) {
                 fileName = URLDecoder.decode(fileName, encode);
-            } else if (setNameIfInUrl(url) != null) {
-                fileName = setNameIfInUrl(url);
-                fileName = URLDecoder.decode(fileName, encode);
+                fileName = getNameInUrl(url);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,17 +117,19 @@ public class HttpUtils {
      *
      * @param url
      */
-    private static String setNameIfInUrl(String url) {
+    private static String getNameInUrl(String url) {
         String s = url;
         s = s.substring(s.lastIndexOf("/") + 1, s.length());
         if (s.contains("?")) {
             String[] split = s.split("[?]");
             for (int i = 0; i < split.length; i++) {
                 String s1 = split[i];
-                if (s1.contains(".")) {
+                if (s1.contains(".")&&s1.indexOf(".")+1<s1.length()) {
                     return s1;
                 }
             }
+        }else if (s.contains(".")) {
+            return s;
         }
         return null;
     }

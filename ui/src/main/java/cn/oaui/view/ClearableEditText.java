@@ -22,7 +22,6 @@ import cn.oaui.L;
 import cn.oaui.R;
 import cn.oaui.ResourceHold;
 import cn.oaui.utils.AppUtils;
-import cn.oaui.utils.StringUtils;
 import cn.oaui.utils.ViewUtils;
 
 
@@ -30,6 +29,8 @@ public class ClearableEditText extends EditText
         implements EditText.OnFocusChangeListener {
 
     public static final String TAG = "ClearableEditText";
+
+    COnFocusChangeListener cOnFocusChangeListener;
 
     public ClearableEditText(Context context) {
         this(context, null);
@@ -125,13 +126,10 @@ public class ClearableEditText extends EditText
                 //根视图显示高度变小超过200，可以看作软键盘显示了
                 if (rootViewVisibleHeight[0] - visibleHeight > 200) {
                     rootViewVisibleHeight[0] = visibleHeight;
-                    requestFocus();
+                    //requestFocus();
                     setFocusable(true);
                     setCursorVisible(true);
-                    String text = getText()+"";
-                    if(StringUtils.isNotEmpty(text)){
-                        setSelection(text.length());
-                    }
+
                     return;
                 }
                 //根视图显示高度变大超过200，可以看作软键盘隐藏了
@@ -139,7 +137,7 @@ public class ClearableEditText extends EditText
                     rootViewVisibleHeight[0] = visibleHeight;
                     clearFocus();
                     setFocusable(false);
-                    setCursorVisible(false);
+                    //setCursorVisible(false);
                     setClearDrawableVisible(false);
                     return;
                 }
@@ -191,10 +189,15 @@ public class ClearableEditText extends EditText
             if (hasFocus) {
                 if (getText().length() > 0) {
                     setClearDrawableVisible(true);
+                    setSelection(getText().length());
                 }
             } else {
                 setClearDrawableVisible(false);
             }
+        }
+
+        if(cOnFocusChangeListener!=null){
+            cOnFocusChangeListener.onFocusChange(v,hasFocus);
         }
     }
 
@@ -204,5 +207,18 @@ public class ClearableEditText extends EditText
             setClearDrawableVisible(true);
         }
         super.setError(error, icon);
+    }
+
+
+    public interface COnFocusChangeListener{
+       void onFocusChange(View v, boolean hasFocus) ;
+    }
+
+    public COnFocusChangeListener getcOnFocusChangeListener() {
+        return cOnFocusChangeListener;
+    }
+
+    public void setcOnFocusChangeListener(COnFocusChangeListener cOnFocusChangeListener) {
+        this.cOnFocusChangeListener = cOnFocusChangeListener;
     }
 }

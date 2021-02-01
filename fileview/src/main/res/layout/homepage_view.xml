@@ -17,60 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/company_edit_bg"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <LinearLayout
-                    android:id="@+id/ln_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
-
-                    <ImageView
-                        android:id="@+id/leftBtn"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@mipmap/icon_search" />
-                </LinearLayout>
-
-                <cn.oaui.view.ClearableEditText
-                    android:id="@+id/ed"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:hint="@string/input_url"
-                    android:imeOptions="actionDone"
-                    android:inputType="textWebEmailAddress"
-                    android:maxLines="1" />
-
-
-                <TextView
-                    android:id="@+id/tv_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/sel_search_blue"
-                    android:gravity="center"
-                    android:paddingLeft="14dp"
-                    android:paddingRight="14dp"
-                    android:text="搜  索"
-                    android:textColor="@color/white"
-
-                    />
-
-            </LinearLayout>
+            <include layout="@layout/webview_search_head" />
         </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -88,7 +35,7 @@
                 android:id="@+id/collectView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone" />
+             />
 
 
         </LinearLayout>

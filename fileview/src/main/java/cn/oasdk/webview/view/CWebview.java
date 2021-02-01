@@ -38,33 +38,33 @@ public class CWebview extends WebView implements NestedScrollingChild {
 
     public CWebview(Context context) {
         super(context);
-        initWebview();
+        initSetting();
     }
 
     public CWebview(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initWebview();
+        initSetting();
     }
 
     public CWebview(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initWebview();
+        initSetting();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public CWebview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initWebview();
+        initSetting();
     }
 
     public CWebview(Context context, AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
         super(context, attrs, defStyleAttr, privateBrowsing);
-        initWebview();
+        initSetting();
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void initWebview() {
+    public void initSetting() {
         requestFocus();
         WebSettings setting =getSettings();
         setting.setDefaultTextEncodingName("utf-8");//设置网页默认编码

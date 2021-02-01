@@ -6,9 +6,6 @@ import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +18,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import cn.oasdk.base.BaseActivity;
 import cn.oasdk.data.HttpDemoActivity;
 import cn.oasdk.data.bluetooth.BluetoothDemoAct;
@@ -134,6 +134,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
         //EventBus.setObject(this,"refresh");
+
 
     }
 

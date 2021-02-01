@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.oaui.L;
 import cn.oaui.UIGlobal;
 
 /**
@@ -141,7 +142,11 @@ public class URIUtils {
     }
 
 
-
+    /**
+     * 获取域名或者ip
+     * @param url
+     * @return
+     */
     public static String getIP(String url) {
         //使用正则表达式过滤，
         String re = "((http|ftp|https)://)(([a-zA-Z0-9._-]+)|([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}))(([a-zA-Z]{2,6})|(:[0-9]{1,4})?)";
@@ -164,5 +169,15 @@ public class URIUtils {
             }
         }
         return str;
+    }
+
+    /**
+     * 判断是否网络地址
+     * @param url
+     * @return
+     */
+    public static boolean isUrl(String url) {
+        L.i("============isUrl==========="+url.indexOf(".")+"   "+url.length());
+        return url.startsWith("http")&&url.contains(".")&&url.indexOf(".")+1<url.length();
     }
 }

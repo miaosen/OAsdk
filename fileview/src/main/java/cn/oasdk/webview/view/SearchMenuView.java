@@ -34,7 +34,7 @@ public class SearchMenuView extends CustomLayout {
 
     static String[] urls = new String[]{
            "https://www.baidu.com",
-            "https://bing.com/",
+            "https://bing.com",
             "https://www.so.com",
             "https://www.sogou.com",
             "https:www.google.com",

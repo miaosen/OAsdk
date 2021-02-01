@@ -7,16 +7,19 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 
 import java.security.MessageDigest;
+
+import androidx.annotation.NonNull;
 
 
 /**
@@ -35,20 +38,10 @@ public class ImageFactory {
      * @param path
      */
     public static void loadImage(ImageView imageView, String path) {
-        Glide.with(imageView.getContext()).load(path).into(imageView);
-
+        //加载透明图片和占位图重叠解决方案
+        DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
+        Glide.with(imageView.getContext()).load(path).transition(DrawableTransitionOptions.with(drawableCrossFadeFactory)).into(imageView);
     }
-
-    /**
-     * 加载图片
-     * @param imageView
-     * @param path
-     */
-    public static void loadFileImage(ImageView imageView, String path) {
-        Glide.with(imageView.getContext()).load(path).into(imageView);
-
-    }
-
 
     /**
      * 缩放图片并且圆角
@@ -57,7 +50,7 @@ public class ImageFactory {
      */
     public static void loadImageCorner(ImageView imageView, String path) {
         //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-        RequestOptions options=RequestOptions.bitmapTransform(new GlideRoundTransform(6)).override(100,100).fallback(R.mipmap.icon_file).error(R.mipmap.icon_file);
+        RequestOptions options=RequestOptions.bitmapTransform(new GlideRoundTransform(6)).override(100,100).fallback(R.mipmap.icon_loadimg).error(R.mipmap.icon_loadimg_fail);
 
         Glide.with(imageView.getContext()).load(path).apply(options).into(imageView);
     }
