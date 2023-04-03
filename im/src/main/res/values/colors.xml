@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/white</color>
+    <color name="colorAccent">@color/blue</color>
+
+
+
+    <!-- 纯白色 -->
+    <color name="white">#f7f7f7</color>
+    <!-- 纯黑色 -->
+    <color name="black">#000000</color>
+    <!-- 蓝色 -->
+    <color name="blue">#215c99</color>
+    <!-- 深蓝色 -->
+    <color name="blue_deep_s">#505D76</color>
+    <!-- 浅蓝色 -->
+    <color name="blue_lt">#DEEEFF</color>
+    <!-- 橘红色 -->
+    <color name="orange">#E5662C</color>
+    <!-- 红色 -->
+    <color name="red">#B31D1C</color>
+    <!-- 灰色 -->
+    <color name="grey">#808080</color>
+    <!-- 浅灰色 -->
+    <color name="grey_lt">#D0D0D0</color>
+    <!-- 浅灰色 -->
+    <color name="grey_lt_lt">#EFEFEF</color>
+    <!-- 半透明黑色 -->
+    <color name="black_op">#66000000</color>
+    <!-- 全透明 -->
+    <color name="transparent">#00000000</color>
+    <!-- 半透明黑色 -->
+    <color name="transparent_half">#66000000</color>
+    <!-- 文字颜色 -->
+    <color name="text_color">#666666</color>
+
+    <color name="green">#0EB206</color>
+</resources>

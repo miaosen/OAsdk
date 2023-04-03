@@ -1,6 +1,7 @@
 package cn.oasdk.data.bluetooth;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.Row;
 import cn.oaui.utils.IntentUtils;
@@ -22,7 +23,7 @@ import cn.oaui.view.HeaderView;
  * @Descrition
  */
 
-public class BlueToothSocketAct extends BaseActivity {
+public class BlueToothSocketAct extends BaseAct {
 
     Row rowDeviece;
 
@@ -50,7 +51,8 @@ public class BlueToothSocketAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         context=this;
         if(rowDeviece!=null){
             address=rowDeviece.getString("address");

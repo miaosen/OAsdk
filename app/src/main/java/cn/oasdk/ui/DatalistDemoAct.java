@@ -1,15 +1,16 @@
 package cn.oasdk.ui;
 
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import cn.oahttp.HttpRequest;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.Row;
@@ -24,7 +25,7 @@ import cn.oaui.view.listview.DataListView;
  * @Descrition
  */
 
-public class DatalistDemoAct extends BaseActivity {
+public class DatalistDemoAct extends BaseAct {
 
     @ViewInject
     ViewPager viewPager;
@@ -47,7 +48,8 @@ public class DatalistDemoAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         views=new LinkedList<>();
         views.add(ViewUtils.inflatView(context, cn.oasdk.R.layout.http_demo_act));
         views.add(ViewUtils.inflatView(context, cn.oasdk.R.layout.ui_dialog_demo_act));

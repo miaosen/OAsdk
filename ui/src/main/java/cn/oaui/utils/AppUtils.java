@@ -203,8 +203,12 @@ public class AppUtils {
 		Activity activity= (Activity) context;
 		int flag =activity.getWindow().getAttributes().flags;
 		if((flag & WindowManager.LayoutParams.FLAG_FULLSCREEN)
-				== WindowManager.LayoutParams.FLAG_FULLSCREEN||(activity.getWindow().getDecorView().getSystemUiVisibility() & WindowManager.LayoutParams.FLAG_FULLSCREEN)
-				== WindowManager.LayoutParams.FLAG_FULLSCREEN) {
+				== WindowManager.LayoutParams.FLAG_FULLSCREEN||((activity.getWindow().getDecorView().getSystemUiVisibility() & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+				== WindowManager.LayoutParams.FLAG_FULLSCREEN)) {
+			//if((flag & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+			//		== WindowManager.LayoutParams.FLAG_FULLSCREEN||((activity.getWindow().getDecorView().getSystemUiVisibility() & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+			//		== WindowManager.LayoutParams.FLAG_FULLSCREEN&&(activity.getWindow().getDecorView().getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+			//		!=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)) {
 			return true;
 		}else {
 			return false;

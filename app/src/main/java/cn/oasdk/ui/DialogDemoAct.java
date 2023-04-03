@@ -1,6 +1,7 @@
 package cn.oasdk.ui;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.utils.ViewUtils;
@@ -24,7 +25,7 @@ import cn.oaui.view.dialog.extra.WindowTipDialog;
  * @Descrition
  */
 
-public class DialogDemoAct extends BaseActivity {
+public class DialogDemoAct extends BaseAct {
 
     @ViewInject
     Button showasdown,show,showasup,cover_up,cover_down,fullscreen,btn_windows_dialog,btn_windows_tip_dialog;
@@ -45,7 +46,8 @@ public class DialogDemoAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //全屏测试
         //getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
         //        WindowManager.LayoutParams. FLAG_FULLSCREEN);

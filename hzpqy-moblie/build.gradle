@@ -26,7 +26,6 @@ dependencies {
 //    compile('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
 //    compile 'com.google.zxing:core:3.3.0'
     implementation 'com.alibaba:fastjson:1.1.68.android'
-    implementation project(':http')
     implementation project(':ui')
     implementation project(path: ':zxinglib')
 }

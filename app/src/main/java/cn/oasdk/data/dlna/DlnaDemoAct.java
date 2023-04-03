@@ -1,7 +1,7 @@
 package cn.oasdk.data.dlna;
 
 
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 
 /**
  * @author zengmiaosen
@@ -10,7 +10,7 @@ import cn.oasdk.base.BaseActivity;
  * @Descrition
  */
 
-public class DlnaDemoAct extends BaseActivity {
+public class DlnaDemoAct extends BaseAct {
 
 
     @Override
@@ -23,10 +23,6 @@ public class DlnaDemoAct extends BaseActivity {
         return 0;
     }
 
-    @Override
-    public void onViewCreate() {
-
-    }
 
     @Override
     public void initData() {

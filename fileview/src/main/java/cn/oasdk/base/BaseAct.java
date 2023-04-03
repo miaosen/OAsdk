@@ -14,6 +14,7 @@ public class BaseAct extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //状态栏设置为主题色
         StatusBarUtil.StatusBarLightMode(this);
         super.onCreate(savedInstanceState);
         context=this;

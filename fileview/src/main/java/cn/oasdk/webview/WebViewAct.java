@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -86,6 +88,9 @@ public class WebViewAct extends BaseAct {
     TextView tv_frame_num;
 
 
+
+
+
     @ViewInject
     com.google.android.material.appbar.AppBarLayout appBarLayout;
 
@@ -98,7 +103,6 @@ public class WebViewAct extends BaseAct {
         context = this;
         InjectReader.injectAllFields(this);
         Row row =WebFrameView.getHistoryUrl();
-        L.i("============onCreate===========" + row);
         if (row.size() > 0) {
             for (String webFrameId : row.keySet()) {
                 addWebFrame(row.getString(webFrameId), webFrameId);
@@ -401,6 +405,10 @@ public class WebViewAct extends BaseAct {
         }
     }
 
+    boolean isCanBack=false;
+    Handler handler = new Handler();
+    Toast toast;
+
 
     @Override
     public void onBackPressed() {
@@ -409,10 +417,28 @@ public class WebViewAct extends BaseAct {
         } else if (currentWebFrameView.webview.canGoBack()) {
             back();
         } else {
-            super.onBackPressed();
-        }
 
+            if(isCanBack){
+                if(toast!=null){
+                    toast.cancel();
+                }
+                super.onBackPressed();
+            }else{
+                toast = ViewUtils.toast("再次点击将退出浏览器");
+            }
+            isCanBack=true;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isCanBack=false;
+                }
+            },3000);
+
+        }
     }
+
+
+
 
     private void back() {
         currentWebFrameView.lastUrl = currentWebFrameView.url;

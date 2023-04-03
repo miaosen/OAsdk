@@ -1,13 +1,18 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'maven'
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "cn.oasdk"
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi-v7a' , 'x86', 'armeabi-v7a', 'x86_64'
+        }
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        jackOptions {
 //            enabled true
@@ -23,7 +28,13 @@ android {
 //        sourceCompatibility JavaVersion.VERSION_1_8
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
-
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 
     signingConfigs {
         debug {
@@ -53,7 +64,45 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':http')
     api project(':ui')
+    api project(':im')
     implementation project(path: ':zxinglib')
 }
+
+//uploadArchives{
+////    repositories.mavenDeployer{
+////        // 配置本地仓库路径，项目根目录下的repository目录中
+////        repository url: "file:///E:/sdk/oasdk/library"
+////        pom.groupId = "cn.oasdk"// 唯一标识（通常为模块包名，也可以任意）
+////        pom.artifactId = "oasdk" // 项目名称（通常为类库模块名称，也可以任意）
+////        pom.version = "1.0.0" // 版本号
+////    }
+//    repositories {
+//        mavenDeployer {
+//            repository url: "file:///E:/sdk/oasdk/library"
+//            pom.groupId = "cn.oasdk"// 唯一标识（通常为模块包名，也可以任意）
+//            pom.artifactId = "oasdk" // 项目名称（通常为类库模块名称，也可以任意）
+//            pom.version = "1.0.0" // 版本号
+//        }
+//    }
+//}
+
+
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.version = "1.0.0"
+            pom.artifactId = "oasdk"
+            pom.groupId = "cn.oasdk"
+
+            repository(url: "file:///E:/sdk/oasdk/library") {
+            }
+        }
+    }
+}
+
+
+
+

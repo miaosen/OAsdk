@@ -1,7 +1,7 @@
 package cn.oasdk.ui;
 
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 
 /**
  * @author zengmiaosen
@@ -10,7 +10,7 @@ import cn.oasdk.base.BaseActivity;
  * @Descrition
  */
 
-public class RecordDemoAct extends BaseActivity {
+public class RecordDemoAct extends BaseAct {
 
 
     @Override
@@ -23,10 +23,6 @@ public class RecordDemoAct extends BaseActivity {
         return  R.layout.ui_record_act;
     }
 
-    @Override
-    public void onViewCreate() {
-
-    }
 
     @Override
     public void initData() {

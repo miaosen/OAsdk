@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -9,39 +10,35 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="3">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
             <include layout="@layout/webview_search_head" />
-        </com.google.android.material.appbar.AppBarLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-            <View style="@style/line_hz_grey_lt" />
 
 
             <cn.oasdk.webview.view.BookMarkView
                 android:id="@+id/collectView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-             />
+                />
 
 
         </LinearLayout>
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </LinearLayout>

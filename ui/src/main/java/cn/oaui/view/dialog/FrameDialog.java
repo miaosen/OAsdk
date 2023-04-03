@@ -2,14 +2,10 @@ package cn.oaui.view.dialog;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -114,24 +110,6 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
         coverOnClickListener();
     }
 
-    private void getScreenSizeOfDevice2() {
-        Point point = new Point();
-        ( (Activity)getContext()).getWindowManager().getDefaultDisplay().getRealSize(point);
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        double x = Math.pow(point.x/ dm.xdpi, 2);
-        double y = Math.pow(point.y / dm.ydpi, 2);
-        double screenInches = Math.sqrt(x + y);
-        Log.d("logtag", "Screen inches : " + screenInches+" 宽："+x+"  长："+y+"  "+(screenInches/(160* dm.density)));
-        DisplayMetrics metric = new DisplayMetrics();
-        ( (Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int width = metric.widthPixels;  // 屏幕宽度（像素） 
-        int height = metric.heightPixels;  // 屏幕高度（像素） 
-        float density = metric.density;  // 屏幕密度（0.75 / 1.0 / 1.5） 
-        int densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240） 
-        double diagonalPixels = Math.sqrt(Math.pow(width, 2)+Math.pow(height, 2)) ;
-        double screenSize = diagonalPixels/(densityDpi*density) ;
-        L.i("=========getScreenSizeOfDevice2=============="+screenSize);
-    }
 
     @SuppressLint("NewApi")
     private void setBorder() {
@@ -240,7 +218,7 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
                 widthStart = viewLocation[0];
             }
         } else {// showType==SHOW_TYPE.FULL
-            L.i("=========onLayout=============="+heightStart+"   "+childHeight);
+            heightStart=AppUtils.getStatusHeight();
         }
         dialogView.layout(widthStart, heightStart, widthStart + childWidth,
                 heightStart + childHeight);
@@ -279,11 +257,15 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
             // 使物理按键监听生效
             requestFocus();
             setFocusableInTouchMode(true);
+
         }
 
     }
 
+
+
     public void fullscreen() {
+        statusHeight=0;
         showType = SHOW_TYPE.FULL;
         dialogView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
         show();
@@ -378,6 +360,7 @@ public class FrameDialog extends ViewGroup implements DialogInterface {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        L.i("============dispatchKeyEvent==========="+event);
         if (event.getKeyCode()== KeyEvent.KEYCODE_BACK) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 dismiss();

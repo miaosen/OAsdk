@@ -11,12 +11,14 @@ import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import java.util.Map;
+
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.NestedScrollingChild;
 import androidx.core.view.NestedScrollingChildHelper;
 import androidx.core.view.ViewCompat;
-import cn.oaui.L;
 
 /**
  * @author zengmiaosen
@@ -74,7 +76,7 @@ public class CWebview extends WebView implements NestedScrollingChild {
         setting.setJavaScriptEnabled(true); // 设置Webview支持JS代码
         setting.setJavaScriptCanOpenWindowsAutomatically(true);//JS互调
         setting.setDatabaseEnabled(true);   // 开启 database storage API 功能
-        setting.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        setting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         // 设置数据库缓存路径
         setting.setDomStorageEnabled(true); // 开启 DOM storage API 功能
 //         开启Application Cache功能
@@ -121,16 +123,43 @@ public class CWebview extends WebView implements NestedScrollingChild {
          */
         @android.webkit.JavascriptInterface
         public void open(final String[] imgs, final String img) {
-            L.i("============open==========="+imgs);
-            L.i("============open==========="+img);
         }
 
         @android.webkit.JavascriptInterface
         public void open(final String[] imgs, final int index) {
-            L.i("============open==========="+imgs);
-            L.i("============open==========="+index);
         }
 
+    }
+
+    @Override
+    public void loadUrl(String url) {
+
+        //getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        super.loadUrl(url);
+    }
+
+    @Override
+    public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
+        //getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        super.loadUrl(url, additionalHttpHeaders);
+    }
+
+    @Override
+    public void loadDataWithBaseURL(@Nullable String baseUrl, String data, @Nullable String mimeType, @Nullable String encoding, @Nullable String historyUrl) {
+        //getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+    }
+
+    @Override
+    public void goBack() {
+        //getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+        super.goBack();
+    }
+
+    @Override
+    public void goForward() {
+        //getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+        super.goForward();
     }
 
     private void downloadByBrowser(String url) {

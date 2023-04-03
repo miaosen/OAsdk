@@ -1,6 +1,7 @@
 package cn.oasdk.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 import cn.oahttp.HttpRequest;
 import cn.oahttp.callback.StringCallBack;
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oasdk.base.EventBus;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.Row;
@@ -22,7 +23,7 @@ import cn.oaui.utils.JsonUtils;
  * @Descrition
  */
 
-public class UIDemoAct extends BaseActivity {
+public class UIDemoAct extends BaseAct {
     //变量名和id相同
     @ViewInject
     Button analysisBtn,formBtn,dialogBtn,refresh;
@@ -45,7 +46,8 @@ public class UIDemoAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         analysisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'maven'
 android {
     compileSdkVersion 28
 
@@ -24,4 +24,17 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.squareup.okhttp3:okhttp:3.8.1'
     api 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.version = "1.0.0"
+            pom.artifactId = "http"
+            pom.groupId = "cn.oasdk"
+            repository(url: "file:///E:/sdk/oasdk/library") {
+            }
+        }
+    }
 }

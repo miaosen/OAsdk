@@ -2,12 +2,12 @@ package cn.oasdk.webview.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.webkit.ConsoleMessage;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
@@ -16,6 +16,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,7 +41,6 @@ import cn.oaui.utils.SPUtils;
 import cn.oaui.utils.StringUtils;
 import cn.oaui.utils.URIUtils;
 import cn.oaui.utils.ViewUtils;
-import cn.oaui.view.ClearableEditText;
 import cn.oaui.view.CustomLayout;
 import cn.oaui.view.dialog.FrameDialog;
 import cn.oaui.view.listview.BaseFillAdapter;
@@ -54,7 +54,7 @@ import cn.oaui.view.listview.BaseFillAdapter;
 public class WebFrameView extends CustomLayout {
 
 
-    String webFrameId=StringUtils.getUUID();
+    String webFrameId = StringUtils.getUUID();
 
     @ViewInject
     public CWebview webview;
@@ -63,14 +63,13 @@ public class WebFrameView extends CustomLayout {
 
 
     @ViewInject
-    public ClearableEditText ed;
+    public EditText ed;
     @ViewInject
     TextView tv_title;
     @ViewInject
-    public LinearLayout ln_search_check, ln_go, ln_web_head,ln_content;
+    public LinearLayout ln_search_check, ln_go, ln_web_head, ln_content;
     @ViewInject
-    ImageView img_search_logo,web_logo;
-
+    ImageView img_search_logo, web_logo;
 
 
     //@ViewInject
@@ -83,7 +82,7 @@ public class WebFrameView extends CustomLayout {
     Row rowSearchParam;
     public static final String KEY_SEARCH = "key_search";
     public static final String FILE_SEARCH = "key_search";
-    public String title, url,lastUrl;
+    public String title, url, lastUrl;
     public static final String FILE_CACHE_URL = "file_cache_url";
     public static final String KEY_CACHE_URL = "key_cache_url";
 
@@ -98,6 +97,10 @@ public class WebFrameView extends CustomLayout {
     @ViewInject
     public ResourceListView resourceListView;
 
+    SearchView searchView = null;
+
+    FrameDialog searchDialog;
+
 
     public WebFrameView(Context context) {
         super(context);
@@ -109,7 +112,6 @@ public class WebFrameView extends CustomLayout {
 
     @Override
     public void initData() {
-
     }
 
     @Override
@@ -117,33 +119,28 @@ public class WebFrameView extends CustomLayout {
         InjectReader.injectAllFields(this);
         webview.initSetting();
         initWebview();
-        webViewAct= (WebViewAct) getContext();
-        ed.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                String s = textView.getText() + "";
-                if (EditorInfo.IME_ACTION_DONE == i && StringUtils.isNotEmpty(s)) {
-                    loadUrlOrSearch();
-                }
-                return true;
-            }
-        });
-        ed.setcOnFocusChangeListener(new ClearableEditText.COnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    ln_web_head.setVisibility(View.GONE);
-                } else {
-                    ln_web_head.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        ln_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadUrlOrSearch();
-            }
-        });
+        webViewAct = (WebViewAct) getContext();
+        //ed.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        //    @Override
+        //    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        //        String s = textView.getText() + "";
+        //        if (EditorInfo.IME_ACTION_DONE == i && StringUtils.isNotEmpty(s)) {
+        //            loadUrlOrSearch();
+        //        }
+        //        return true;
+        //    }
+        //});
+        //ed.setcOnFocusChangeListener(new ClearableEditText.COnFocusChangeListener() {
+        //    @Override
+        //    public void onFocusChange(View v, boolean hasFocus) {
+        //        if (hasFocus) {
+        //            ln_web_head.setVisibility(View.GONE);
+        //        } else {
+        //            ln_web_head.setVisibility(View.VISIBLE);
+        //        }
+        //    }
+        //});
+       logicSearch(ed);
         ln_search_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,12 +160,11 @@ public class WebFrameView extends CustomLayout {
                         if (URLUtil.isNetworkUrl(ed.getText() + "")) {
                             ed.setText("");
                         }
-                        ViewUtils.showKeyboard(ed);
+                        //ViewUtils.showKeyboard(ed);
                     }
                 });
                 searchMenuDialog.showAsDown(progressBar);
                 setSearchLogo();
-                //tv_title.setVisibility(View.GONE);
                 ln_web_head.setVisibility(View.GONE);
 
             }
@@ -199,13 +195,57 @@ public class WebFrameView extends CustomLayout {
                 homePageView.setVisibility(View.GONE);
             }
         });
+        logicSearch(homePageView.ed);
+    }
+
+    private void logicSearch(EditText ed) {
+        ed.setFocusable(false);
+        ed.setFocusableInTouchMode(false);
+        ed.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchDialog == null) {
+                    searchView = new SearchView(context);
+                    searchDialog = new FrameDialog(context, searchView);
+
+                }
+                searchDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        ViewUtils.showKeyboard(searchView.clearableEditText,searchDialog);
+
+                    }
+                });
+                searchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        ViewUtils.hideKeyboard(searchView.clearableEditText,searchDialog);
+                    }
+                });
+                searchView.ln_back.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchDialog.dismiss();
+
+                    }
+                });
+                searchView.ln_search_btn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadUrlOrSearch(searchView.clearableEditText);
+                        searchDialog.dismiss();
+
+                    }
+                });
+                searchDialog.fullscreen();
+            }
+        });
     }
 
     @Override
     public int setXmlLayout() {
         return R.layout.web_frame_view;
     }
-
 
 
     private void initWebview() {
@@ -215,9 +255,9 @@ public class WebFrameView extends CustomLayout {
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                 WebResourceResponse webResourceResponse1 = null;
                 //L.i("============shouldInterceptRequest==========="+request.getUrl());
-                try{
-                    webResourceResponse1= WebResoureDeal.dealRes(view, request,WebFrameView.this,url);
-                }catch (Exception e){
+                try {
+                    webResourceResponse1 = WebResoureDeal.dealRes(view, request, WebFrameView.this, url);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if (webResourceResponse1 != null) {
@@ -226,42 +266,39 @@ public class WebFrameView extends CustomLayout {
                     return super.shouldInterceptRequest(view, request);
                 }
             }
+
             // 在加载页面资源时会调用，每一个资源（比如图片）的加载都会调用一次。
             @Override
             public void onLoadResource(WebView view, String url) {
                 super.onLoadResource(view, url);
-                //L.i("============onLoadResource==========="+url);
             }
+
             // 在点击请求的是链接时才会调用，不跳到浏览器那边。
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //L.i("============shouldOverrideUrlLoading==========="+url);
                 if (url.startsWith("http") || url.startsWith("https")) {
                     return super.shouldOverrideUrlLoading(view, url);
                 } else {
                     return true;
                 }
             }
+
             // 在页面加载开始时调用。
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                //L.i("============onPageStarted==========="+url);
                 ed.setText(url);
                 WebFrameView.this.url = url;
                 showWebHead();
                 webViewAct.logicTail();
                 hideMediaView();
                 title = null;
-                if(onPageChangeListener!=null){
-                    onPageChangeListener.onPageStart(view,url);
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onPageStart(view, url);
                 }
                 Row row = SPUtils.getRow(FILE_CACHE_URL, KEY_CACHE_URL);
-                //L.i("============onPageStarted==========="+row);
-                row.put(webFrameId,url);
-                //L.i("============onPageStarted==========="+row);
+                row.put(webFrameId, url);
                 saveHistoryUrl(row);
-                //SPUtils.saveText(FILE_CACHE_URL, KEY_CACHE_URL, url);
                 resourceListView.clearRes();
             }
 
@@ -272,8 +309,8 @@ public class WebFrameView extends CustomLayout {
                 //L.i("============onPageFinished==========="+url);
                 WebFrameView.this.url = url;
                 webViewAct.logicTail();
-                if(onPageChangeListener!=null){
-                    onPageChangeListener.onPageFinish(view,url);
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onPageFinish(view, url);
                 }
                 //CoordinatorLayout.Behavior behavior =
                 //        ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
@@ -336,10 +373,12 @@ public class WebFrameView extends CustomLayout {
                 }
                 progressBar.setProgress(newProgress);
             }
+
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
                 return super.onConsoleMessage(consoleMessage);
             }
+
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
@@ -349,28 +388,29 @@ public class WebFrameView extends CustomLayout {
                 saveHistory();
 
             }
+
             @Override
             public void onReceivedIcon(WebView view, Bitmap icon) {
                 super.onReceivedIcon(view, icon);
                 if (icon != null) {
-                    webIcon=icon;
+                    webIcon = icon;
                     web_logo.setImageBitmap(icon);
                     BitmapUtils.saveBitmapToPathAsPng(icon, BookMarkView.getLogoPath(url));
                 }
-                if(onPageChangeListener!=null){
-                    onPageChangeListener.onReceivedIcon(view,icon);
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onReceivedIcon(view, icon);
                 }
             }
         });
     }
 
     public static void saveHistoryUrl(Row row) {
-        SPUtils.saveRow(FILE_CACHE_URL, KEY_CACHE_URL,row);
+        SPUtils.saveRow(FILE_CACHE_URL, KEY_CACHE_URL, row);
     }
 
 
-    public static Row getHistoryUrl(){
-       return SPUtils.getRow(WebFrameView.FILE_CACHE_URL, WebFrameView.KEY_CACHE_URL);
+    public static Row getHistoryUrl() {
+        return SPUtils.getRow(WebFrameView.FILE_CACHE_URL, WebFrameView.KEY_CACHE_URL);
     }
 
 
@@ -381,8 +421,9 @@ public class WebFrameView extends CustomLayout {
     }
 
 
-    public void loadUrlOrSearch() {
+    public void loadUrlOrSearch(EditText ed) {
         String text = ed.getText() + "";
+        L.i("============loadUrlOrSearch===========" + text);
         title = null;
         String tempUrl = text;
         if (!tempUrl.startsWith("http")) {
@@ -394,8 +435,8 @@ public class WebFrameView extends CustomLayout {
             searchByParam(text);
 
         }
-        ViewUtils.hideKeyboard(ed);
     }
+
     private void saveHistory() {
         Row row = new Row();
         row.put("url", url);
@@ -417,6 +458,7 @@ public class WebFrameView extends CustomLayout {
 
 
     public void loadUrl(String url) {
+
         ed.setText(url);
         webview.loadUrl(url);
     }
@@ -448,28 +490,30 @@ public class WebFrameView extends CustomLayout {
 
 
     }
-    private void searchByParam(String text) {
 
+    private void searchByParam(String text) {
         url = SearchMenuView.buildUrl(rowSearchParam, text);
-       loadUrl(url);
+        L.i("============searchByParam==========="+url);
+        loadUrl(url);
     }
 
 
     @SuppressLint("NewApi")
     private void setSearchLogo() {
         Integer img = rowSearchParam.getInteger("img");
-        L.i("============setSearchLogo==========="+img);
-        if(img>0){
+        L.i("============setSearchLogo===========" + img);
+        if (img > 0) {
             img_search_logo.setImageDrawable(ResourceHold.getDrawable(img));
         }
 
     }
 
 
-
-    public interface OnPageChangeListener{
+    public interface OnPageChangeListener {
         void onPageStart(WebView view, String url);
+
         void onPageFinish(WebView view, String url);
+
         void onReceivedIcon(WebView view, Bitmap icon);
     }
 

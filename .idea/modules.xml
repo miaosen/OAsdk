@@ -8,7 +8,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.iml" filepath="$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/http/OAsdk.http.iml" filepath="$PROJECT_DIR$/.idea/modules/http/OAsdk.http.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.iml" filepath="$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/im/OAsdk.im.iml" filepath="$PROJECT_DIR$/.idea/modules/im/OAsdk.im.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.iml" filepath="$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.iml" filepath="$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.iml" filepath="$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.iml" filepath="$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.iml" filepath="$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.iml" />
     </modules>

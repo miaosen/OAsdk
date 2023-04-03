@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="3dp"
-        android:background="@drawable/company_edit_bg"
+        android:background="@drawable/shape_round_grey"
         android:clickable="true"
         android:gravity="center|top"
         android:orientation="horizontal">
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="3dp"
-        android:background="@drawable/company_edit_bg"
+        android:background="@drawable/shape_round_grey"
         android:clickable="true"
         android:gravity="center|top"
         android:orientation="horizontal">

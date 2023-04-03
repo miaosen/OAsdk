@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:paddingTop="30dp"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingTop="30dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_sys_name"
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/blue"
+            android:layout_height="wrap_content"
+            android:text="广东省化妆品智慧监管系统"/>
+        <!--登录界面图像-->
+        <cn.oaui.view.RoundImageView
+            android:id="@+id/img_logo"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sel_ed_blue"
+            android:hint="用户名"
+            android:minHeight="40dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <!--密码编辑框-->
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sel_ed_blue"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            >
+
+        <EditText
+            android:id="@+id/ed_img_code"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/sel_ed_blue"
+            android:hint="验证码"
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+            <cn.oaui.view.RoundImageView
+                android:id="@+id/img_captcha"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/sel_btn_blue"
+            android:gravity="center"
+            android:text="登 录"
+            android:textColor="@color/white"
+
+            android:textSize="18dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:paddingTop="30dp"
+        android:orientation="vertical">
+    </LinearLayout>
+</LinearLayout>

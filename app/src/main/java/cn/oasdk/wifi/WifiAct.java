@@ -12,6 +12,7 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.JSONSerializer;
@@ -50,7 +51,7 @@ import cn.oaui.view.tiplayout.TipLayout;
  * @Descrition
  */
 
-public class WifiAct extends BaseActivity {
+public class WifiAct extends BaseAct {
 
     private WifiP2pManager mWifiP2pManager;
     private WifiP2pManager.Channel mChannel;
@@ -102,7 +103,8 @@ public class WifiAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         dataListView.setOnTipListener(new TipLayout.OnTipListener() {
             @Override
             public void onRefresh() {

@@ -3,6 +3,7 @@ package cn.oahttp.cookies;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +28,7 @@ public class CookiePersistence {
 
     public static void saveToCache(Application context, String key, List<Cookie> cookies) {
         String serialize = serialize(cookies);
-        //Log.i("logtag", "saveToCache======" + serialize);
+        Log.i("logtag", "saveToCache======" + serialize);
         SharedPreferences sp = context.getSharedPreferences(PRE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key, serialize);

@@ -109,9 +109,6 @@ public class HeaderView extends CustomLayout {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HeaderView);
         titleText = typedArray.getString(R.styleable.HeaderView_title);
         leftText = typedArray.getString(R.styleable.HeaderView_leftText);
-        if(leftText==null){
-            leftText="返回";
-        }
         rightText = typedArray.getString(R.styleable.HeaderView_rightText);
         clickLeftFinish = typedArray.getBoolean(R.styleable.HeaderView_clickLeftFinish, true);
         clickRightFinish = typedArray.getBoolean(R.styleable.HeaderView_clickRightFinish, false);

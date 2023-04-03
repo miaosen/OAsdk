@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.oaui.L;
 import cn.oaui.UIGlobal;
 
 /**
@@ -177,7 +176,6 @@ public class URIUtils {
      * @return
      */
     public static boolean isUrl(String url) {
-        L.i("============isUrl==========="+url.indexOf(".")+"   "+url.length());
         return url.startsWith("http")&&url.contains(".")&&url.indexOf(".")+1<url.length();
     }
 }

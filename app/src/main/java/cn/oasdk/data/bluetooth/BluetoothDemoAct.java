@@ -9,18 +9,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.Row;
@@ -42,7 +43,7 @@ import static android.bluetooth.BluetoothDevice.ACTION_PAIRING_REQUEST;
  * @Descrition
  */
 
-public class BluetoothDemoAct extends BaseActivity {
+public class BluetoothDemoAct extends BaseAct {
 
 
     List<Row> rows = new LinkedList<Row>();
@@ -92,8 +93,9 @@ public class BluetoothDemoAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
-        context = this;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+         context = this;
         registerReceiver();
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         dataListView.setCustomData(true);

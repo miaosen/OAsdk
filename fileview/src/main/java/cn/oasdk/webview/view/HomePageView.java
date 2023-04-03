@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ import cn.oasdk.webview.WebViewAct;
 import cn.oaui.annotation.InjectReader;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.utils.StringUtils;
-import cn.oaui.view.ClearableEditText;
 import cn.oaui.view.CustomLayout;
 
 /**
@@ -34,7 +34,7 @@ public class HomePageView extends CustomLayout {
     @ViewInject
     LinearLayout ln_search_check, ln_go, ln_web_head;
     @ViewInject
-    ClearableEditText ed;
+    public  EditText ed;
 
 
 
@@ -59,6 +59,7 @@ public class HomePageView extends CustomLayout {
     }
 
     private void initHead() {
+
         ed.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -69,16 +70,17 @@ public class HomePageView extends CustomLayout {
                 return true;
             }
         });
-        ed.setcOnFocusChangeListener(new ClearableEditText.COnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    ln_web_head.setVisibility(View.GONE);
-                } else {
-                    ln_web_head.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
+        //ed.setcOnFocusChangeListener(new ClearableEditText.COnFocusChangeListener() {
+        //    @Override
+        //    public void onFocusChange(View v, boolean hasFocus) {
+        //        if (hasFocus) {
+        //            ln_web_head.setVisibility(View.GONE);
+        //        } else {
+        //            ln_web_head.setVisibility(View.VISIBLE);
+        //        }
+        //    }
+        //});
         ln_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +93,7 @@ public class HomePageView extends CustomLayout {
         setVisibility(GONE);
         WebViewAct activity= (WebViewAct) getContext();
         activity.currentWebFrameView.ed.setText(ed.getText());
-        activity.currentWebFrameView.loadUrlOrSearch();
+        activity.currentWebFrameView.loadUrlOrSearch(ed);
     }
 
     @Override

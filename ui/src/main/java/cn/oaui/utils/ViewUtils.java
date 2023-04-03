@@ -62,9 +62,9 @@ public class ViewUtils {
             ViewGroup vp = (ViewGroup) view;
             for (int i = 0; i < vp.getChildCount(); i++) {
                 View viewchild = vp.getChildAt(i);
-                if(viewchild instanceof ViewGroup){
+                if (viewchild instanceof ViewGroup) {
                     allchildren.addAll(getAllChildViews(viewchild));
-                }else{
+                } else {
                     allchildren.add(viewchild);
                 }
             }
@@ -122,7 +122,7 @@ public class ViewUtils {
      * @param layout
      * @return
      */
-    public static View inflatView(Context context, int layout,ViewGroup root) {
+    public static View inflatView(Context context, int layout, ViewGroup root) {
         return LayoutInflater.from(context).inflate(layout, root);
 
     }
@@ -134,8 +134,8 @@ public class ViewUtils {
      * @param layout
      * @return
      */
-    public static View inflatView(Context context, int layout,ViewGroup root, boolean attachToRoot) {
-        return LayoutInflater.from(context).inflate(layout, root,attachToRoot);
+    public static View inflatView(Context context, int layout, ViewGroup root, boolean attachToRoot) {
+        return LayoutInflater.from(context).inflate(layout, root, attachToRoot);
 
     }
 
@@ -152,13 +152,13 @@ public class ViewUtils {
         for (int i = 0; i < rgViews.size(); i++) {
             if (rgViews.get(i) instanceof RadioButton) {
                 RadioButton radioButton = (RadioButton) rgViews.get(i);
-                if(radioButton.isChecked()){
-                    i=rgViews.size();
-                   if(radioButton.getTag()!=null){
-                       text=radioButton.getTag().toString();
-                   }else{
-                       text=radioButton.getText()+"";
-                   }
+                if (radioButton.isChecked()) {
+                    i = rgViews.size();
+                    if (radioButton.getTag() != null) {
+                        text = radioButton.getTag().toString();
+                    } else {
+                        text = radioButton.getText() + "";
+                    }
                 }
             }
         }
@@ -169,8 +169,11 @@ public class ViewUtils {
     /**
      * 弹出提示
      */
-    public static void toast(String text) {
-        Toast.makeText(UIGlobal.getApplication(), text, Toast.LENGTH_SHORT).show();
+    public static Toast toast(String text) {
+        Toast toast = Toast.makeText(UIGlobal.getApplication(), text, Toast.LENGTH_LONG);
+        toast.setText(text);
+        toast.show();
+        return toast;
     }
 
 
@@ -179,7 +182,7 @@ public class ViewUtils {
      */
     public static void toastNOInUIThread(String text) {
         Looper.prepare();
-        Toast.makeText(UIGlobal.getApplication(), text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(UIGlobal.getApplication(), text, Toast.LENGTH_LONG).show();
         Looper.loop();
     }
 
@@ -256,43 +259,81 @@ public class ViewUtils {
     }
 
 
+    public static void showKeyboard(final EditText alertEd) {
+       showKeyboard(alertEd,null);
+    }
+
+
     /**
      * 弹出键盘并对焦
+     *
      * @param alertEd
      */
-    public static void showKeyboard(EditText alertEd) {
-        if(alertEd!=null){
+    public static void showKeyboard(final EditText alertEd, final View parentView) {
+        if (alertEd != null) {
             //设置可获得焦点
             alertEd.setFocusable(true);
             alertEd.setFocusableInTouchMode(true);
             //请求获得焦点
-            alertEd.requestFocus();
+            boolean b = alertEd.requestFocus();
             //调用系统输入法
-            InputMethodManager inputManager = (InputMethodManager) alertEd
-                    .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.showSoftInput(alertEd, 0);
+            InputMethodManager imm = (InputMethodManager) alertEd.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(alertEd, InputMethodManager.SHOW_IMPLICIT);
+            if(parentView!=null){
+                alertEd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if(!hasFocus){
+                            parentView.requestFocus();
+                            parentView.setFocusableInTouchMode(true);
+                        }
+
+                    }
+                });
+            }
+
         }
+        //InputMethodManager inputManager = (InputMethodManager) alertEd
+        //        .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //inputManager.showSoftInput(alertEd, 0);
     }
+
+
+    public static void hideKeyboard(final EditText alertEd) {
+        hideKeyboard(alertEd,null);
+    }
+
 
 
     /**
      * 弹出键盘
+     *
      * @param alertEd
      */
-    public static void hideKeyboard(EditText alertEd) {
-        if(alertEd!=null){
+    public static void hideKeyboard(final EditText alertEd, final View parentView) {
+        if (alertEd != null) {
             //设置可获得焦点
             alertEd.setFocusable(true);
             alertEd.setFocusableInTouchMode(true);
             //请求获得焦点
-            alertEd.requestFocus();
-            //调用系统输入法
+            //boolean b = alertEd.requestFocus();
+            ////调用系统输入法
             InputMethodManager inputManager = (InputMethodManager) alertEd
                     .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(alertEd.getWindowToken(), 0);
+            if(parentView!=null){
+                alertEd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if(!hasFocus){
+                            parentView.requestFocus();
+                            parentView.setFocusableInTouchMode(true);
+                        }
+                    }
+                });
+            }
         }
     }
-
 
 
     /**
@@ -319,22 +360,23 @@ public class ViewUtils {
                 .setTitle(tip)//标题
                 .setMessage(content)//内容
                 .setPositiveButton(leftBtnText, onClickListener)
-                .setNegativeButton(rightBtnText,cancleListener)
+                .setNegativeButton(rightBtnText, cancleListener)
                 .create();
     }
 
-    public static AlertDialog showAlertEditDialog(Context context,String tip, View view, String leftBtnText, String rightBtnText, DialogInterface.OnClickListener onClickListener, DialogInterface.OnClickListener cancleListener) {
+    public static AlertDialog showAlertEditDialog(Context context, String tip, View view, String leftBtnText, String rightBtnText, DialogInterface.OnClickListener onClickListener, DialogInterface.OnClickListener cancleListener) {
         return new AlertDialog.Builder(context)
                 .setView(view)
                 .setTitle(tip)//标题
                 .setPositiveButton(leftBtnText, onClickListener)
-                .setNegativeButton(rightBtnText,cancleListener)
+                .setNegativeButton(rightBtnText, cancleListener)
                 .create();
     }
 
 
     /**
      * drawable颜色改变
+     *
      * @param drawable
      * @param color
      * @return

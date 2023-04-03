@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.L;
 import cn.oaui.ResourceHold;
 import cn.oaui.annotation.ViewInject;
@@ -25,7 +25,7 @@ import cn.oaui.view.listview.DataListView;
  * @Descrition
  */
 
-public class DataDemoAct extends BaseActivity {
+public class DataDemoAct extends BaseAct {
 
     @ViewInject
     Button btn_hold;
@@ -44,10 +44,6 @@ public class DataDemoAct extends BaseActivity {
         return R.layout.ui_data_demo_act;
     }
 
-    @Override
-    public void onViewCreate() {
-
-    }
 
     @Override
     public void initData() {

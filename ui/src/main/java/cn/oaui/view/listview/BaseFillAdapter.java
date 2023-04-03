@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,13 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 						   int layout) {
 		this.context = context;
 		this.rows=rows;
+		this.layout = layout;
+	}
+
+
+	public BaseFillAdapter(Context context, int layout) {
+		this.context = context;
+		this.rows=new LinkedList<Row>();
 		this.layout = layout;
 	}
 
@@ -92,7 +100,6 @@ public abstract class BaseFillAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
 		//数据填充
 		final Row row = rows.get(position);
 		holder.fillUnit.fill(row);

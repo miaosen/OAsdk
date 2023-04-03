@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+   <cn.oaui.view.HeaderView
+       android:layout_width="match_parent"
+       app:title="等待监管人员呼叫"
+       android:layout_height="wrap_content"
+       >
+
+
+   </cn.oaui.view.HeaderView>
+
+    <View
+        style="@style/line_hz_grey_lt"/>
+               
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:layout_height="match_parent"/>
+     
+</LinearLayout>

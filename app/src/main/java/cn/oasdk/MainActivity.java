@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,7 +22,7 @@ import java.util.zip.ZipFile;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oasdk.data.HttpDemoActivity;
 import cn.oasdk.data.bluetooth.BluetoothDemoAct;
 import cn.oasdk.ui.BaseViewDemoAct;
@@ -32,7 +33,6 @@ import cn.oasdk.ui.TipLayoutDemoAct;
 import cn.oasdk.ui.UIDemoAct;
 import cn.oasdk.wifi.WifiAct;
 import cn.oaui.IntentFactory;
-import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.Row;
 import cn.oaui.utils.BitmapUtils;
@@ -44,7 +44,7 @@ import cn.oaui.view.signature.SignatureView;
 import cn.oaui.view.voicerecord.VoiceRecordView;
 import zxing.CaptureActivity;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseAct implements View.OnClickListener {
 
     @ViewInject
     Button btnHttp, btnUI, btnRecord,
@@ -70,7 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         VoiceRecordView voiceRecordView = new VoiceRecordView(MainActivity.this);
         dlgVoice = new FrameDialog(MainActivity.this, voiceRecordView);
         voiceRecordView.setOnRecordComplateListener(new VoiceRecordView.OnRecordComplateListener() {
@@ -130,8 +131,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CAMERA_AND_STORAGE,
                         11);
             }
-
-
         }
         //EventBus.setObject(this,"refresh");
 
@@ -148,7 +147,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public static void apk(String apkUrl) {
-        int length;
         ZipFile zipFile;
         try {
             zipFile = new ZipFile(new File(apkUrl));
@@ -161,7 +159,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 baos.write(buf, 0, i);
             }
             String clob = new String(baos.toString().getBytes("iso8859-1"), "UTF-8");
-            L.i("=========apk==============" + clob);
             //XmlResourceParser parser = new XmlResourceParser();
             //parser.open(zipFile.getInputStream(zipEntry));
             //boolean flag = true;
@@ -238,7 +235,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         Row row = IntentFactory.onActivityResult(requestCode, resultCode, data);
         if (row != null) {
-            L.i("=========onActivityResult==============" + row);
             ViewUtils.toast("onActivityResult====" + row);
         }
 

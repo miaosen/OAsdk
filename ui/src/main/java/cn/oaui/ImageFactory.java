@@ -98,11 +98,5 @@ public class ImageFactory {
 
     }
 
-    //public static void loadImage(ImageView imageView, Bitmap bitmap) {
-    //    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    //    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-    //    byte[] bytes = baos.toByteArray();
-    //    Glide.with(imageView.getContext()).load(path).into(imageView);
-    //
-    //}
+
 }

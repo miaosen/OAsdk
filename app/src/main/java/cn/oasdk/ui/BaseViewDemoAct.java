@@ -1,9 +1,11 @@
 package cn.oasdk.ui;
 
+import android.os.Bundle;
+
 import java.util.List;
 
 import cn.oasdk.R;
-import cn.oasdk.base.BaseActivity;
+import cn.oasdk.base.BaseAct;
 import cn.oaui.L;
 import cn.oaui.annotation.ViewInject;
 import cn.oaui.data.Row;
@@ -17,7 +19,7 @@ import cn.oaui.view.attachment.AttachmentView;
  * @Descrition
  */
 
-public class BaseViewDemoAct extends BaseActivity {
+public class BaseViewDemoAct extends BaseAct {
 
     //@ViewInject
     //ColorPickerView colorPickerView;
@@ -38,7 +40,8 @@ public class BaseViewDemoAct extends BaseActivity {
     }
 
     @Override
-    public void onViewCreate() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //String alphaSliderText = colorPickerView.getAlphaSliderText();
         //int color = colorPickerView.getColor();
         //String s = Integer.toHexString(color);

@@ -7,7 +7,7 @@
         <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="H:/.gradle" />
+        <option name="gradleHome" value="H:/.gradle/wrapper/dists/gradle-7.0-all/9m115ut5nwvtxli7nys8pggfr/gradle-7.0" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -16,7 +16,11 @@
             <option value="$PROJECT_DIR$/fileview" />
             <option value="$PROJECT_DIR$/http" />
             <option value="$PROJECT_DIR$/hzpqy-moblie" />
+            <option value="$PROJECT_DIR$/im" />
+            <option value="$PROJECT_DIR$/imagepicker" />
+            <option value="$PROJECT_DIR$/libwebrtc" />
             <option value="$PROJECT_DIR$/rmew" />
+            <option value="$PROJECT_DIR$/rtc-meeting" />
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/zxinglib" />
           </set>

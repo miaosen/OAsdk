@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/blue"
+    android:background="@color/colorPrimary"
     android:layout_height="40dp">
 
     <Button
@@ -14,12 +14,12 @@
         android:minWidth="70dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:drawablePadding="0dp"
+        android:layout_marginLeft="3dp"
         android:gravity="center"
         android:background="@null"
         android:drawableLeft="@mipmap/icon_jiantou_left_white"
         android:textColor="@color/white"
-        android:textSize="14sp"/>
+        android:textSize="14dp"/>
 
     <Button
         android:id="@+id/rightBtn"
@@ -29,12 +29,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:minWidth="70dp"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:gravity="center"
+        android:layout_marginRight="3dp"
+        android:drawablePadding="5dp"
         android:background="@null"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:visibility="invisible"/>
 
     <TextView
@@ -52,7 +54,7 @@
         android:singleLine="true"
         android:textStyle="bold"
         android:textColor="#ffffff"
-        android:textSize="16sp" />
+        android:textSize="16dp" />
 
 
 </RelativeLayout>

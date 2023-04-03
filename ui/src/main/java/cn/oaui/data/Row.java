@@ -93,7 +93,6 @@ public class Row extends LinkedHashMap<String, Object> implements Serializable {
         if (obj == null) {
             return 0l;
         }
-//        L.i("============getLong==========="+obj);
         if (obj instanceof String) {
             return Long.valueOf((String) obj).longValue();
         }
@@ -116,7 +115,6 @@ public class Row extends LinkedHashMap<String, Object> implements Serializable {
             String key = keys[i];
             int index = getIndexInExpression(key);
             boolean isGetList = key.contains("[") && key.endsWith("]");
-            //Log.i("logtag", "key======" +key+"  "+isGetList);
             if (index != -1) {
                 key = key.substring(0, key.lastIndexOf("["));
             }

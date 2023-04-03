@@ -18,4 +18,7 @@ public class JSONSerializer {
     public static <T> T JSONToObject(String jsonStr, Class<T> tClass) {
         return JSON.parseObject(jsonStr, tClass);
     }
+
+
+
 }
