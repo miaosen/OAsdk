@@ -1,6 +1,8 @@
 package cn.oasdk;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -127,6 +129,16 @@ public class LoginAct extends BaseAct {
             }
         });
         ImGlobal.HOST= GlobalConst.SERVICE_ROOT;
+
+        Intent intent = new Intent();
+        ComponentName componentName = new ComponentName(
+                "com.gzpykj.rcms",
+                "com.gzpykj.rcms.activity.SupervisionRecordActivity");
+        intent.setComponent(componentName);
+        Bundle bundle = new Bundle();
+        bundle.putString("mainId", "11111");
+        intent.putExtras(bundle);
+        startActivity(intent);
         //sendMyRtmp();
     }
 

@@ -130,11 +130,12 @@ public class JavaWebSocket implements IWebSocket {
 
     //============================需要发送的=====================================
     @Override
-    public void joinRoom(String room) {
+    public void joinRoom(String room,Map userInfo) {
         Map<String, Object> map = new HashMap<>();
         map.put("eventName", "__join");
         Map<String, String> childMap = new HashMap<>();
         childMap.put("room", room);
+        childMap.put("userInfo", new JSONObject(userInfo).toJSONString());
         map.put("data", childMap);
         JSONObject object = new JSONObject(map);
         final String jsonString = object.toString();
@@ -178,6 +179,27 @@ public class JavaWebSocket implements IWebSocket {
         mWebSocketClient.send(jsonString);
 
     }
+
+    @Override
+    public void sendCall(String roomid,String actionName,String caller) {
+
+        HashMap<String, Object> childMap2 = new HashMap();
+        childMap2.put("name", roomid);
+        childMap2.put("actionName", actionName);
+        childMap2.put("caller", caller);
+
+        HashMap<String, Object> map = new HashMap();
+        map.put("eventName", "__callUser");
+        map.put("data", childMap2);
+
+        JSONObject object = new JSONObject(map);
+        String jsonString = object.toString();
+        Log.d(TAG, "send-->" + jsonString);
+        mWebSocketClient.send(jsonString);
+
+    }
+
+
 
     public void sendIceCandidate(String socketId, IceCandidate iceCandidate) {
         HashMap<String, Object> childMap = new HashMap();

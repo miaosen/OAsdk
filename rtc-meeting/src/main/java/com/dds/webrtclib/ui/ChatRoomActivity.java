@@ -54,10 +54,21 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
 
     private EglBase rootEglBase;
 
+    private Map<String, String> userInfo = new HashMap<>();
+
+
     public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, ChatRoomActivity.class);
         activity.startActivity(intent);
     }
+
+    public static void openActivity(Activity activity,String username,String role) {
+        Intent intent = new Intent(activity, ChatRoomActivity.class);
+        intent.putExtra("username",username);
+        intent.putExtra("role",role);
+        activity.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +84,14 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
         ChatRoomFragment chatRoomFragment = new ChatRoomFragment();
         replaceFragment(chatRoomFragment);
 
+        if(getIntent().getStringExtra("username")!=null){
+            userInfo.put("username",getIntent().getStringExtra("username"));
+        }
+        if(getIntent().getStringExtra("role")!=null){
+            userInfo.put("role",getIntent().getStringExtra("role"));
+        }
 
-        startCall();
-
+        startCall(userInfo);
     }
 
 
@@ -94,12 +110,18 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
 
     }
 
-    private void startCall() {
+//    private void startCall() {
+//        startCall(userInfo);
+//    }
+//
+
+
+    private void startCall(Map userInfo) {
         manager = WebRTCManager.getInstance();
         manager.setCallback(this);
 
         if (!PermissionUtil.isNeedRequestPermission(ChatRoomActivity.this)) {
-            manager.joinRoom(getApplicationContext(), rootEglBase);
+            manager.joinRoom(getApplicationContext(), rootEglBase,userInfo);
         }
 
     }
@@ -141,9 +163,13 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
 
     private void addView(String id, MediaStream stream) {
         SurfaceViewRenderer renderer = new SurfaceViewRenderer(ChatRoomActivity.this);
+
         renderer.init(rootEglBase.getEglBaseContext(), null);
-        renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
-        renderer.setMirror(true);
+        renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FILL);
+        renderer.setEnableHardwareScaler(true);
+//        renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FILL,RendererCommon.ScalingType.SCALE_ASPECT_BALANCED);
+        //镜像翻转
+        //renderer.setMirror(true);
         // set render
         ProxyVideoSink sink = new ProxyVideoSink();
         sink.setTarget(renderer);
@@ -168,10 +194,7 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
                 layoutParams.topMargin = getY(size, i);
                 renderer1.setLayoutParams(layoutParams);
             }
-
         }
-
-
     }
 
 
@@ -201,6 +224,8 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
                 layoutParams.width = getWidth(size);
                 layoutParams.leftMargin = getX(size, i);
                 layoutParams.topMargin = getY(size, i);
+                Log.d("logtag", "removeView: ");
+
                 renderer1.setLayoutParams(layoutParams);
             }
 
@@ -351,7 +376,7 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
                 break;
             }
         }
-        manager.joinRoom(getApplicationContext(), rootEglBase);
+        manager.joinRoom(getApplicationContext(), rootEglBase,userInfo);
 
 
     }

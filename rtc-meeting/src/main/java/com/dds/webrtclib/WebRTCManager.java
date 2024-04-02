@@ -15,7 +15,9 @@ import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 控制信令和各种操作
@@ -79,13 +81,23 @@ public class WebRTCManager implements ISignalingEvents {
         }
     }
 
+    public void sendCall(String roomid,String actionName,String caller){
+        if (_webSocket != null) {
+            _webSocket.sendCall( roomid, actionName, caller);
+        }
+    }
+
     //===================================控制功能==============================================
     public void joinRoom(Context context, EglBase eglBase) {
+      joinRoom(context,eglBase,new HashMap());
+
+    }
+    public void joinRoom(Context context, EglBase eglBase, Map userInfo) {
         if (_peerHelper != null) {
             _peerHelper.initContext(context, eglBase);
         }
         if (_webSocket != null) {
-            _webSocket.joinRoom(_roomId);
+            _webSocket.joinRoom(_roomId,userInfo);
         }
 
     }

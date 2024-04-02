@@ -4,17 +4,53 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OAsdk.iml" filepath="$PROJECT_DIR$/.idea/modules/OAsdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/OAsdk.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/OAsdk.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/OAsdk.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/OAsdk.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/OAsdk.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/OAsdk.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/OAsdk.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/OAsdk.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.iml" filepath="$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.main.iml" filepath="$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/dlna-helper/OAsdk.dlna-helper.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.iml" filepath="$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.main.iml" filepath="$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/fileview/OAsdk.fileview.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/http/OAsdk.http.iml" filepath="$PROJECT_DIR$/.idea/modules/http/OAsdk.http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/http/OAsdk.http.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/http/OAsdk.http.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/http/OAsdk.http.main.iml" filepath="$PROJECT_DIR$/.idea/modules/http/OAsdk.http.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/http/OAsdk.http.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/http/OAsdk.http.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.iml" filepath="$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/hzpqy-moblie/OAsdk.hzpqy-moblie.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/im/OAsdk.im.iml" filepath="$PROJECT_DIR$/.idea/modules/im/OAsdk.im.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/im/OAsdk.im.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/im/OAsdk.im.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/im/OAsdk.im.main.iml" filepath="$PROJECT_DIR$/.idea/modules/im/OAsdk.im.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/im/OAsdk.im.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/im/OAsdk.im.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.main.iml" filepath="$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/imagepicker/OAsdk.imagepicker.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.iml" filepath="$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/libwebrtc/OAsdk.libwebrtc.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.iml" filepath="$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.main.iml" filepath="$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/rmew/OAsdk.rmew.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.iml" filepath="$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.main.iml" filepath="$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/rtc-meeting/OAsdk.rtc-meeting.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.iml" filepath="$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/ui/OAsdk.ui.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.iml" filepath="$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/zxinglib/OAsdk.zxinglib.unitTest.iml" />
     </modules>
   </component>
 </project>

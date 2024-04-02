@@ -36,16 +36,22 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    signingConfigs {
-        debug {
-            v1SigningEnabled true
-            v2SigningEnabled true
-        }
-        release {
-            v1SigningEnabled true
-            v2SigningEnabled true
-        }
-    }
+//    signingConfigs {
+//        debug {
+//                storeFile file("./keystore/eagle-android.keystore")
+//                storePassword "gdut20902"
+//                keyAlias "eagle-android"
+//                keyPassword "gdut20902"
+//        }
+//        release {
+//                storeFile file("./keystore/eagle-android.keystore")
+//                storePassword "gdut20902"
+//                keyAlias "eagle-android"
+//                keyPassword "gdut20902"
+//        }
+//    }
+
+
 
 
 
@@ -93,7 +99,7 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            pom.version = "1.0.0"
+            pom.version = "1.0.1"
             pom.artifactId = "oasdk"
             pom.groupId = "cn.oasdk"
 

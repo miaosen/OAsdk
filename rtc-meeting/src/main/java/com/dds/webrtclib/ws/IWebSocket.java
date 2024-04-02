@@ -2,6 +2,8 @@ package com.dds.webrtclib.ws;
 
 import org.webrtc.IceCandidate;
 
+import java.util.Map;
+
 /**
  * Created by dds on 2019/1/3.
  * android_shuai@163.com
@@ -16,7 +18,7 @@ public interface IWebSocket {
     void close();
 
     // 加入房间
-    void joinRoom(String room);
+    void joinRoom(String room, Map userInfo);
 
     //处理回调消息
     void handleMessage(String message);
@@ -26,4 +28,7 @@ public interface IWebSocket {
     void sendAnswer(String socketId, String sdp);
 
     void sendOffer(String socketId, String sdp);
+
+    void sendCall(String roomid,String actionName,String caller);
+
 }
